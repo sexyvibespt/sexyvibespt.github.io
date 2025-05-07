@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coquette & Galã do Copo - Bases para Copos Sensuais</title>
+  <meta name="description" content="Descubra as bases para copos mais sexy e divertidas do mercado! Escolha entre a Coquette do Copo e o Galã do Copo, que revelam seus encantos ao colocar a caneca. Perfeito para apimentar sua casa!">
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Lobster&family=Montserrat:wght@400;700&display=swap');
+    body { margin: 0; font-family: 'Montserrat', sans-serif; background-color: #1a1a1a; color: #fff; text-align: center; }
+    header { background: linear-gradient(to bottom, #ff4040, #1a1a1a); padding: 50px 20px; position: relative; }
+    h1 { font-family: 'Lobster', cursive; font-size: 2.8em; margin: 0; color: #ff4040; text-shadow: 2px 2px 4px #000; }
+    h2 { font-family: 'Lobster', cursive; font-size: 1.8em; }
+    .subtitle { font-size: 1.2em; color: #ddd; margin: 10px 0; }
+    .cta-button { background-color: #ff4040; color: #fff; padding: 15px 30px; border: none; border-radius: 25px; font-size: 1.2em; cursor: pointer; margin: 20px 0; transition: background-color 0.3s, transform 0.2s; }
+    .cta-button:hover { background-color: #ff6666; transform: scale(1.05); }
+    .hero-video { max-width: 100%; height: auto; border-radius: 10px; margin: 20px 0; }
+    .product-section { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 20px; }
+    .product-card { background-color: #333; border-radius: 10px; padding: 20px; max-width: 300px; transition: transform 0.3s; }
+    .product-card:hover { transform: translateY(-5px); }
+    .product-image { max-width: 200px; border-radius: 10px; background-color: transparent; }
+    .timer { font-size: 1.5em; color: #ff4040; margin: 20px 0; }
+    .testimonials { background-color: #333; padding: 20px; margin: 20px 0; }
+    .testimonials p { font-style: italic; color: #ddd; margin: 10px 0; }
+    .shipping-info { background-color: #222; padding: 15px; margin: 20px 0; font-size: 1em; }
+    .tips-section { background-color: #333; padding: 20px; margin: 20px 0; }
+    .poll-section { background-color: #222; padding: 20px; margin: 20px 0; }
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); z-index: 1000; justify-content: center; align-items: center; }
+    .modal-content { background-color: #333; padding: 30px; border-radius: 10px; text-align: center; max-width: 500px; margin: 20px; }
+    .modal-button { background-color: #ff4040; color: #fff; padding: 10px 20px; border: none; border-radius: 25px; cursor: pointer; margin: 10px; }
+    .modal-button:hover { background-color: #ff6666; }
+    .language-selector { position: absolute; top: 20px; right: 20px; }
+    select { padding: 5px; border-radius: 5px; background-color: #333; color: #fff; border: none; }
+    footer { background-color: #111; padding: 20px; font-size: 0.9em; }
+  </style>
+</head>
+<body>
+  <div class="modal" id="languageModal">
+    <div class="modal-content">
+      <h2>Escolha o Idioma / Choose Language</h2>
+      <button class="modal-button" onclick="setLanguage('pt')">Português</button>
+      <button class="modal-button" onclick="setLanguage('en')">English</button>
+    </div>
+  </div>
+
+  <div class="modal" id="ageModal">
+    <div class="modal-content">
+      <div id="modalTextPt" style="display: none;">
+        <h2>Aviso</h2>
+        <p>Este site contém conteúdo com insinuações sexuais implícitas. É destinado a maiores de 18 anos. Ao continuar, você confirma que tem 18 anos ou mais.</p>
+        <button class="modal-button" onclick="closeAgeModal()">Entrar</button>
+      </div>
+      <div id="modalTextEn" style="display: none;">
+        <h2>Warning</h2>
+        <p>This site contains content with implicit sexual undertones. It is intended for individuals aged 18 and over. By continuing, you confirm that you are 18 or older.</p>
+        <button class="modal-button" onclick="closeAgeModal()">Enter</button>
+      </div>
+    </div>
+  </div>
+
+  <header>
+    <div class="language-selector">
+      <select id="languageSelect" onchange="changeLanguage()">
+        <option value="pt">Português</option>
+        <option value="en">English</option>
+      </select>
+    </div>
+    <h1 class="lang-pt">Coquette & Galã do Copo</h1>
+    <h1 class="lang-en" style="display: none;">Coquette & Galã do Copo - Sensual Coasters</h1>
+    <p class="subtitle lang-pt">Bases para copos sensuais e divertidas para todos os gostos!</p>
+    <p class="subtitle lang-en" style="display: none;">Sensual and fun coaster bases for all tastes!</p>
+    <video src="/assets/videos/hero-video.mp4" autoplay loop muted class="hero-video"></video>
+    <button class="cta-button lang-pt" onclick="alert('Por favor, envie um e-mail para coquettedocopo@gmail.com para fazer seu pedido!')">Encomende Agora</button>
+    <button class="cta-button lang-en" style="display: none;" onclick="alert('Please send an email to coquettedocopo@gmail.com to place your order!')">Order Now</button>
+  </header>
+
+  <main>
+    <section class="product-section">
+      <div class="product-card">
+        <h2 class="lang-pt">Coquette do Copo</h2>
+        <h2 class="lang-en" style="display: none;">Coquette Coaster</h2>
+        <img class="product-image" src="/assets/images/coquette.png" alt="Coquette do Copo">
+        <p class="lang-pt">Coloque sua caneca e veja a mágica: a Coquette revela seus encantos femininos! Um toque de sensualidade e humor para sua casa.</p>
+        <p class="lang-en" style="display: none;">Place your mug and watch the magic: the Coquette reveals her feminine charms! A touch of sensuality and humor for your home.</p>
+      </div>
+      <div class="product-card">
+        <h2 class="lang-pt">Galã do Copo</h2>
+        <h2 class="lang-en" style="display: none;">Galã Coaster</h2>
+        <img class="product-image" src="/assets/images/gala.png" alt="Galã do Copo">
+        <p class="lang-pt">Coloque sua caneca e admire: o Galã revela seu peito musculoso! Perfeito para quem gosta de um charme masculino e atrevido.</p>
+        <p class="lang-en" style="display: none;">Place your mug and admire: the Galã reveals his muscular chest! Perfect for those who love a bold masculine charm.</p>
+      </div>
+    </section>
+
+    <section>
+      <p class="lang-pt"><strong>Preço:</strong> 15€ por unidade | <strong>Promoção:</strong> 2 por 25€ (qualquer combinação)!</p>
+      <p class="lang-en" style="display: none;"><strong>Price:</strong> 15€ per unit | <strong>Promotion:</strong> 2 for 25€ (any combination)!</p>
+      <div class="shipping-info">
+        <p class="lang-pt"><strong>Envio:</strong> Grátis em Portugal para compras acima de 25€! 2,50€ para 1 unidade (Portugal). Europa: 5,00€ (1 ou 2 unidades).</p>
+        <p class="lang-en" style="display: none;"><strong>Shipping:</strong> Free in Portugal for purchases over 25€! 2.50€ for 1 unit (Portugal). Europe: 5.00€ (1 or 2 units).</p>
+      </div>
+      <div class="timer" id="countdown">
+        <span class="lang-pt">Oferta termina em: </span>
+        <span class="lang-en" style="display: none;">Offer ends in: </span>
+        <span id="timer">00:00</span>
+      </div>
+      <script>
+        function startTimer() {
+          let time = 3600; // 1 hora em segundos
+          const timerElement = document.getElementById('timer');
+          setInterval(() => {
+            let minutes = Math.floor(time / 60);
+            let seconds = time % 60;
+            timerElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            time--;
+            if (time < 0) time = 3600;
+          }, 1000);
+        }
+        startTimer();
+      </script>
+    </section>
+
+    <section class="testimonials">
+      <h2 class="lang-pt">O que nossos clientes dizem</h2>
+      <h2 class="lang-en" style="display: none;">What Our Customers Say</h2>
+      <p class="lang-pt">"A Coquette é incrível! Meus amigos adoraram o toque divertido!" - Ana S.</p>
+      <p class="lang-en" style="display: none;">"The Coquette is amazing! My friends loved the fun touch!" - Ana S.</p>
+      <p class="lang-pt">"O Galã do Copo é um sucesso! Super sexy e engraçado!" - João P.</p>
+      <p class="lang-en" style="display: none;">"The Galã Coaster is a hit! Super sexy and funny!" - João P.</p>
+    </section>
+
+    <section class="tips-section">
+      <h2 class="lang-pt">Dicas Sensuais</h2>
+      <h2 class="lang-en" style="display: none;">Sensual Tips</h2>
+      <p class="lang-pt">1. Coloque a Coquette ou Galã em uma mesa bem iluminada para destacar seus encantos. 2. Use uma caneca quente para um efeito surpresa ainda mais sensual! 3. Combine com velas para criar um clima irresistível.</p>
+      <p class="lang-en" style="display: none;">1. Place the Coquette or Galã on a well-lit table to highlight its charms. 2. Use a warm mug for an even more sensual surprise! 3. Pair with candles for an irresistible atmosphere.</p>
+      <img src="/assets/images/dica1.png" alt="Dica 1" style="max-width: 200px; margin: 10px;">
+      <img src="/assets/images/dica2.png" alt="Dica 2" style="max-width: 200px; margin: 10px;">
+    </section>
+
+    <section class="poll-section">
+      <h2 class="lang-pt">Qual base combina mais com você?</h2>
+      <h2 class="lang-en" style="display: none;">Which base suits you best?</h2>
+      <button class="cta-button lang-pt" onclick="showResult('Coquette')">Coquette do Copo</button>
+      <button class="cta-button lang-en" style="display: none;" onclick="showResult('Coquette')">Coquette Coaster</button>
+      <button class="cta-button lang-pt" onclick="showResult('Galã')">Galã do Copo</button>
+      <button class="cta-button lang-en" style="display: none;" onclick="showResult('Galã')">Galã Coaster</button>
+      <p id="pollResult" class="lang-pt" style="display: none; margin-top: 10px;"></p>
+      <p id="pollResultEn" style="display: none; margin-top: 10px;"></p>
+      <script>
+        function showResult(choice) {
+          const resultPt = document.getElementById('pollResult');
+          const resultEn = document.getElementById('pollResultEn');
+          const lang = document.getElementById('languageSelect').value;
+          if (choice === 'Coquette') {
+            resultPt.textContent = 'Você prefere o charme feminino!';
+            resultEn.textContent = 'You prefer the feminine charm!';
+          } else {
+            resultPt.textContent = 'Você prefere o poder masculino!';
+            resultEn.textContent = 'You prefer the masculine power!';
+          }
+          resultPt.style.display = lang === 'pt' ? 'block' : 'none';
+          resultEn.style.display = lang === 'en' ? 'block' : 'none';
+        }
+      </script>
+    </section>
+  </main>
+
+  <footer>
+    <p class="lang-pt">Contato: coquettedocopo@gmail.com | Siga-nos no Instagram: @coquettedocopo</p>
+    <p class="lang-en" style="display: none;">Contact: coquettedocopo@gmail.com | Follow us on Instagram: @coquettedocopo</p>
+  </footer>
+
+  <script>
+    let selectedLanguage = 'pt'; // Idioma padrão: português
+
+    window.onload = function() {
+      document.getElementById('languageModal').style.display = 'flex';
+    };
+
+    function setLanguage(lang) {
+      selectedLanguage = lang;
+      document.getElementById('languageSelect').value = lang;
+      changeLanguage();
+      document.getElementById('languageModal').style.display = 'none';
+      document.getElementById('ageModal').style.display = 'flex';
+      document.getElementById('modalTextPt').style.display = lang === 'pt' ? 'block' : 'none';
+      document.getElementById('modalTextEn').style.display = lang === 'en' ? 'block' : 'none';
+    }
+
+    function closeAgeModal() {
+      document.getElementById('ageModal').style.display = 'none';
+    }
+
+    function changeLanguage() {
+      const lang = document.getElementById('languageSelect').value;
+      selectedLanguage = lang;
+      document.querySelectorAll('.lang-pt').forEach(el => el.style.display = lang === 'pt' ? 'block' : 'none');
+      document.querySelectorAll('.lang-en').forEach(el => el.style.display = lang === 'en' ? 'block' : 'none');
+    }
+  </script>
+</body>
+</html>

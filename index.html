@@ -45,6 +45,9 @@
     .contact-form input:focus, .contact-form textarea:focus { outline: none; border-color: #ff4040; }
     .contact-form button { background-color: #ff4040; color: #fff; padding: 10px; border: none; border-radius: 25px; cursor: pointer; }
     .contact-form button:hover { background-color: #ff6666; }
+    .checkbox-group { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; margin: 10px 0; }
+    .checkbox-group label { display: flex; align-items: center; gap: 5px; }
+    .success-message { color: #ff4040; margin-top: 10px; display: none; }
   </style>
 </head>
 <body>
@@ -75,13 +78,33 @@
     <div class="modal-content">
       <h2 class="lang-pt">Faça seu Pedido</h2>
       <h2 class="lang-en" style="display: none;">Place Your Order</h2>
-      <form class="contact-form" action="mailto:coquettedocopo@gmail.com" method="post" enctype="text/plain">
-        <input type="text" name="name" placeholder="Seu Nome" required>
-        <input type="email" name="email" placeholder="Seu E-mail" required>
-        <textarea name="message" placeholder="Digite sua mensagem (ex.: quantidade, endereço para envio)" required></textarea>
-        <button type="submit">Enviar</button>
+      <form class="contact-form" id="contactForm" onsubmit="submitToGoogleForms(event)">
+        <input type="text" name="name" placeholder="Seu Nome / Your Name" required>
+        <input type="email" name="email" placeholder="Seu E-mail / Your Email" required>
+        <div class="checkbox-group">
+          <span class="lang-pt">Escolha o Modelo:</span>
+          <span class="lang-en" style="display: none;">Choose the Model:</span>
+          <label>
+            <input type="checkbox" name="model_coquette" value="Coquette do Copo / Coquette Coaster">
+            <span class="lang-pt">Coquette do Copo</span>
+            <span class="lang-en" style="display: none;">Coquette Coaster</span>
+          </label>
+          <label>
+            <input type="checkbox" name="model_gala" value="Galã do Copo / Galã Coaster">
+            <span class="lang-pt">Galã do Copo</span>
+            <span class="lang-en" style="display: none;">Galã Coaster</span>
+          </label>
+        </div>
+        <input type="number" name="quantity" placeholder="Quantidade Desejada / Desired Quantity" min="1" required>
+        <textarea name="address" placeholder="Morada de Envio / Shipping Address" required></textarea>
+        <textarea name="message" placeholder="Mensagem Adicional / Additional Message"></textarea>
+        <button type="submit" class="lang-pt">Enviar</button>
+        <button type="submit" class="lang-en" style="display: none;">Submit</button>
       </form>
-      <button class="modal-button" onclick="closeContactModal()">Fechar</button>
+      <p id="successMessagePt" class="success-message lang-pt">Pedido enviado com sucesso! Entraremos em contato em breve.</p>
+      <p id="successMessageEn" class="success-message lang-en" style="display: none;">Order sent successfully! We will contact you soon.</p>
+      <button class="modal-button lang-pt" onclick="closeContactModal()">Fechar</button>
+      <button class="modal-button lang-en" style="display: none;" onclick="closeContactModal()">Close</button>
     </div>
   </div>
 
@@ -173,7 +196,7 @@
       <button class="cta-button lang-pt" onclick="showResult('Galã')">Galã do Copo</button>
       <button class="cta-button lang-en" style="display: none;" onclick="showResult('Galã')">Galã Coaster</button>
       <p id="pollResult" class="lang-pt" style="display: none; margin-top: 10px;"></p>
-      <p id="pollResultEn" style="display: none; margin-top: 10px;"></p>
+      <p id="pollResultEn" class="lang-en" style="display: none; margin-top: 10px;"></p>
       <script>
         function showResult(choice) {
           const resultPt = document.getElementById('pollResult');
@@ -225,6 +248,9 @@
 
     function closeContactModal() {
       document.getElementById('contactModal').style.display = 'none';
+      document.getElementById('successMessagePt').style.display = 'none';
+      document.getElementById('successMessageEn').style.display = 'none';
+      document.getElementById('contactForm').reset();
     }
 
     function changeLanguage() {
@@ -232,6 +258,45 @@
       selectedLanguage = lang;
       document.querySelectorAll('.lang-pt').forEach(el => el.style.display = lang === 'pt' ? 'block' : 'none');
       document.querySelectorAll('.lang-en').forEach(el => el.style.display = lang === 'en' ? 'block' : 'none');
+    }
+
+    function submitToGoogleForms(event) {
+      event.preventDefault();
+
+      const form = document.getElementById('contactForm');
+      const formData = new FormData(form);
+
+      // Coleta os modelos selecionados (checkboxes)
+      const models = [];
+      if (formData.get('model_coquette')) models.push(formData.get('model_coquette'));
+      if (formData.get('model_gala')) models.push(formData.get('model_gala'));
+      const modelValue = models.join(', ');
+
+      // Dados a serem enviados ao Google Forms
+      const data = new FormData();
+      data.append('entry.123456789', formData.get('name')); // Nome
+      data.append('entry.987654321', formData.get('email')); // E-mail
+      data.append('entry.456789123', modelValue); // Modelo
+      data.append('entry.654321987', formData.get('quantity')); // Quantidade
+      data.append('entry.321987654', formData.get('address')); // Morada
+      data.append('entry.789123456', formData.get('message') || ''); // Mensagem (opcional)
+
+      fetch('https://docs.google.com/forms/d/e/1FAIpQLSd-5bjjP-lh0P3OSkIFAAyvXyMz7HsnkIi1r5vRme0Qi4LaMg/formResponse', {
+        method: 'POST',
+        mode: 'no-cors',
+        body: data
+      })
+      .then(() => {
+        // Exibe mensagem de sucesso
+        const lang = document.getElementById('languageSelect').value;
+        document.getElementById('successMessagePt').style.display = lang === 'pt' ? 'block' : 'none';
+        document.getElementById('successMessageEn').style.display = lang === 'en' ? 'block' : 'none';
+        form.reset();
+      })
+      .catch(error => {
+        console.error('Erro ao enviar para o Google Forms:', error);
+        alert('Houve um erro ao enviar o pedido. Por favor, tente novamente.');
+      });
     }
   </script>
 </body>

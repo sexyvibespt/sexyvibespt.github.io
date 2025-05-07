@@ -40,6 +40,11 @@
     .language-selector { position: absolute; top: 20px; right: 20px; }
     select { padding: 5px; border-radius: 5px; background-color: #333; color: #fff; border: none; }
     footer { background-color: #111; padding: 20px; font-size: 0.9em; }
+    .contact-form { display: flex; flex-direction: column; gap: 10px; }
+    .contact-form input, .contact-form textarea { width: 100%; padding: 10px; border: 1px solid #555; border-radius: 5px; background-color: #444; color: #fff; }
+    .contact-form input:focus, .contact-form textarea:focus { outline: none; border-color: #ff4040; }
+    .contact-form button { background-color: #ff4040; color: #fff; padding: 10px; border: none; border-radius: 25px; cursor: pointer; }
+    .contact-form button:hover { background-color: #ff6666; }
   </style>
 </head>
 <body>
@@ -66,6 +71,20 @@
     </div>
   </div>
 
+  <div class="modal" id="contactModal">
+    <div class="modal-content">
+      <h2 class="lang-pt">Faça seu Pedido</h2>
+      <h2 class="lang-en" style="display: none;">Place Your Order</h2>
+      <form class="contact-form" action="mailto:coquettedocopo@gmail.com" method="post" enctype="text/plain">
+        <input type="text" name="name" placeholder="Seu Nome" required>
+        <input type="email" name="email" placeholder="Seu E-mail" required>
+        <textarea name="message" placeholder="Digite sua mensagem (ex.: quantidade, endereço para envio)" required></textarea>
+        <button type="submit">Enviar</button>
+      </form>
+      <button class="modal-button" onclick="closeContactModal()">Fechar</button>
+    </div>
+  </div>
+
   <header>
     <div class="language-selector">
       <select id="languageSelect" onchange="changeLanguage()">
@@ -78,8 +97,8 @@
     <p class="subtitle lang-pt">Bases para copos sensuais e divertidas para todos os gostos!</p>
     <p class="subtitle lang-en" style="display: none;">Sensual and fun coaster bases for all tastes!</p>
     <video src="/assets/videos/hero-video.mp4" autoplay loop muted class="hero-video"></video>
-    <button class="cta-button lang-pt" onclick="alert('Por favor, envie um e-mail para coquettedocopo@gmail.com para fazer seu pedido!')">Encomende Agora</button>
-    <button class="cta-button lang-en" style="display: none;" onclick="alert('Please send an email to coquettedocopo@gmail.com to place your order!')">Order Now</button>
+    <button class="cta-button lang-pt" onclick="openContactModal()">Encomende Agora</button>
+    <button class="cta-button lang-en" style="display: none;" onclick="openContactModal()">Order Now</button>
   </header>
 
   <main>
@@ -198,6 +217,14 @@
 
     function closeAgeModal() {
       document.getElementById('ageModal').style.display = 'none';
+    }
+
+    function openContactModal() {
+      document.getElementById('contactModal').style.display = 'flex';
+    }
+
+    function closeContactModal() {
+      document.getElementById('contactModal').style.display = 'none';
     }
 
     function changeLanguage() {

@@ -49,6 +49,7 @@
     .checkbox-group label { display: flex; align-items: center; gap: 5px; }
     .quantity-group { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; margin: 10px 0; }
     .success-message { color: #ff4040; margin-top: 10px; display: none; }
+    .error-message { color: #ff6666; margin-top: 10px; display: none; }
   </style>
 </head>
 <body>
@@ -130,6 +131,8 @@
       </form>
       <p id="successMessagePt" class="success-message lang-pt">Pedido enviado com sucesso! Entraremos em contato em breve.</p>
       <p id="successMessageEn" class="success-message lang-en" style="display: none;">Order sent successfully! We will contact you soon.</p>
+      <p id="errorMessagePt" class="error-message lang-pt">Erro ao enviar o pedido. Por favor, tente novamente.</p>
+      <p id="errorMessageEn" class="error-message lang-en" style="display: none;">Error sending the order. Please try again.</p>
       <button class="modal-button lang-pt" onclick="closeContactModal()">Fechar</button>
       <button class="modal-button lang-en" style="display: none;" onclick="closeContactModal()">Close</button>
     </div>
@@ -278,6 +281,8 @@
       document.getElementById('contactModal').style.display = 'none';
       document.getElementById('successMessagePt').style.display = 'none';
       document.getElementById('successMessageEn').style.display = 'none';
+      document.getElementById('errorMessagePt').style.display = 'none';
+      document.getElementById('errorMessageEn').style.display = 'none';
       document.getElementById('contactForm').reset();
       updateQuantityFields();
     }
@@ -342,6 +347,12 @@
       data.append('address', formData.get('address'));
       data.append('message', formData.get('message') || '');
 
+      // Esconde mensagens anteriores
+      document.getElementById('successMessagePt').style.display = 'none';
+      document.getElementById('successMessageEn').style.display = 'none';
+      document.getElementById('errorMessagePt').style.display = 'none';
+      document.getElementById('errorMessageEn').style.display = 'none';
+
       fetch(form.action, {
         method: 'POST',
         body: data,
@@ -349,22 +360,29 @@
           'Accept': 'application/json'
         }
       })
-      .then(response => {
-        if (response.ok) {
-          // Exibe mensagem de sucesso
+      .then(response => response.json()) // Tenta parsear a resposta como JSON
+      .then(data => {
+        // Verifica se o Basin retornou uma mensagem de sucesso
+        if (data.success || (data.message && data.message.includes('success'))) {
           const lang = document.getElementById('languageSelect').value;
           document.getElementById('successMessagePt').style.display = lang === 'pt' ? 'block' : 'none';
           document.getElementById('successMessageEn').style.display = lang === 'en' ? 'block' : 'none';
           form.reset();
           updateQuantityFields();
         } else {
-          throw new Error('Erro ao enviar o formulário');
+          throw new Error('Resposta do Basin não indica sucesso');
         }
       })
       .catch(error => {
         console.error('Erro ao enviar para o Basin:', error);
-        alert('Houve um erro ao enviar o pedido. Por favor, tente novamente.');
+        const lang = document.getElementById('languageSelect').value;
+        document.getElementById('errorMessagePt').style.display = lang === 'pt' ? 'block' : 'none';
+        document.getElementById('errorMessageEn').style.display = lang === 'en' ? 'block' : 'none';
       });
+    }
+  </script>
+</body>
+</html>
     }
   </script>
 </body>

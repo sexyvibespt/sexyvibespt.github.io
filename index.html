@@ -93,12 +93,12 @@
           <span class="lang-pt">Escolha o Modelo:</span>
           <span class="lang-en" style="display: none;">Choose the Model:</span>
           <label for="modelCoquette">
-            <input type="checkbox" id="modelCoquette" name="model_coquette" onchange="updateQuantityFields()">
+            <input type="checkbox" id="modelCoquette" name="model_coquette" value="Coquette do Copo" onchange="updateQuantityFields()">
             <span class="lang-pt">Coquette do Copo</span>
             <span class="lang-en" style="display: none;">Coquette Coaster</span>
           </label>
           <label for="modelGala">
-            <input type="checkbox" id="modelGala" name="model_gala" onchange="updateQuantityFields()">
+            <input type="checkbox" id="modelGala" name="model_gala" value="Galã do Copo" onchange="updateQuantityFields()">
             <span class="lang-pt">Galã do Copo</span>
             <span class="lang-en" style="display: none;">Galã Coaster</span>
           </label>
@@ -324,14 +324,14 @@
       const form = document.getElementById('contactForm');
       const formData = new FormData(form);
 
-      // Coleta os modelos e quantidades
+      // Coleta os modelos corretamente usando os valores dos checkboxes
       const models = [];
-      let quantityValue = '';
       if (formData.get('model_coquette')) models.push(formData.get('model_coquette'));
       if (formData.get('model_gala')) models.push(formData.get('model_gala'));
       const coquetteChecked = document.querySelector('input[name="model_coquette"]').checked;
       const galaChecked = document.querySelector('input[name="model_gala"]').checked;
 
+      let quantityValue = '';
       if (coquetteChecked && galaChecked) {
         quantityValue = `Coquette: ${formData.get('quantity_coquette') || 0}, Galã: ${formData.get('quantity_gala') || 0}`;
       } else {
@@ -342,7 +342,7 @@
       const data = new FormData();
       data.append('name', formData.get('name'));
       data.append('email', formData.get('email'));
-      data.append('models', models.join(', '));
+      data.append('models', models.length > 0 ? models.join(', ') : 'Nenhum modelo selecionado');
       data.append('quantity', quantityValue);
       data.append('address', formData.get('address'));
       data.append('message', formData.get('message') || '');
@@ -360,17 +360,22 @@
           'Accept': 'application/json'
         }
       })
-      .then(response => response.json()) // Tenta parsear a resposta como JSON
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Erro na resposta do servidor');
+        }
+        return response.json();
+      })
       .then(data => {
-        // Verifica se o Basin retornou uma mensagem de sucesso
-        if (data.success || (data.message && data.message.includes('success'))) {
+        // Verifica se o Basin retornou sucesso explicitamente
+        if (data && (data.success === true || (data.message && data.message.toLowerCase().includes('success')))) {
           const lang = document.getElementById('languageSelect').value;
           document.getElementById('successMessagePt').style.display = lang === 'pt' ? 'block' : 'none';
           document.getElementById('successMessageEn').style.display = lang === 'en' ? 'block' : 'none';
           form.reset();
           updateQuantityFields();
         } else {
-          throw new Error('Resposta do Basin não indica sucesso');
+          throw new Error('Resposta do Basin não confirma sucesso');
         }
       })
       .catch(error => {
@@ -379,10 +384,6 @@
         document.getElementById('errorMessagePt').style.display = lang === 'pt' ? 'block' : 'none';
         document.getElementById('errorMessageEn').style.display = lang === 'en' ? 'block' : 'none';
       });
-    }
-  </script>
-</body>
-</html>
     }
   </script>
 </body>

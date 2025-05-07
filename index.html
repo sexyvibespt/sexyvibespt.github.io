@@ -47,6 +47,7 @@
     .contact-form button:hover { background-color: #ff6666; }
     .checkbox-group { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; margin: 10px 0; }
     .checkbox-group label { display: flex; align-items: center; gap: 5px; }
+    .quantity-group { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; margin: 10px 0; }
     .success-message { color: #ff4040; margin-top: 10px; display: none; }
   </style>
 </head>
@@ -78,26 +79,52 @@
     <div class="modal-content">
       <h2 class="lang-pt">Faça seu Pedido</h2>
       <h2 class="lang-en" style="display: none;">Place Your Order</h2>
-      <form class="contact-form" id="contactForm" onsubmit="submitToGoogleForms(event)">
-        <input type="text" name="name" placeholder="Seu Nome / Your Name" required>
-        <input type="email" name="email" placeholder="Seu E-mail / Your Email" required>
+      <form class="contact-form" id="contactForm" action="https://usebasin.com/f/be0447329708" method="POST" onsubmit="submitForm(event)">
+        <label for="nameInput" class="lang-pt">Seu Nome / Your Name:</label>
+        <label for="nameInput" class="lang-en" style="display: none;">Your Name:</label>
+        <input type="text" id="nameInput" name="name" placeholder="Seu Nome / Your Name" required>
+
+        <label for="emailInput" class="lang-pt">Seu E-mail / Your Email:</label>
+        <label for="emailInput" class="lang-en" style="display: none;">Your Email:</label>
+        <input type="email" id="emailInput" name="email" placeholder="Seu E-mail / Your Email" required>
+
         <div class="checkbox-group">
           <span class="lang-pt">Escolha o Modelo:</span>
           <span class="lang-en" style="display: none;">Choose the Model:</span>
-          <label>
-            <input type="checkbox" name="model_coquette" value="Coquette do Copo / Coquette Coaster">
+          <label for="modelCoquette">
+            <input type="checkbox" id="modelCoquette" name="model_coquette" onchange="updateQuantityFields()">
             <span class="lang-pt">Coquette do Copo</span>
             <span class="lang-en" style="display: none;">Coquette Coaster</span>
           </label>
-          <label>
-            <input type="checkbox" name="model_gala" value="Galã do Copo / Galã Coaster">
+          <label for="modelGala">
+            <input type="checkbox" id="modelGala" name="model_gala" onchange="updateQuantityFields()">
             <span class="lang-pt">Galã do Copo</span>
             <span class="lang-en" style="display: none;">Galã Coaster</span>
           </label>
         </div>
-        <input type="number" name="quantity" placeholder="Quantidade Desejada / Desired Quantity" min="1" required>
-        <textarea name="address" placeholder="Morada de Envio / Shipping Address" required></textarea>
-        <textarea name="message" placeholder="Mensagem Adicional / Additional Message"></textarea>
+
+        <div class="quantity-group" id="quantityGroup">
+          <label for="quantityInput" class="lang-pt">Quantidade Desejada / Desired Quantity:</label>
+          <label for="quantityInput" class="lang-en" style="display: none;">Desired Quantity:</label>
+          <input type="number" id="quantityInput" name="quantity" placeholder="Quantidade Desejada / Desired Quantity" min="1" required style="display: block;">
+
+          <label for="quantityCoquette" class="lang-pt">Quantidade Coquette / Coquette Quantity:</label>
+          <label for="quantityCoquette" class="lang-en" style="display: none;">Coquette Quantity:</label>
+          <input type="number" id="quantityCoquette" name="quantity_coquette" placeholder="Quantidade Coquette / Coquette Quantity" min="1" style="display: none;">
+
+          <label for="quantityGala" class="lang-pt">Quantidade Galã / Galã Quantity:</label>
+          <label for="quantityGala" class="lang-en" style="display: none;">Galã Quantity:</label>
+          <input type="number" id="quantityGala" name="quantity_gala" placeholder="Quantidade Galã / Galã Quantity" min="1" style="display: none;">
+        </div>
+
+        <label for="addressInput" class="lang-pt">Morada de Envio / Shipping Address:</label>
+        <label for="addressInput" class="lang-en" style="display: none;">Shipping Address:</label>
+        <textarea id="addressInput" name="address" placeholder="Morada de Envio / Shipping Address" required></textarea>
+
+        <label for="messageInput" class="lang-pt">Mensagem Adicional / Additional Message:</label>
+        <label for="messageInput" class="lang-en" style="display: none;">Additional Message:</label>
+        <textarea id="messageInput" name="message" placeholder="Mensagem Adicional / Additional Message"></textarea>
+
         <button type="submit" class="lang-pt">Enviar</button>
         <button type="submit" class="lang-en" style="display: none;">Submit</button>
       </form>
@@ -244,6 +271,7 @@
 
     function openContactModal() {
       document.getElementById('contactModal').style.display = 'flex';
+      updateQuantityFields();
     }
 
     function closeContactModal() {
@@ -251,6 +279,7 @@
       document.getElementById('successMessagePt').style.display = 'none';
       document.getElementById('successMessageEn').style.display = 'none';
       document.getElementById('contactForm').reset();
+      updateQuantityFields();
     }
 
     function changeLanguage() {
@@ -260,41 +289,80 @@
       document.querySelectorAll('.lang-en').forEach(el => el.style.display = lang === 'en' ? 'block' : 'none');
     }
 
-    function submitToGoogleForms(event) {
+    function updateQuantityFields() {
+      const coquetteChecked = document.querySelector('input[name="model_coquette"]').checked;
+      const galaChecked = document.querySelector('input[name="model_gala"]').checked;
+      const quantity = document.getElementById('quantityInput');
+      const quantityCoquette = document.getElementById('quantityCoquette');
+      const quantityGala = document.getElementById('quantityGala');
+
+      if (coquetteChecked && galaChecked) {
+        quantity.style.display = 'none';
+        quantityCoquette.style.display = 'block';
+        quantityGala.style.display = 'block';
+        quantity.removeAttribute('required');
+        quantityCoquette.setAttribute('required', true);
+        quantityGala.setAttribute('required', true);
+      } else {
+        quantity.style.display = 'block';
+        quantityCoquette.style.display = 'none';
+        quantityGala.style.display = 'none';
+        quantity.setAttribute('required', true);
+        quantityCoquette.removeAttribute('required');
+        quantityGala.removeAttribute('required');
+      }
+    }
+
+    function submitForm(event) {
       event.preventDefault();
 
       const form = document.getElementById('contactForm');
       const formData = new FormData(form);
 
-      // Coleta os modelos selecionados (checkboxes)
+      // Coleta os modelos e quantidades
       const models = [];
+      let quantityValue = '';
       if (formData.get('model_coquette')) models.push(formData.get('model_coquette'));
       if (formData.get('model_gala')) models.push(formData.get('model_gala'));
-      const modelValue = models.join(', ');
+      const coquetteChecked = document.querySelector('input[name="model_coquette"]').checked;
+      const galaChecked = document.querySelector('input[name="model_gala"]').checked;
 
-      // Dados a serem enviados ao Google Forms
+      if (coquetteChecked && galaChecked) {
+        quantityValue = `Coquette: ${formData.get('quantity_coquette') || 0}, Galã: ${formData.get('quantity_gala') || 0}`;
+      } else {
+        quantityValue = formData.get('quantity') || 0;
+      }
+
+      // Adiciona os dados ao Basin
       const data = new FormData();
-      data.append('entry.123456789', formData.get('name')); // Nome
-      data.append('entry.987654321', formData.get('email')); // E-mail
-      data.append('entry.456789123', modelValue); // Modelo
-      data.append('entry.654321987', formData.get('quantity')); // Quantidade
-      data.append('entry.321987654', formData.get('address')); // Morada
-      data.append('entry.789123456', formData.get('message') || ''); // Mensagem (opcional)
+      data.append('name', formData.get('name'));
+      data.append('email', formData.get('email'));
+      data.append('models', models.join(', '));
+      data.append('quantity', quantityValue);
+      data.append('address', formData.get('address'));
+      data.append('message', formData.get('message') || '');
 
-      fetch('https://docs.google.com/forms/d/e/1FAIpQLSd-5bjjP-lh0P3OSkIFAAyvXyMz7HsnkIi1r5vRme0Qi4LaMg/formResponse', {
+      fetch(form.action, {
         method: 'POST',
-        mode: 'no-cors',
-        body: data
+        body: data,
+        headers: {
+          'Accept': 'application/json'
+        }
       })
-      .then(() => {
-        // Exibe mensagem de sucesso
-        const lang = document.getElementById('languageSelect').value;
-        document.getElementById('successMessagePt').style.display = lang === 'pt' ? 'block' : 'none';
-        document.getElementById('successMessageEn').style.display = lang === 'en' ? 'block' : 'none';
-        form.reset();
+      .then(response => {
+        if (response.ok) {
+          // Exibe mensagem de sucesso
+          const lang = document.getElementById('languageSelect').value;
+          document.getElementById('successMessagePt').style.display = lang === 'pt' ? 'block' : 'none';
+          document.getElementById('successMessageEn').style.display = lang === 'en' ? 'block' : 'none';
+          form.reset();
+          updateQuantityFields();
+        } else {
+          throw new Error('Erro ao enviar o formulário');
+        }
       })
       .catch(error => {
-        console.error('Erro ao enviar para o Google Forms:', error);
+        console.error('Erro ao enviar para o Basin:', error);
         alert('Houve um erro ao enviar o pedido. Por favor, tente novamente.');
       });
     }

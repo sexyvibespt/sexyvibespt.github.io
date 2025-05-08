@@ -76,7 +76,7 @@
     </div>
   </div>
 
-  <div class="modal" id="contactModal">
+  <div class="(Debug)modal" id="contactModal">
     <div class="modal-content">
       <h2 class="lang-pt">Faça seu Pedido</h2>
       <h2 class="lang-en" style="display: none;">Place Your Order</h2>
@@ -129,10 +129,10 @@
         <button type="submit" class="lang-pt">Enviar</button>
         <button type="submit" class="lang-en" style="display: none;">Submit</button>
       </form>
-      <p id="successMessagePt" class="success-message lang-pt" style="display: none;">Pedido enviado com sucesso! Entraremos em contato em breve.</p>
-      <p id="successMessageEn" class="success-message lang-en" style="display: none;">Order sent successfully! We will contact you soon.</p>
-      <p id="errorMessagePt" class="error-message lang-pt" style="display: none;">Erro ao enviar o pedido. Por favor, tente novamente.</p>
-      <p id="errorMessageEn" class="error-message lang-en" style="display: none;">Error sending the order. Please try again.</p>
+      <p id="successMessagePt" class="success-message" style="display: none;">Pedido enviado com sucesso! Entraremos em contato em breve.</p>
+      <p id="successMessageEn" class="success-message" style="display: none;">Order sent successfully! We will contact you soon.</p>
+      <p id="errorMessagePt" class="error-message" style="display: none;">Erro ao enviar o pedido. Por favor, tente novamente.</p>
+      <p id="errorMessageEn" class="error-message" style="display: none;">Error sending the order. Please try again.</p>
       <button class="modal-button lang-pt" onclick="closeContactModal()">Fechar</button>
       <button class="modal-button lang-en" style="display: none;" onclick="closeContactModal()">Close</button>
     </div>
@@ -256,7 +256,6 @@
 
     window.onload = function() {
       document.getElementById('languageModal').style.display = 'flex';
-      // Garante que as mensagens estejam escondidas inicialmente
       hideMessages();
     };
 
@@ -284,7 +283,7 @@
     function openContactModal() {
       document.getElementById('contactModal').style.display = 'flex';
       updateQuantityFields();
-      hideMessages(); // Esconde mensagens ao abrir o modal
+      hideMessages();
     }
 
     function closeContactModal() {
@@ -298,16 +297,11 @@
       const lang = document.getElementById('languageSelect').value;
       selectedLanguage = lang;
       document.querySelectorAll('.lang-pt').forEach(el => {
-        if (!el.classList.contains('success-message') && !el.classList.contains('error-message')) {
-          el.style.display = lang === 'pt' ? 'block' : 'none';
-        }
+        el.style.display = lang === 'pt' ? 'block' : 'none';
       });
       document.querySelectorAll('.lang-en').forEach(el => {
-        if (!el.classList.contains('success-message') && !el.classList.contains('error-message')) {
-          el.style.display = lang === 'en' ? 'block' : 'none';
-        }
+        el.style.display = lang === 'en' ? 'block' : 'none';
       });
-      hideMessages(); // Garante que mensagens não sejam afetadas pela troca de idioma
     }
 
     function updateQuantityFields() {
@@ -383,8 +377,11 @@
         // Verifica se o Basin retornou sucesso explicitamente
         if (data && (data.success === true || (data.message && data.message.toLowerCase().includes('success')))) {
           const lang = document.getElementById('languageSelect').value;
-          document.getElementById('successMessagePt').style.display = lang === 'pt' ? 'block' : 'none';
-          document.getElementById('successMessageEn').style.display = lang === 'en' ? 'block' : 'none';
+          if (lang === 'pt') {
+            document.getElementById('successMessagePt').style.display = 'block';
+          } else {
+            document.getElementById('successMessageEn').style.display = 'block';
+          }
           form.reset();
           updateQuantityFields();
         } else {
@@ -394,8 +391,11 @@
       .catch(error => {
         console.error('Erro ao enviar para o Basin:', error);
         const lang = document.getElementById('languageSelect').value;
-        document.getElementById('errorMessagePt').style.display = lang === 'pt' ? 'block' : 'none';
-        document.getElementById('errorMessageEn').style.display = lang === 'en' ? 'block' : 'none';
+        if (lang === 'pt') {
+          document.getElementById('errorMessagePt').style.display = 'block';
+        } else {
+          document.getElementById('errorMessageEn').style.display = 'block';
+        }
       });
     }
   </script>

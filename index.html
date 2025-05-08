@@ -129,9 +129,9 @@
         <button type="submit" class="lang-pt">Enviar</button>
         <button type="submit" class="lang-en" style="display: none;">Submit</button>
       </form>
-      <p id="successMessagePt" class="success-message lang-pt">Pedido enviado com sucesso! Entraremos em contato em breve.</p>
+      <p id="successMessagePt" class="success-message lang-pt" style="display: none;">Pedido enviado com sucesso! Entraremos em contato em breve.</p>
       <p id="successMessageEn" class="success-message lang-en" style="display: none;">Order sent successfully! We will contact you soon.</p>
-      <p id="errorMessagePt" class="error-message lang-pt">Erro ao enviar o pedido. Por favor, tente novamente.</p>
+      <p id="errorMessagePt" class="error-message lang-pt" style="display: none;">Erro ao enviar o pedido. Por favor, tente novamente.</p>
       <p id="errorMessageEn" class="error-message lang-en" style="display: none;">Error sending the order. Please try again.</p>
       <button class="modal-button lang-pt" onclick="closeContactModal()">Fechar</button>
       <button class="modal-button lang-en" style="display: none;" onclick="closeContactModal()">Close</button>
@@ -275,6 +275,11 @@
     function openContactModal() {
       document.getElementById('contactModal').style.display = 'flex';
       updateQuantityFields();
+      // Esconde mensagens ao abrir o modal
+      document.getElementById('successMessagePt').style.display = 'none';
+      document.getElementById('successMessageEn').style.display = 'none';
+      document.getElementById('errorMessagePt').style.display = 'none';
+      document.getElementById('errorMessageEn').style.display = 'none';
     }
 
     function closeContactModal() {
@@ -347,7 +352,7 @@
       data.append('address', formData.get('address'));
       data.append('message', formData.get('message') || '');
 
-      // Esconde mensagens anteriores
+      // Esconde mensagens antes de enviar
       document.getElementById('successMessagePt').style.display = 'none';
       document.getElementById('successMessageEn').style.display = 'none';
       document.getElementById('errorMessagePt').style.display = 'none';

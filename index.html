@@ -256,6 +256,8 @@
 
     window.onload = function() {
       document.getElementById('languageModal').style.display = 'flex';
+      // Garante que as mensagens estejam escondidas inicialmente
+      hideMessages();
     };
 
     function setLanguage(lang) {
@@ -272,22 +274,22 @@
       document.getElementById('ageModal').style.display = 'none';
     }
 
-    function openContactModal() {
-      document.getElementById('contactModal').style.display = 'flex';
-      updateQuantityFields();
-      // Esconde mensagens ao abrir o modal
+    function hideMessages() {
       document.getElementById('successMessagePt').style.display = 'none';
       document.getElementById('successMessageEn').style.display = 'none';
       document.getElementById('errorMessagePt').style.display = 'none';
       document.getElementById('errorMessageEn').style.display = 'none';
     }
 
+    function openContactModal() {
+      document.getElementById('contactModal').style.display = 'flex';
+      updateQuantityFields();
+      hideMessages(); // Esconde mensagens ao abrir o modal
+    }
+
     function closeContactModal() {
       document.getElementById('contactModal').style.display = 'none';
-      document.getElementById('successMessagePt').style.display = 'none';
-      document.getElementById('successMessageEn').style.display = 'none';
-      document.getElementById('errorMessagePt').style.display = 'none';
-      document.getElementById('errorMessageEn').style.display = 'none';
+      hideMessages();
       document.getElementById('contactForm').reset();
       updateQuantityFields();
     }
@@ -295,8 +297,17 @@
     function changeLanguage() {
       const lang = document.getElementById('languageSelect').value;
       selectedLanguage = lang;
-      document.querySelectorAll('.lang-pt').forEach(el => el.style.display = lang === 'pt' ? 'block' : 'none');
-      document.querySelectorAll('.lang-en').forEach(el => el.style.display = lang === 'en' ? 'block' : 'none');
+      document.querySelectorAll('.lang-pt').forEach(el => {
+        if (!el.classList.contains('success-message') && !el.classList.contains('error-message')) {
+          el.style.display = lang === 'pt' ? 'block' : 'none';
+        }
+      });
+      document.querySelectorAll('.lang-en').forEach(el => {
+        if (!el.classList.contains('success-message') && !el.classList.contains('error-message')) {
+          el.style.display = lang === 'en' ? 'block' : 'none';
+        }
+      });
+      hideMessages(); // Garante que mensagens não sejam afetadas pela troca de idioma
     }
 
     function updateQuantityFields() {
@@ -353,10 +364,7 @@
       data.append('message', formData.get('message') || '');
 
       // Esconde mensagens antes de enviar
-      document.getElementById('successMessagePt').style.display = 'none';
-      document.getElementById('successMessageEn').style.display = 'none';
-      document.getElementById('errorMessagePt').style.display = 'none';
-      document.getElementById('errorMessageEn').style.display = 'none';
+      hideMessages();
 
       fetch(form.action, {
         method: 'POST',

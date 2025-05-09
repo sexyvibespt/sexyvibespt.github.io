@@ -1,6 +1,6 @@
 # sexyvibes.github.io
 Site oficial da Sexy &amp; Vibes - bases para copos sensuais e divertidas que revelam encantos ao colocar sua caneca! Hospedado no GitHub Pages.
-# Coquette & Galã do Copo
+# Sexy Vibes
 
 Bem-vindo(a) ao repositório oficial do site **Sexy Vibes**! Aqui você encontra as bases para copos mais sensuais e divertidas do mercado. Coloque sua caneca e veja a mágica: a Coquette revela seus encantos femininos, enquanto o Galã exibe seu peito musculoso. Um toque de sensualidade e humor para sua casa! 😍
 
@@ -19,8 +19,8 @@ Sexy Vibes é uma loja online que oferece bases para copos com um design único 
 ## Estrutura do Repositório
 - `index.html`: Arquivo principal do site.
 - `/assets/images/`: Imagens dos produtos e dicas sensuais.
-  - `coquette.png`
-  - `gala.png`
+  - `femea.png`
+  - `macho.png`
   - `dica1.png`
   - `dica2.png`
 - `/assets/videos/`: Vídeo principal do site.

@@ -1,13 +1,13 @@
-# coquettedocopo.github.io
-Site oficial da Coquette &amp; Galã do Copo - bases para copos sensuais e divertidas que revelam encantos ao colocar sua caneca! Hospedado no GitHub Pages.
+# sexyvibes.github.io
+Site oficial da Sexy &amp; Vibes - bases para copos sensuais e divertidas que revelam encantos ao colocar sua caneca! Hospedado no GitHub Pages.
 # Coquette & Galã do Copo
 
-Bem-vindo(a) ao repositório oficial do site **Coquette & Galã do Copo**! Aqui você encontra as bases para copos mais sensuais e divertidas do mercado. Coloque sua caneca e veja a mágica: a Coquette revela seus encantos femininos, enquanto o Galã exibe seu peito musculoso. Um toque de sensualidade e humor para sua casa! 😍
+Bem-vindo(a) ao repositório oficial do site **Sexy Vibes**! Aqui você encontra as bases para copos mais sensuais e divertidas do mercado. Coloque sua caneca e veja a mágica: a Coquette revela seus encantos femininos, enquanto o Galã exibe seu peito musculoso. Um toque de sensualidade e humor para sua casa! 😍
 
-Este site é hospedado no GitHub Pages e está disponível em: [https://coquettedocopo.github.io](https://coquettedocopo.github.io).
+Este site é hospedado no GitHub Pages e está disponível em: [https://sexyvibes.github.io](https://sexyvibes.github.io).
 
 ## Sobre o Projeto
-Coquette & Galã do Copo é uma loja online que oferece bases para copos com um design único e provocante. Nosso objetivo é trazer diversão e sensualidade para o dia a dia, com produtos perfeitos para apimentar sua casa ou presentear alguém especial.
+Sexy Vibes é uma loja online que oferece bases para copos com um design único e provocante. Nosso objetivo é trazer diversão e sensualidade para o dia a dia, com produtos perfeitos para apimentar sua casa ou presentear alguém especial.
 
 ### Funcionalidades do Site
 - **Vídeo em Loop**: Um vídeo atraente mostrando os produtos em ação.
@@ -35,8 +35,8 @@ Se você deseja sugerir melhorias ou reportar problemas, crie uma *issue* neste 
 5. Abra um *pull request*.
 
 ## Contato
-- **E-mail**: [coquettedocopo@gmail.com](mailto:coquettedocopo@gmail.com)
-- **Instagram**: [@coquettedocopo](https://instagram.com/coquettedocopo)
+- **E-mail**: [sexyvibesportugal@gmail.com](mailto:sexyvibesportugal@gmail.com)
+- **Instagram**: [@sexyvibesportugal](https://instagram.com/sexyvibesportugal)
 
 ## Licença
-Este projeto é de uso exclusivo da Coquette & Galã do Copo. Todos os direitos reservados.
+Este projeto é de uso exclusivo da Sexy Vibes. Todos os direitos reservados.

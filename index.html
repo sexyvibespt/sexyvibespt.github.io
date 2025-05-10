@@ -91,10 +91,10 @@
 
   <div id="contactModal" class="modal">
   <div class="modal-content">
-    <span class="close" onclick="closeContactModal()">&times;</span>
+    <span class="close" onclick="closeContactModal()">×</span>
     <h2 class="lang-pt">Encomendar</h2>
     <h2 class="lang-en" style="display: none;">Order</h2>
-    <form id="contactForm" action="https://usebasin.com/f/YOUR_ENDPOINT" method="POST">
+    <form id="contactForm" action="https://usebasin.com/f/YOUR_ENDPOINT" method="POST" class="contact-form">
       <div class="form-row">
         <label for="quantity-feminina" class="lang-pt">Sexy Feminina:</label>
         <label for="quantity-feminina" class="lang-en" style="display: none;">Sexy Feminina:</label>
@@ -107,20 +107,35 @@
         <input type="number" name="quantity-masculino" id="quantity-masculino" min="0" value="0" class="quantity-input">
       </div>
 
-      <label for="name" class="lang-pt">Nome:</label>
-      <label for="name" class="lang-en" style="display: none;">Name:</label>
-      <input type="text" name="name" id="name" required>
+      <div class="form-row">
+        <label for="name" class="lang-pt">Nome:</label>
+        <label for="name" class="lang-en" style="display: none;">Name:</label>
+        <input type="text" name="name" id="name" required>
+      </div>
 
-      <label for="email" class="lang-pt">Email:</label>
-      <label for="email" class="lang-en" style="display: none;">Email:</label>
-      <input type="email" name="email" id="email" required>
+      <div class="form-row">
+        <label for="email" class="lang-pt">Email:</label>
+        <label for="email" class="lang-en" style="display: none;">Email:</label>
+        <input type="email" name="email" id="email" required>
+      </div>
+
+      <div class="form-row">
+        <label for="address" class="lang-pt">Morada:</label>
+        <label for="address" class="lang-en" style="display: none;">Address:</label>
+        <input type="text" name="address" id="address" required>
+      </div>
+
+      <div class="form-row">
+        <label for="message" class="lang-pt">Mensagem:</label>
+        <label for="message" class="lang-en" style="display: none;">Message:</label>
+        <textarea name="message" id="message" rows="3"></textarea>
+      </div>
 
       <button type="submit" class="lang-pt">Enviar Encomenda</button>
       <button type="submit" class="lang-en" style="display: none;">Submit Order</button>
     </form>
   </div>
 </div>
-
         <div class="quantity-group" id="quantityGroup">
           <label for="quantityInput" class="lang-pt">Quantidade Desejada / Desired Quantity:</label>
           <label for="quantityInput" class="lang-en" style="display: none;">Desired Quantity:</label>

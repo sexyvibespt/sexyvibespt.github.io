@@ -14,56 +14,56 @@
     gtag('js', new Date());
     gtag('config', 'G-XXXXXXXXXX');
   </script>
- <style>
-  @import url('https://fonts.googleapis.com/css2?family=Lobster&family=Montserrat:wght@400;700&display=swap');
-  body { margin: 0; font-family: 'Montserrat', sans-serif; background-color: #1a1a1a; color: #fff; text-align: center; }
-  header { background: linear-gradient(to bottom, #ff4040, #1a1a1a); padding: 50px 20px; position: relative; }
-  h1 { font-family: 'Lobster', cursive; font-size: 2.8em; margin: 0; color: #ff4040; text-shadow: 2px 2px 4px #000; }
-  h2 { font-family: 'Lobster', cursive; font-size: 1.8em; }
-  .subtitle { font-size: 1.2em; color: #ddd; margin: 10px 0; }
-  .cta-button { background-color: #ff4040; color: #fff; padding: 15px 30px; border: none; border-radius: 25px; font-size: 1.2em; cursor: pointer; margin: 20px 0; transition: background-color 0.3s, transform 0.2s; }
-  .cta-button:hover { background-color: #ff6666; transform: scale(1.05); }
-  .hero-video { max-width: 100%; height: auto; border-radius: 10px; margin: 20px 0; }
-  .product-section { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 20px; }
-  .product-card { background-color: #333; border-radius: 10px; padding: 20px; max-width: 300px; transition: transform 0.3s; }
-  .product-card:hover { transform: translateY(-5px); }
-  .product-image { max-width: 200px; border-radius: 10px; background-color: transparent; }
-  .timer { font-size: 1.5em; color: #ff4040; margin: 20px 0; }
-  .testimonials { background-color: #333; padding: 20px; margin: 20px 0; }
-  .testimonials p { font-style: italic; color: #ddd; margin: 10px 0; }
-  .shipping-info { background-color: #222; padding: 15px; margin: 20px 0; font-size: 1em; }
-  .tips-section { background-color: #333; padding: 20px; margin: 20px 0; }
-  .poll-section { background-color: #222; padding: 20px; margin: 20px 0; }
-  .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); z-index: 1000; justify-content: center; align-items: center; }
-  .modal-content { background-color: #333; padding: 30px; border-radius: 10px; text-align: center; max-width: 500px; margin: 20px; }
-  .modal-button { background-color: #ff4040; color: #fff; padding: 10px 20px; border: none; border-radius: 25px; cursor: pointer; margin: 10px; }
-  .modal-button:hover { background-color: #ff6666; }
-  .language-selector { position: absolute; top: 20px; right: 20px; }
-  select { padding: 5px; border-radius: 5px; background-color: #333; color: #fff; border: none; }
-  footer { background-color: #111; padding: 20px; font-size: 0.9em; }
-  .contact-form { display: flex; flex-direction: column; gap: 10px; }
-  .contact-form input, .contact-form textarea { width: 100%; padding: 10px; border: 1px solid #555; border-radius: 5px; background-color: #444; color: #fff; }
-  .contact-form input:focus, .contact-form textarea:focus { outline: none; border-color: #ff4040; }
-  .contact-form button { background-color: #ff4040; color: #fff; padding: 10px; border: none; border-radius: 25px; cursor: pointer; }
-  .contact-form button:hover { background-color: #ff6666; }
-  
-  /* New styles for side-by-side layout */
-  .form-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; }
-  .form-row label { flex: 1; margin-right: 10px; text-align: left; }
-  .quantity-input { width: 80px; padding: 5px; border: 1px solid #555; border-radius: 5px; background-color: #444; color: #fff; }
-  .quantity-input:focus { outline: none; border-color: #ff4040; }
-  @media (max-width: 400px) { 
-    .form-row { flex-direction: column; align-items: flex-start; } 
-    .form-row label { margin-bottom: 5px; margin-right: 0;} 
-    .quantity-input { width: 100%; } 
-  }
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Lobster&family=Montserrat:wght@400;700&display=swap');
+    body { margin: 0; font-family: 'Montserrat', sans-serif; background-color: #1a1a1a; color: #fff; text-align: center; }
+    header { background: linear-gradient(to bottom, #ff4040, #1a1a1a); padding: 50px 20px; position: relative; }
+    h1 { font-family: 'Lobster', cursive; font-size: 2.8em; margin: 0; color: #ff4040; text-shadow: 2px 2px 4px #000; }
+    h2 { font-family: 'Lobster', cursive; font-size: 1.8em; }
+    .subtitle { font-size: 1.2em; color: #ddd; margin: 10px 0; }
+    .cta-button { background-color: #ff4040; color: #fff; padding: 15px 30px; border: none; border-radius: 25px; font-size: 1.2em; cursor: pointer; margin: 20px 0; transition: background-color 0.3s, transform 0.2s; }
+    .cta-button:hover { background-color: #ff6666; transform: scale(1.05); }
+    .hero-video { max-width: 100%; height: auto; border-radius: 10px; margin: 20px 0; }
+    .product-section { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 20px; }
+    .product-card { background-color: #333; border-radius: 10px; padding: 20px; max-width: 300px; transition: transform 0.3s; }
+    .product-card:hover { transform: translateY(-5px); }
+    .product-image { max-width: 200px; border-radius: 10px; background-color: transparent; }
+    .timer { font-size: 1.5em; color: #ff4040; margin: 20px 0; }
+    .testimonials { background-color: #333; padding: 20px; margin: 20px 0; }
+    .testimonials p { font-style: italic; color: #ddd; margin: 10px 0; }
+    .shipping-info { background-color: #222; padding: 15px; margin: 20px 0; font-size: 1em; }
+    .tips-section { background-color: #333; padding: 20px; margin: 20px 0; }
+    .poll-section { background-color: #222; padding: 20px; margin: 20px 0; }
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); z-index: 1000; justify-content: center; align-items: center; }
+    .modal-content { background-color: #333; padding: 30px; border-radius: 10px; text-align: center; max-width: 500px; margin: 20px; }
+    .modal-button { background-color: #ff4040; color: #fff; padding: 10px 20px; border: none; border-radius: 25px; cursor: pointer; margin: 10px; }
+    .modal-button:hover { background-color: #ff6666; }
+    .language-selector { position: absolute; top: 20px; right: 20px; }
+    select { padding: 5px; border-radius: 5px; background-color: #333; color: #fff; border: none; }
+    footer { background-color: #111; padding: 20px; font-size: 0.9em; }
+    .contact-form { display: flex; flex-direction: column; gap: 10px; }
+    .contact-form input, .contact-form textarea { width: 100%; padding: 10px; border: 1px solid #555; border-radius: 5px; background-color: #444; color: #fff; }
+    .contact-form input:focus, .contact-form textarea:focus { outline: none; border-color: #ff4040; }
+    .contact-form button { background-color: #ff4040; color: #fff; padding: 10px; border: none; border-radius: 25px; cursor: pointer; }
+    .contact-form button:hover { background-color: #ff6666; }
+    
+    /* New styles for side-by-side layout */
+    .form-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; }
+    .form-row label { flex: 1; margin-right: 10px; text-align: left; }
+    .quantity-input { width: 80px; padding: 5px; border: 1px solid #555; border-radius: 5px; background-color: #444; color: #fff; }
+    .quantity-input:focus { outline: none; border-color: #ff4040; }
+    @media (max-width: 400px) { 
+      .form-row { flex-direction: column; align-items: flex-start; } 
+      .form-row label { margin-bottom: 5px; margin-right: 0; } 
+      .quantity-input { width: 100%; } 
+    }
 
-  .checkbox-group { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; margin: 10px 0; }
-  .checkbox-group label { display: flex; align-items: center; gap: 5px; }
-  .quantity-group { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; margin: 10px 0; }
-  .success-message { color: #ff4040; margin-top: 10px; display: none; }
-  .error-message { color: #ff6666; margin-top: 10px; display: none; }
-</style>
+    .checkbox-group { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; margin: 10px 0; }
+    .checkbox-group label { display: flex; align-items: center; gap: 5px; }
+    .quantity-group { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; margin: 10px 0; }
+    .success-message { color: #ff4040; margin-top: 10px; display: none; }
+    .error-message { color: #ff6666; margin-top: 10px; display: none; }
+  </style>
 </head>
 <body>
   <div class="modal" id="languageModal">
@@ -90,76 +90,49 @@
   </div>
 
   <div id="contactModal" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeContactModal()">×</span>
-    <h2 class="lang-pt">Encomendar</h2>
-    <h2 class="lang-en" style="display: none;">Order</h2>
-    <form id="contactForm" action="https://usebasin.com/f/be0447329708" method="POST" class="contact-form">
-      <div class="form-row">
-        <label for="quantity-feminina" class="lang-pt">Sexy Feminina:</label>
-        <label for="quantity-feminina" class="lang-en" style="display: none;">Sexy Feminina:</label>
-        <input type="number" name="quantity-feminina" id="quantity-feminina" min="0" value="0" class="quantity-input">
-      </div>
-
-      <div class="form-row">
-        <label for="quantity-masculino" class="lang-pt">Sexy Masculino:</label>
-        <label for="quantity-masculino" class="lang-en" style="display: none;">Sexy Masculino:</label>
-        <input type="number" name="quantity-masculino" id="quantity-masculino" min="0" value="0" class="quantity-input">
-      </div>
-
-      <div class="form-row">
-        <label for="name" class="lang-pt">Nome:</label>
-        <label for="name" class="lang-en" style="display: none;">Name:</label>
-        <input type="text" name="name" id="name" required>
-      </div>
-
-      <div class="form-row">
-        <label for="email" class="lang-pt">Email:</label>
-        <label for="email" class="lang-en" style="display: none;">Email:</label>
-        <input type="email" name="email" id="email" required>
-      </div>
-
-      <div class="form-row">
-        <label for="address" class="lang-pt">Morada:</label>
-        <label for="address" class="lang-en" style="display: none;">Address:</label>
-        <input type="text" name="address" id="address" required>
-      </div>
-
-      <div class="form-row">
-        <label for="message" class="lang-pt">Mensagem:</label>
-        <label for="message" class="lang-en" style="display: none;">Message:</label>
-        <textarea name="message" id="message" rows="3"></textarea>
-      </div>
-
-      <button type="submit" class="lang-pt">Enviar Encomenda</button>
-      <button type="submit" class="lang-en" style="display: none;">Submit Order</button>
-    </form>
-  </div>
-</div>
-        <div class="quantity-group" id="quantityGroup">
-          <label for="quantityInput" class="lang-pt">Quantidade Desejada / Desired Quantity:</label>
-          <label for="quantityInput" class="lang-en" style="display: none;">Desired Quantity:</label>
-          <input type="number" id="quantityInput" name="quantity" placeholder="Quantidade Desejada / Desired Quantity" min="1" required style="display: block;">
-
-          <label for="quantityFeminina" class="lang-pt">Quantidade Sexy Feminina / Feminine Sexy Quantity:</label>
-          <label for="quantityFeminina" class="lang-en" style="display: none;">Feminine Sexy Quantity:</label>
-          <input type="number" id="quantityFeminina" name="quantity_feminina" placeholder="Quantidade Sexy Feminina / Feminine Sexy Quantity" min="1" style="display: none;">
-
-          <label for="quantityMasculino" class="lang-pt">Quantidade Sexy Masculino / Masculine Sexy Quantity:</label>
-          <label for="quantityMasculino" class="lang-en" style="display: none;">Masculine Sexy Quantity:</label>
-          <input type="number" id="quantityMasculino" name="quantity_masculino" placeholder="Quantidade Sexy Masculino / Masculine Sexy Quantity" min="1" style="display: none;">
+    <div class="modal-content">
+      <span class="close" onclick="closeContactModal()">×</span>
+      <h2 class="lang-pt">Encomendar</h2>
+      <h2 class="lang-en" style="display: none;">Order</h2>
+      <form id="contactForm" action="https://usebasin.com/f/be0447329708" method="POST" class="contact-form" onsubmit="submitForm(event)">
+        <div class="form-row">
+          <label for="quantity-feminina" class="lang-pt">Sexy Feminina:</label>
+          <label for="quantity-feminina" class="lang-en" style="display: none;">Sexy Feminina:</label>
+          <input type="number" name="quantity-feminina" id="quantity-feminina" min="0" value="0" class="quantity-input">
         </div>
 
-        <label for="addressInput" class="lang-pt">Morada de Envio / Shipping Address:</label>
-        <label for="addressInput" class="lang-en" style="display: none;">Shipping Address:</label>
-        <textarea id="addressInput" name="address" placeholder="Morada de Envio / Shipping Address" required></textarea>
+        <div class="form-row">
+          <label for="quantity-masculino" class="lang-pt">Sexy Masculino:</label>
+          <label for="quantity-masculino" class="lang-en" style="display: none;">Sexy Masculino:</label>
+          <input type="number" name="quantity-masculino" id="quantity-masculino" min="0" value="0" class="quantity-input">
+        </div>
 
-        <label for="messageInput" class="lang-pt">Mensagem Adicional / Additional Message:</label>
-        <label for="messageInput" class="lang-en" style="display: none;">Additional Message:</label>
-        <textarea id="messageInput" name="message" placeholder="Mensagem Adicional / Additional Message"></textarea>
+        <div class="form-row">
+          <label for="name" class="lang-pt">Nome:</label>
+          <label for="name" class="lang-en" style="display: none;">Name:</label>
+          <input type="text" name="name" id="name" required>
+        </div>
 
-        <button type="submit" class="lang-pt">Enviar</button>
-        <button type="submit" class="lang-en" style="display: none;">Submit</button>
+        <div class="form-row">
+          <label for="email" class="lang-pt">Email:</label>
+          <label for="email" class="lang-en" style="display: none;">Email:</label>
+          <input type="email" name="email" id="email" required>
+        </div>
+
+        <div class="form-row">
+          <label for="address" class="lang-pt">Morada:</label>
+          <label for="address" class="lang-en" style="display: none;">Address:</label>
+          <input type="text" name="address" id="address" required>
+        </div>
+
+        <div class="form-row">
+          <label for="message" class="lang-pt">Mensagem:</label>
+          <label for="message" class="lang-en" style="display: none;">Message:</label>
+          <textarea name="message" id="message" rows="3"></textarea>
+        </div>
+
+        <button type="submit" class="lang-pt">Enviar Encomenda</button>
+        <button type="submit" class="lang-en" style="display: none;">Submit Order</button>
       </form>
       <p id="successMessagePt" class="success-message" style="display: none;">Pedido enviado com sucesso! Entraremos em contato em breve.</p>
       <p id="successMessageEn" class="success-message" style="display: none;">Order sent successfully! We will contact you soon.</p>
@@ -171,19 +144,19 @@
   </div>
 
   <header>
-  <div class="language-selector">
-    <select id="languageSelect" onchange="changeLanguage()">
-      <option value="pt">Português</option>
-      <option value="en">English</option>
-    </select>
-  </div>
-  <img src="/assets/images/logo.png" alt="Sexy Vibes Logo" style="max-width: 300px; margin: 0 auto; display: block;">
-  <p class="subtitle lang-pt">Bases para copos sensuais e divertidas para todos os gostos!</p>
-  <p class="subtitle lang-en" style="display: none;">Sensual and fun coasters for all tastes!</p>
-  <video src="/assets/videos/hero-video.mp4" autoplay loop muted class="hero-video"></video>
-  <button class="cta-button lang-pt" onclick="openContactModal()">Encomende Agora</button>
-  <button class="cta-button lang-en" style="display: none;" onclick="openContactModal()">Order Now</button>
-</header>
+    <div class="language-selector">
+      <select id="languageSelect" onchange="changeLanguage()">
+        <option value="pt">Português</option>
+        <option value="en">English</option>
+      </select>
+    </div>
+    <img src="/assets/images/logo.png" alt="Sexy Vibes Logo" style="max-width: 300px; margin: 0 auto; display: block;">
+    <p class="subtitle lang-pt">Bases para copos sensuais e divertidas para todos os gostos!</p>
+    <p class="subtitle lang-en" style="display: none;">Sensual and fun coasters for all tastes!</p>
+    <video src="/assets/videos/hero-video.mp4" autoplay loop muted class="hero-video"></video>
+    <button class="cta-button lang-pt" onclick="openContactModal()">Encomende Agora</button>
+    <button class="cta-button lang-en" style="display: none;" onclick="openContactModal()">Order Now</button>
+  </header>
 
   <main>
     <section class="product-section">
@@ -313,7 +286,6 @@
 
     function openContactModal() {
       document.getElementById('contactModal').style.display = 'flex';
-      updateQuantityFields();
       hideMessages();
     }
 
@@ -321,7 +293,6 @@
       document.getElementById('contactModal').style.display = 'none';
       hideMessages();
       document.getElementById('contactForm').reset();
-      updateQuantityFields();
     }
 
     function changeLanguage() {
@@ -335,60 +306,31 @@
       });
     }
 
-    function updateQuantityFields() {
-      const femininaChecked = document.querySelector('input[name="model_feminina"]').checked;
-      const masculinoChecked = document.querySelector('input[name="model_masculino"]').checked;
-      const quantity = document.getElementById('quantityInput');
-      const quantityFeminina = document.getElementById('quantityFeminina');
-      const quantityMasculino = document.getElementById('quantityMasculino');
-
-      if (femininaChecked && masculinoChecked) {
-        quantity.style.display = 'none';
-        quantityFeminina.style.display = 'block';
-        quantityMasculino.style.display = 'block';
-        quantity.removeAttribute('required');
-        quantityFeminina.setAttribute('required', true);
-        quantityMasculino.setAttribute('required', true);
-      } else {
-        quantity.style.display = 'block';
-        quantityFeminina.style.display = 'none';
-        quantityMasculino.style.display = 'none';
-        quantity.setAttribute('required', true);
-        quantityFeminina.removeAttribute('required');
-        quantityMasculino.removeAttribute('required');
-      }
-    }
-
     function submitForm(event) {
       event.preventDefault();
 
       const form = document.getElementById('contactForm');
       const formData = new FormData(form);
 
-      // Coleta os modelos corretamente usando os valores dos checkboxes
-      const models = [];
-      if (formData.get('model_feminina')) models.push(formData.get('model_feminina'));
-      if (formData.get('model_masculino')) models.push(formData.get('model_masculino'));
-      const femininaChecked = document.querySelector('input[name="model_feminina"]').checked;
-      const masculinoChecked = document.querySelector('input[name="model_masculino"]').checked;
-
+      // Collect quantities for each model
+      const quantityFeminina = formData.get('quantity-feminina') || 0;
+      const quantityMasculino = formData.get('quantity-masculino') || 0;
       let quantityValue = '';
-      if (femininaChecked && masculinoChecked) {
-        quantityValue = `Sexy Feminina: ${formData.get('quantity_feminina') || 0}, Sexy Masculino: ${formData.get('quantity_masculino') || 0}`;
+      if (quantityFeminina > 0 || quantityMasculino > 0) {
+        quantityValue = `Sexy Feminina: ${quantityFeminina}, Sexy Masculino: ${quantityMasculino}`;
       } else {
-        quantityValue = formData.get('quantity') || 0;
+        quantityValue = '0';
       }
 
-      // Adiciona os dados ao Basin
+      // Prepare data for Basin
       const data = new FormData();
       data.append('name', formData.get('name'));
       data.append('email', formData.get('email'));
-      data.append('models', models.length > 0 ? models.join(', ') : 'Nenhum modelo selecionado');
-      data.append('quantity', quantityValue);
       data.append('address', formData.get('address'));
       data.append('message', formData.get('message') || '');
+      data.append('quantity', quantityValue);
 
-      // Esconde mensagens antes de enviar
+      // Hide messages before sending
       hideMessages();
 
       fetch(form.action, {
@@ -405,7 +347,6 @@
         return response.json();
       })
       .then(data => {
-        // Verifica se o Basin retornou sucesso explicitamente
         if (data && (data.success === true || (data.message && data.message.toLowerCase().includes('success')))) {
           const lang = document.getElementById('languageSelect').value;
           if (lang === 'pt') {
@@ -414,7 +355,6 @@
             document.getElementById('successMessageEn').style.display = 'block';
           }
           form.reset();
-          updateQuantityFields();
         } else {
           throw new Error('Resposta do Basin não confirma sucesso');
         }

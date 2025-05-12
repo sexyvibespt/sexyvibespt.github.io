@@ -36,7 +36,7 @@ Se você deseja sugerir melhorias ou reportar problemas, crie uma *issue* neste 
 
 ## Contato
 - **E-mail**: [sexyvibesportugal@gmail.com](mailto:sexyvibesportugal@gmail.com)
-- **Instagram**: [@sexyvibesportugal](https://instagram.com/sexyvibesportugal)
+- **Instagram**: [@sexyvibespt](https://www.instagram.com/sexyvibespt/)
 
 ## Licença
 Este projeto é de uso exclusivo da Sexy Vibes. Todos os direitos reservados.

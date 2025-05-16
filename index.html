@@ -46,7 +46,7 @@
       background-color: #0D0D0D;
       color: #FFFFFF;
       text-align: center;
-      overflow-x: hidden;
+      overflow: hidden; /* Bloqueia scroll até fechar os modals */
     }
     .main-nav {
       position: fixed;
@@ -181,6 +181,43 @@
       font-size: 1em;
       font-family: 'Raleway', sans-serif;
     }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      background: #1A1A1A;
+      padding: 40px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(139, 0, 0, 0.5); /* Vermelho escuro */
+      animation: slideIn 0.5s ease;
+    }
+    @keyframes slideIn {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .modal-button {
+      background-color: #D4AF37;
+      color: #0D0D0D;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 25px;
+      font-size: 1.1em;
+      font-family: 'Raleway', sans-serif;
+      margin: 10px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .modal-button:hover { transform: scale(1.05); }
     .swal2-dark {
       background: #333 !important;
       color: #FFFFFF !important;
@@ -192,11 +229,6 @@
       border: 1px solid #555 !important;
     }
     .swal2-dark .swal2-confirm { background-color: #D4AF37 !important; }
-    .banner-image {
-      max-width: 100%;
-      border-radius: 15px;
-      margin: 20px 0;
-    }
   </style>
 </head>
 <body>
@@ -220,23 +252,24 @@
 
   <div class="modal" id="languageModal">
     <div class="modal-content">
-      <h2>Escolha o Idioma / Choose Language</h2>
-      <button class="modal-button" onclick="setLanguage('pt')">Português</button>
-      <button class="modal-button" onclick="setLanguage('en')">English</button>
+      <h2 class="lang-pt">Escolha a Língua da Sua Sedução</h2>
+      <h2 class="lang-en" style="display: none;">Choose the Language of Your Seduction</h2>
+      <button class="modal-button" onclick="setLanguage('pt')">Português 😏</button>
+      <button class="modal-button" onclick="setLanguage('en')">English 😉</button>
     </div>
   </div>
 
   <div class="modal" id="ageModal">
     <div class="modal-content">
       <div id="modalTextPt" style="display: none;">
-        <h2>Aviso</h2>
-        <p>Este site contém conteúdo com insinuações sexuais implícitas. É destinado a maiores de 18 anos. Ao continuar, você confirma que tem 18 anos ou mais.</p>
-        <button class="modal-button" onclick="closeAgeModal()">Entrar</button>
+        <h2>Aviso de Luxúria</h2>
+        <p>Este é um santuário de sedução para maiores de 18 anos. Confirme sua idade e entre na dança da sedução! 🎭</p>
+        <button class="modal-button" onclick="closeAgeModal()">Entrar com Estilo</button>
       </div>
       <div id="modalTextEn" style="display: none;">
-        <h2>Warning</h2>
-        <p>This site contains content with implicit sexual undertones. It is intended for individuals aged 18 and over. By continuing, you confirm that you are 18 or older.</p>
-        <button class="modal-button" onclick="closeAgeModal()">Enter</button>
+        <h2>Luxury Warning</h2>
+        <p>This is a sanctuary of seduction for those 18+. Confirm your age and step into the dance of desire! 🎭</p>
+        <button class="modal-button" onclick="closeAgeModal()">Enter with Style</button>
       </div>
     </div>
   </div>
@@ -280,7 +313,6 @@
         <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div>
       </div>
-      <!-- Banner Visual Gerado por IA (Simulado) -->
       <img class="banner-image" src="/assets/images/banner-premium.png" alt="Banner Premium Sexy Vibes" loading="lazy">
       <p class="lang-pt">Um toque de luxo e sedução para a sua casa – Sexy Vibes, onde cada detalhe conta.</p>
       <p class="lang-en" style="display: none;">A touch of luxury and seduction for your home – Sexy Vibes, where every detail matters.</p>
@@ -348,9 +380,13 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
     let selectedLanguage = 'pt';
+
+    // Garantir que os modals aparecem primeiro
     window.onload = function() {
       document.getElementById('languageModal').style.display = 'flex';
+      document.body.style.overflow = 'hidden'; // Bloqueia scroll
     };
+
     AOS.init({ duration: 1000 });
     const swiper = new Swiper('.swiper-container', {
       loop: true,
@@ -374,6 +410,7 @@
 
     function closeAgeModal() {
       document.getElementById('ageModal').style.display = 'none';
+      document.body.style.overflow = 'auto'; // Libera scroll após confirmação
     }
 
     function openContactModal() {

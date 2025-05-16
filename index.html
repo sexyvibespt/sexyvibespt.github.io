@@ -23,7 +23,13 @@
     .subtitle { font-size: 1.2em; color: #ddd; margin: 10px 0; }
     .cta-button { background-color: #ff4040; color: #fff; padding: 15px 30px; border: none; border-radius: 25px; font-size: 1.2em; cursor: pointer; margin: 20px 0; transition: background-color 0.3s, transform 0.2s; }
     .cta-button:hover { background-color: #ff6666; transform: scale(1.05); }
-    .hero-video { max-width: 100%; height: auto; border-radius: 10px; margin: 20px 0; }
+    .hero-video {
+      max-width: 100%;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 10px;
+      margin: 20px 0;
+    }
     .product-section { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 20px; }
     .product-card { background-color: #333; border-radius: 10px; padding: 20px; max-width: 300px; transition: transform 0.3s; }
     .product-card:hover { transform: translateY(-5px); }
@@ -152,9 +158,10 @@
     <img src="/assets/images/logo.png" alt="Sexy Vibes Logo" style="max-width: 300px; margin: 0 auto; display: block;">
     <p class="subtitle lang-pt">Bases para copos sensuais e divertidas para todos os gostos!</p>
     <p class="subtitle lang-en" style="display: none;">Sensual and fun coasters for all tastes!</p>
-    <div class="video-container">
-      <video src="/assets/videos/sv_hero.mp4" autoplay loop muted class="hero-video"></video>
-    </div>
+    <video autoplay loop muted preload="auto" class="hero-video">
+      <source src="/assets/videos/sv_hero.mp4" type="video/mp4">
+      Desculpe, o seu navegador não suporta o elemento de vídeo.
+    </video>
     <button class="cta-button lang-pt" onclick="openContactModal()">Encomende Agora</button>
     <button class="cta-button lang-en" style="display: none;" onclick="openContactModal()">Order Now</button>
   </header>

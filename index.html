@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Descubra as bases para copos mais sexy e divertidas do mercado! Escolha entre a Sexy Feminina e o Sexy Masculino, que revelam seus encantos ao colocar a caneca. Perfeito para apimentar sua casa!">
-  <meta name="keywords" content="bases para copos, sexy vibes, coasters sensuais, decoração sensual, portugal">
+  <meta name="description" content="Descubra as bases para copos mais sexy e divertidas do mercado! Escolha entre a Sexy Feminina, o Sexy Masculino e o novo Sexy Unbound, que revelam seus encantos ao colocar a caneca. Perfeito para apimentar sua casa!">
+  <meta name="keywords" content="bases para copos, sexy vibes, coasters sensuais, decoração sensual, portugal, eco-luxury">
   <meta name="author" content="Sexy Vibes">
   <meta property="og:title" content="Sexy Vibes - Bases para Copos Sensuais">
-  <meta property="og:description" content="Descubra as bases para copos mais sexy e divertidas do mercado! Escolha entre a Sexy Feminina e o Sexy Masculino.">
+  <meta property="og:description" content="Descubra as bases para copos mais sexy e divertidas do mercado! Escolha entre a Sexy Feminina, o Sexy Masculino e o Sexy Unbound.">
   <meta property="og:image" content="https://sexyvibespt.github.io/assets/images/logo.png">
   <meta property="og:url" content="https://sexyvibespt.github.io">
   <meta property="og:type" content="website">
@@ -46,7 +46,7 @@
       background-color: #0D0D0D;
       color: #FFFFFF;
       text-align: center;
-      overflow: hidden; /* Bloqueia scroll até fechar os modals */
+      overflow: hidden;
     }
     .main-nav {
       position: fixed;
@@ -94,6 +94,7 @@
       top: 0;
       left: 0;
       z-index: 1;
+      filter: sepia(20%) saturate(150%); /* Estética noir */
     }
     header::after {
       content: '';
@@ -142,7 +143,7 @@
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    .product-section, .testimonials, .tips-section {
+    .product-section, .testimonials, .tips-section, .eco-section {
       background-color: #1A1A1A;
       border-radius: 15px;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
@@ -198,7 +199,7 @@
       padding: 40px;
       border-radius: 15px;
       text-align: center;
-      box-shadow: 0 0 20px rgba(139, 0, 0, 0.5); /* Vermelho escuro */
+      box-shadow: 0 0 20px rgba(139, 0, 0, 0.5);
       animation: slideIn 0.5s ease;
     }
     @keyframes slideIn {
@@ -215,9 +216,45 @@
       font-family: 'Raleway', sans-serif;
       margin: 10px;
       cursor: pointer;
-      transition: transform 0.3s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    .modal-button:hover { transform: scale(1.05); }
+    .modal-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+    }
+    .age-slider {
+      width: 80%;
+      margin: 20px auto;
+      -webkit-appearance: none;
+      appearance: none;
+      height: 10px;
+      background: #D4AF37;
+      border-radius: 5px;
+      outline: none;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+    .age-slider:hover { opacity: 1; }
+    .age-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 25px;
+      height: 25px;
+      background: #8B0000;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .curtain {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('/assets/images/curtain.png') center/cover no-repeat;
+      transition: transform 1s ease;
+      z-index: 10;
+    }
+    .curtain.open { transform: translateX(-100%); }
     .swal2-dark {
       background: #333 !important;
       color: #FFFFFF !important;
@@ -252,8 +289,8 @@
 
   <div class="modal" id="languageModal">
     <div class="modal-content">
-      <h2 class="lang-pt">Escolha a Língua da Sua Sedução</h2>
-      <h2 class="lang-en" style="display: none;">Choose the Language of Your Seduction</h2>
+      <h2 class="lang-pt">Escolha a Língua que Sussurrará os Seus Desejos...</h2>
+      <h2 class="lang-en" style="display: none;">Choose the Language that Will Whisper Your Desires...</h2>
       <button class="modal-button" onclick="setLanguage('pt')">Português 😏</button>
       <button class="modal-button" onclick="setLanguage('en')">English 😉</button>
     </div>
@@ -262,23 +299,25 @@
   <div class="modal" id="ageModal">
     <div class="modal-content">
       <div id="modalTextPt" style="display: none;">
-        <h2>Aviso de Luxúria</h2>
-        <p>Este é um santuário de sedução para maiores de 18 anos. Confirme sua idade e entre na dança da sedução! 🎭</p>
-        <button class="modal-button" onclick="closeAgeModal()">Entrar com Estilo</button>
+        <h2>Prove que é Maior de 18...</h2>
+        <p>Deslize para entrar no nosso mundo secreto 🔥</p>
+        <input type="range" min="0" max="100" value="0" class="age-slider" id="ageSliderPt" oninput="checkAge(this.value)">
+        <div class="curtain" id="curtainPt"></div>
       </div>
       <div id="modalTextEn" style="display: none;">
-        <h2>Luxury Warning</h2>
-        <p>This is a sanctuary of seduction for those 18+. Confirm your age and step into the dance of desire! 🎭</p>
-        <button class="modal-button" onclick="closeAgeModal()">Enter with Style</button>
+        <h2>Prove You're Over 18...</h2>
+        <p>Slide to enter our secret world 🔥</p>
+        <input type="range" min="0" max="100" value="0" class="age-slider" id="ageSliderEn" oninput="checkAge(this.value)">
+        <div class="curtain" id="curtainEn"></div>
       </div>
     </div>
   </div>
 
   <header id="home">
     <img src="/assets/images/logo.png" alt="Sexy Vibes Logo" style="max-width: 300px; margin: 0 auto;">
-    <p class="subtitle lang-pt">Bases para copos sensuais e divertidas para todos os gostos!</p>
-    <p class="subtitle lang-en" style="display: none;">Sensual and fun coasters for all tastes!</p>
-    <video autoplay loop muted preload="auto" class="hero-video" loading="lazy" onerror="console.error('Erro ao carregar o vídeo:', this.error)">
+    <p class="subtitle lang-pt">Entre no mundo onde cada gole é um segredo... Sexy Vibes</p>
+    <p class="subtitle lang-en" style="display: none;">Step into a world where every sip is a secret... Sexy Vibes</p>
+    <video autoplay loop muted preload="auto" class="hero-video" loading="lazy">
       <source src="https://sexyvibespt.github.io/assets/videos/svh264.mp4" type="video/mp4">
       Desculpe, o seu navegador não suporta o elemento de vídeo.
     </video>
@@ -308,6 +347,15 @@
               <p class="lang-en" style="display: none;">Awaken desire with the Masculine Sexy: as you place your mug, a sculpted chest reveals itself, blending boldness and masculine charm to turn your moments into pure seduction.</p>
             </div>
           </div>
+          <div class="swiper-slide">
+            <div class="product-card" data-aos="fade-up">
+              <h2 class="lang-pt">Sexy Unbound</h2>
+              <h2 class="lang-en" style="display: none;">Sexy Unbound</h2>
+              <img class="product-image" src="/assets/images/unbound.png" alt="Sexy Unbound" loading="lazy">
+              <p class="lang-pt">Liberte-se com o Sexy Unbound: formas fluidas e abstratas que transcendem géneros, perfeitas para quem procura uma sedução sem limites.</p>
+              <p class="lang-en" style="display: none;">Break free with Sexy Unbound: fluid, abstract shapes that transcend gender, perfect for those seeking limitless seduction.</p>
+            </div>
+          </div>
         </div>
         <div class="swiper-pagination"></div>
         <div class="swiper-button-next"></div>
@@ -316,6 +364,14 @@
       <img class="banner-image" src="/assets/images/banner-premium.png" alt="Banner Premium Sexy Vibes" loading="lazy">
       <p class="lang-pt">Um toque de luxo e sedução para a sua casa – Sexy Vibes, onde cada detalhe conta.</p>
       <p class="lang-en" style="display: none;">A touch of luxury and seduction for your home – Sexy Vibes, where every detail matters.</p>
+    </section>
+
+    <section class="eco-section" data-aos="fade-up">
+      <h2 class="lang-pt">Eco-Sensual 🌿</h2>
+      <h2 class="lang-en" style="display: none;">Eco-Sensual 🌿</h2>
+      <p class="lang-pt">Sedução que não custa ao planeta. As nossas bases são feitas com materiais sustentáveis, para que possa desfrutar do luxo com consciência.</p>
+      <p class="lang-en" style="display: none;">Seduction that doesn’t cost the planet. Our coasters are made with sustainable materials, so you can enjoy luxury with a conscience.</p>
+      <img src="/assets/images/eco-process.png" alt="Processo Sustentável" style="max-width: 300px;" loading="lazy">
     </section>
 
     <section data-aos="fade-up">
@@ -365,14 +421,19 @@
       <button class="cta-button lang-en" style="display: none;" onclick="showResult('Feminina')">Feminine Sexy</button>
       <button class="cta-button lang-pt" onclick="showResult('Masculino')">Sexy Masculino</button>
       <button class="cta-button lang-en" style="display: none;" onclick="showResult('Masculino')">Masculine Sexy</button>
+      <button class="cta-button lang-pt" onclick="showResult('Unbound')">Sexy Unbound</button>
+      <button class="cta-button lang-en" style="display: none;" onclick="showResult('Unbound')">Sexy Unbound</button>
       <p id="pollResult" class="lang-pt" style="display: none; margin-top: 10px;"></p>
       <p id="pollResultEn" class="lang-en" style="display: none; margin-top: 10px;"></p>
     </section>
   </main>
 
   <footer>
-    <p class="lang-pt">Contato: sexyvibes@gmail.com | Siga-nos no Instagram: @sexyvibespt</p>
-    <p class="lang-en" style="display: none;">Contact: sexyvibes@gmail.com | Follow us on Instagram: @sexyvibes</p>
+    <p class="lang-pt">Contato: sexyvibes@gmail.com | Siga-nos no TikTok: @sexyvibespt #SexyRevealChallenge</p>
+    <p class="lang-en" style="display: none;">Contact: sexyvibes@gmail.com | Follow us on TikTok: @sexyvibespt #SexyRevealChallenge</p>
+    <div class="easter-egg" onclick="openSecretPage()" style="cursor: pointer;">
+      <img src="/assets/images/rose.png" alt="Easter Egg" style="max-width: 50px; opacity: 0.5;" loading="lazy">
+    </div>
   </footer>
 
   <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
@@ -381,10 +442,9 @@
   <script>
     let selectedLanguage = 'pt';
 
-    // Garantir que os modals aparecem primeiro
     window.onload = function() {
       document.getElementById('languageModal').style.display = 'flex';
-      document.body.style.overflow = 'hidden'; // Bloqueia scroll
+      document.body.style.overflow = 'hidden';
     };
 
     AOS.init({ duration: 1000 });
@@ -408,9 +468,33 @@
       document.getElementById('modalTextEn').style.display = lang === 'en' ? 'block' : 'none';
     }
 
+    function checkAge(value) {
+      const curtainPt = document.getElementById('curtainPt');
+      const curtainEn = document.getElementById('curtainEn');
+      if (value >= 100) {
+        if (selectedLanguage === 'pt') {
+          curtainPt.classList.add('open');
+          playWhisper();
+        } else {
+          curtainEn.classList.add('open');
+          playWhisper();
+        }
+        setTimeout(closeAgeModal, 1000);
+      }
+    }
+
+    function playWhisper() {
+      const audio = new Audio('/assets/audio/whisper.mp3');
+      audio.play();
+    }
+
     function closeAgeModal() {
       document.getElementById('ageModal').style.display = 'none';
-      document.body.style.overflow = 'auto'; // Libera scroll após confirmação
+      document.body.style.overflow = 'auto';
+    }
+
+    function openSecretPage() {
+      window.location.href = '/secret.html'; // Página secreta com mini-filme
     }
 
     function openContactModal() {
@@ -425,6 +509,10 @@
             <div class="form-row">
               <label for="quantity-masculino">${selectedLanguage === 'pt' ? 'Sexy Masculino:' : 'Sexy Masculino:'}</label>
               <input type="number" name="quantity-masculino" id="quantity-masculino" min="0" value="0" class="quantity-input">
+            </div>
+            <div class="form-row">
+              <label for="quantity-unbound">${selectedLanguage === 'pt' ? 'Sexy Unbound:' : 'Sexy Unbound:'}</label>
+              <input type="number" name="quantity-unbound" id="quantity-unbound" min="0" value="0" class="quantity-input">
             </div>
             <div class="form-row">
               <label for="name">${selectedLanguage === 'pt' ? 'Nome:' : 'Name:'}</label>
@@ -468,9 +556,10 @@
       const formData = new FormData(form);
       const quantityFeminina = formData.get('quantity-feminina') || 0;
       const quantityMasculino = formData.get('quantity-masculino') || 0;
+      const quantityUnbound = formData.get('quantity-unbound') || 0;
       let quantityValue = '';
-      if (quantityFeminina > 0 || quantityMasculino > 0) {
-        quantityValue = `Sexy Feminina: ${quantityFeminina}, Sexy Masculino: ${quantityMasculino}`;
+      if (quantityFeminina > 0 || quantityMasculino > 0 || quantityUnbound > 0) {
+        quantityValue = `Sexy Feminina: ${quantityFeminina}, Sexy Masculino: ${quantityMasculino}, Sexy Unbound: ${quantityUnbound}`;
       } else {
         quantityValue = '0';
       }
@@ -520,9 +609,12 @@
       if (choice === 'Feminina') {
         resultPt.textContent = 'Você prefere o charme feminino!';
         resultEn.textContent = 'You prefer the feminine charm!';
-      } else {
+      } else if (choice === 'Masculino') {
         resultPt.textContent = 'Você prefere o poder masculino!';
         resultEn.textContent = 'You prefer the masculine power!';
+      } else {
+        resultPt.textContent = 'Você prefere a sedução sem limites!';
+        resultEn.textContent = 'You prefer limitless seduction!';
       }
       resultPt.style.display = lang === 'pt' ? 'block' : 'none';
       resultEn.style.display = lang === 'en' ? 'block' : 'none';

@@ -15,6 +15,7 @@
   <link rel="icon" href="/assets/images/favicon-32x32.png" type="image/png">
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:wght@400;700&family=Raleway:wght@300;400;700&display=swap" rel="stylesheet">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -37,16 +38,16 @@
   }
   </script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Lobster&family=Playfair+Display:wght@400;700&family=Raleway:wght@300;400;700&display=swap');
     body {
       margin: 0 auto;
       max-width: 1200px;
       padding: 20px;
-      font-family: 'Playfair Display', serif;
+      font-family: 'Raleway', sans-serif;
       background-color: #0D0D0D;
       color: #FFFFFF;
       text-align: center;
       overflow: hidden;
+      line-height: 1.6;
     }
     .main-nav {
       position: fixed;
@@ -94,7 +95,7 @@
       top: 0;
       left: 0;
       z-index: 1;
-      filter: sepia(20%) saturate(150%); /* Estética noir */
+      filter: sepia(20%) saturate(150%);
     }
     header::after {
       content: '';
@@ -107,10 +108,10 @@
       z-index: 2;
     }
     header > * { position: relative; z-index: 3; }
-    h1, h2 { font-family: 'Lobster', cursive; }
-    h1 { font-size: 3.5em; color: #D4AF37; text-shadow: 2px 2px 4px #000; }
-    h2 { font-size: 2.2em; color: #D4AF37; }
+    h1 { font-family: 'Cinzel', serif; font-size: 3.5em; color: #D4AF37; text-shadow: 2px 2px 4px #000; }
+    h2 { font-family: 'Cinzel', serif; font-size: 2.2em; color: #D4AF37; }
     .subtitle {
+      font-family: 'Playfair Display', serif;
       font-size: 1.5em;
       color: #FFFFFF;
       margin: 30px 0;
@@ -227,11 +228,10 @@
       margin: 20px auto;
       -webkit-appearance: none;
       appearance: none;
-      height: 10px;
-      background: #D4AF37;
-      border-radius: 5px;
+      height: 15px;
+      background: linear-gradient(to right, #8B0000 0%, #D4AF37 100%);
+      border-radius: 10px;
       outline: none;
-      opacity: 0.7;
       transition: opacity 0.2s;
     }
     .age-slider:hover { opacity: 1; }
@@ -240,7 +240,8 @@
       appearance: none;
       width: 25px;
       height: 25px;
-      background: #8B0000;
+      background: #D4AF37;
+      border: 2px solid #8B0000;
       border-radius: 50%;
       cursor: pointer;
     }
@@ -300,14 +301,14 @@
     <div class="modal-content">
       <div id="modalTextPt" style="display: none;">
         <h2>Prove que é Maior de 18...</h2>
-        <p>Deslize para entrar no nosso mundo secreto 🔥</p>
-        <input type="range" min="0" max="100" value="0" class="age-slider" id="ageSliderPt" oninput="checkAge(this.value)">
+        <p>Deslize até o fim para entrar no nosso mundo secreto 🔥</p>
+        <input type="range" min="0" max="100" value="0" class="age-slider" id="ageSliderPt" oninput="checkAge(this, 'pt')">
         <div class="curtain" id="curtainPt"></div>
       </div>
       <div id="modalTextEn" style="display: none;">
         <h2>Prove You're Over 18...</h2>
-        <p>Slide to enter our secret world 🔥</p>
-        <input type="range" min="0" max="100" value="0" class="age-slider" id="ageSliderEn" oninput="checkAge(this.value)">
+        <p>Slide to the end to enter our secret world 🔥</p>
+        <input type="range" min="0" max="100" value="0" class="age-slider" id="ageSliderEn" oninput="checkAge(this, 'en')">
         <div class="curtain" id="curtainEn"></div>
       </div>
     </div>
@@ -468,24 +469,21 @@
       document.getElementById('modalTextEn').style.display = lang === 'en' ? 'block' : 'none';
     }
 
-    function checkAge(value) {
-      const curtainPt = document.getElementById('curtainPt');
-      const curtainEn = document.getElementById('curtainEn');
+    function checkAge(slider, lang) {
+      const value = slider.value;
+      const curtain = document.getElementById(`curtain${lang.charAt(0).toUpperCase() + lang.slice(1)}`);
       if (value >= 100) {
-        if (selectedLanguage === 'pt') {
-          curtainPt.classList.add('open');
-          playWhisper();
-        } else {
-          curtainEn.classList.add('open');
-          playWhisper();
-        }
-        setTimeout(closeAgeModal, 1000);
+        curtain.classList.add('open');
+        playWhisper();
+        setTimeout(closeAgeModal, 1000); // Atraso para efeito visual
+      } else {
+        curtain.classList.remove('open');
       }
     }
 
     function playWhisper() {
-      const audio = new Audio('/assets/audio/whisper.mp3');
-      audio.play();
+      const audio = new Audio('https://www.soundjay.com/buttons/beep-01a.mp3'); // Substituir por whisper.mp3 se disponível
+      audio.play().catch(error => console.log('Erro ao reproduzir áudio:', error));
     }
 
     function closeAgeModal() {

@@ -245,6 +245,14 @@
       border-radius: 50%;
       cursor: pointer;
     }
+    .age-slider::-moz-range-thumb {
+      width: 25px;
+      height: 25px;
+      background: #D4AF37;
+      border: 2px solid #8B0000;
+      border-radius: 50%;
+      cursor: pointer;
+    }
     .curtain {
       position: absolute;
       top: 0;
@@ -302,13 +310,13 @@
       <div id="modalTextPt" style="display: none;">
         <h2>Prove que é Maior de 18...</h2>
         <p>Deslize até o fim para entrar no nosso mundo secreto 🔥</p>
-        <input type="range" min="0" max="100" value="0" class="age-slider" id="ageSliderPt" oninput="checkAge(this, 'pt')">
+        <input type="range" min="0" max="100" value="0" class="age-slider" id="ageSliderPt">
         <div class="curtain" id="curtainPt"></div>
       </div>
       <div id="modalTextEn" style="display: none;">
         <h2>Prove You're Over 18...</h2>
         <p>Slide to the end to enter our secret world 🔥</p>
-        <input type="range" min="0" max="100" value="0" class="age-slider" id="ageSliderEn" oninput="checkAge(this, 'en')">
+        <input type="range" min="0" max="100" value="0" class="age-slider" id="ageSliderEn">
         <div class="curtain" id="curtainEn"></div>
       </div>
     </div>
@@ -446,6 +454,12 @@
     window.onload = function() {
       document.getElementById('languageModal').style.display = 'flex';
       document.body.style.overflow = 'hidden';
+
+      // Adicionar event listeners aos sliders
+      const ageSliderPt = document.getElementById('ageSliderPt');
+      const ageSliderEn = document.getElementById('ageSliderEn');
+      if (ageSliderPt) ageSliderPt.addEventListener('input', () => checkAge('pt'));
+      if (ageSliderEn) ageSliderEn.addEventListener('input', () => checkAge('en'));
     };
 
     AOS.init({ duration: 1000 });
@@ -469,9 +483,12 @@
       document.getElementById('modalTextEn').style.display = lang === 'en' ? 'block' : 'none';
     }
 
-    function checkAge(slider, lang) {
-      const value = slider.value;
+    function checkAge(lang) {
+      const slider = document.getElementById(`ageSlider${lang.charAt(0).toUpperCase() + lang.slice(1)}`);
       const curtain = document.getElementById(`curtain${lang.charAt(0).toUpperCase() + lang.slice(1)}`);
+      const value = slider ? parseInt(slider.value) : 0;
+      console.log(`Slider value for ${lang}: ${value}`); // Depuração
+
       if (value >= 100) {
         curtain.classList.add('open');
         playWhisper();

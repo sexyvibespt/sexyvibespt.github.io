@@ -191,7 +191,7 @@
       width: 100%;
       height: 100%;
       background: rgba(0, 0, 0, 0.7);
-      z-index: 2000;
+      z-index: 1000;
       justify-content: center;
       align-items: center;
     }
@@ -203,7 +203,7 @@
       box-shadow: 0 0 20px rgba(139, 0, 0, 0.5);
       animation: slideIn 0.5s ease;
       position: relative;
-      z-index: 2001;
+      z-index: 1001;
     }
     @keyframes slideIn {
       from { transform: translateY(-50px); opacity: 0; }
@@ -235,9 +235,8 @@
       border-radius: 10px;
       outline: none;
       transition: opacity 0.2s;
-      position: relative;
-      z-index: 2002;
-      touch-action: auto;
+      cursor: pointer;
+      touch-action: manipulation;
     }
     .age-slider:hover { opacity: 1; }
     .age-slider::-webkit-slider-thumb {
@@ -251,7 +250,7 @@
       cursor: pointer;
     }
     .age-slider::-moz-range-thumb {
-      width: 25 Venha aqui e experimente o nosso simulador de apostas desportivas em tempo real! width: 25px;
+      width: 25px;
       height: 25px;
       background: #D4AF37;
       border: 2px solid #8B0000;
@@ -266,7 +265,7 @@
       height: 100%;
       background: url('https://sexyvibespt.github.io/assets/images/curtain.png') center/cover no-repeat;
       transition: transform 1s ease;
-      z-index: 2003;
+      z-index: 1002;
     }
     .curtain.open { transform: translateX(-100%); }
     .swal2-dark {
@@ -315,14 +314,14 @@
       <div id="modalTextPt" style="display: none;">
         <h2>Prove que é Maior de 18...</h2>
         <p>Deslize até o fim para entrar no nosso mundo secreto 🔥</p>
-        <input type="range" min="0" max="100" value="0" class="age-slider" id="ageSliderPt">
-        <div class="curtain" id="curtainPt"></div>
+        <input type="range" min="0" max="100" value="0" class="age-slider" id="ageSlider">
+        <div class="curtain" id="curtain"></div>
       </div>
       <div id="modalTextEn" style="display: none;">
         <h2>Prove You're Over 18...</h2>
         <p>Slide to the end to enter our secret world 🔥</p>
-        <input type="range" min="0" max="100" value="0" class="age-slider" id="ageSliderEn">
-        <div class="curtain" id="curtainEn"></div>
+        <input type="range" min="0" max="100" value="0" class="age-slider" id="ageSlider">
+        <div class="curtain" id="curtain"></div>
       </div>
     </div>
   </div>
@@ -460,18 +459,19 @@
       document.getElementById('languageModal').style.display = 'flex';
       document.body.style.overflow = 'hidden';
 
-      // Adicionar event listeners aos sliders para eventos de mouse e toque
-      const ageSliderPt = document.getElementById('ageSliderPt');
-      const ageSliderEn = document.getElementById('ageSliderEn');
+      // Evento delegado para o slider
+      document.addEventListener('input', function(e) {
+        if (e.target.classList.contains('age-slider')) {
+          checkAge();
+        }
+      });
 
-      if (ageSliderPt) {
-        ageSliderPt.addEventListener('input', () => checkAge('pt'));
-        ageSliderPt.addEventListener('touchmove', () => checkAge('pt'));
-      }
-      if (ageSliderEn) {
-        ageSliderEn.addEventListener('input', () => checkAge('en'));
-        ageSliderEn.addEventListener('touchmove', () => checkAge('en'));
-      }
+      document.addEventListener('touchmove', function(e) {
+        const slider = document.querySelector('.age-slider');
+        if (slider && e.target === slider) {
+          checkAge();
+        }
+      });
     };
 
     AOS.init({ duration: 1000 });
@@ -495,11 +495,11 @@
       document.getElementById('modalTextEn').style.display = lang === 'en' ? 'block' : 'none';
     }
 
-    function checkAge(lang) {
-      const slider = document.getElementById(`ageSlider${lang.charAt(0).toUpperCase() + lang.slice(1)}`);
-      const curtain = document.getElementById(`curtain${lang.charAt(0).toUpperCase() + lang.slice(1)}`);
+    function checkAge() {
+      const slider = document.querySelector('.age-slider');
+      const curtain = document.getElementById('curtain');
       const value = slider ? parseInt(slider.value) : 0;
-      console.log(`Slider value for ${lang}: ${value}`); // Depuração
+      console.log(`Slider value: ${value}`); // Depuração
 
       if (value >= 100) {
         curtain.classList.add('open');

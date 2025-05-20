@@ -38,27 +38,33 @@
   }
   </script>
   <style>
+    * {
+      box-sizing: border-box; /* Garante que padding e bordas não aumentem a largura */
+    }
     body {
       margin: 0 auto;
       max-width: 1200px;
-      padding: 20px;
+      padding: 0; /* Removido o padding do body */
       font-family: 'Raleway', sans-serif;
       background-color: #0D0D0D;
       color: #FFFFFF;
       text-align: center;
-      overflow: hidden;
+      overflow-x: hidden; /* Impede barra de deslocamento horizontal */
       line-height: 1.6;
     }
     .main-nav {
       position: fixed;
       top: 0;
       width: 100%;
+      max-width: 1200px; /* Alinha com o max-width do body */
       background: rgba(13, 13, 13, 0.9);
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 10px 20px;
       z-index: 1000;
+      left: 50%;
+      transform: translateX(-50%); /* Centraliza o nav */
     }
     .main-nav ul {
       list-style: none;
@@ -89,11 +95,13 @@
     }
     .hero-video {
       width: 100%;
+      max-width: 1200px; /* Limita a largura do vídeo */
       height: 80vh;
       object-fit: cover;
       position: absolute;
       top: 0;
-      left: 0;
+      left: 50%;
+      transform: translateX(-50%);
       z-index: 1;
       filter: sepia(20%) saturate(150%);
     }
@@ -101,8 +109,10 @@
       content: '';
       position: absolute;
       top: 0;
-      left: 0;
+      left: 50%;
+      transform: translateX(-50%);
       width: 100%;
+      max-width: 1200px;
       height: 100%;
       background: rgba(0, 0, 0, 0.5);
       z-index: 2;
@@ -149,7 +159,12 @@
       border-radius: 15px;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
     }
-    .swiper-container { width: 100%; max-width: 800px; margin: 0 auto; }
+    .swiper-container {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      overflow: hidden; /* Garante que o Swiper não cause overflow */
+    }
     .swiper-slide { display: flex; justify-content: center; }
     .product-card {
       background-color: #333;
@@ -201,13 +216,8 @@
       border-radius: 15px;
       text-align: center;
       box-shadow: 0 0 20px rgba(139, 0, 0, 0.5);
-      animation: slideIn 0.5s ease;
       position: relative;
       z-index: 1001;
-    }
-    @keyframes slideIn {
-      from { transform: translateY(-50px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
     }
     .modal-button {
       background-color: #D4AF37;
@@ -225,37 +235,6 @@
       transform: scale(1.05);
       box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
     }
-    .age-checkbox-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      margin: 20px 0;
-      position: relative;
-      z-index: 1003; /* Garante que a checkbox fique acima da cortina */
-    }
-    .age-checkbox {
-      width: 20px;
-      height: 20px;
-      cursor: pointer;
-      accent-color: #D4AF37;
-    }
-    .age-checkbox-label {
-      font-family: 'Raleway', sans-serif;
-      font-size: 1.1em;
-      color: #FFFFFF;
-    }
-    .curtain {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: url('https://sexyvibespt.github.io/assets/images/curtain.png') center/cover no-repeat;
-      transition: transform 1s ease;
-      z-index: 1002;
-    }
-    .curtain.open { transform: translateX(-100%); }
     .swal2-dark {
       background: #333 !important;
       color: #FFFFFF !important;
@@ -300,22 +279,15 @@
   <div class="modal" id="ageModal">
     <div class="modal-content">
       <div id="modalTextPt" style="display: none;">
-        <h2>Prove que é Maior de 18...</h2>
-        <p>Confirme para entrar no nosso mundo secreto 🔥</p>
-        <div class="age-checkbox-container">
-          <input type="checkbox" class="age-checkbox" onchange="checkAge(this)">
-          <label class="age-checkbox-label">Tenho mais de 18 anos</label>
-        </div>
+        <h2>Confirme que é Maior de 18</h2>
+        <p>É necessário ter mais de 18 anos para acessar este site.</p>
+        <button class="modal-button" onclick="closeAgeModal()">Confirmo</button>
       </div>
       <div id="modalTextEn" style="display: none;">
-        <h2>Prove You're Over 18...</h2>
-        <p>Confirm to enter our secret world 🔥</p>
-        <div class="age-checkbox-container">
-          <input type="checkbox" class="age-checkbox" onchange="checkAge(this)">
-          <label class="age-checkbox-label">I am over 18 years old</label>
-        </div>
+        <h2>Confirm You Are Over 18</h2>
+        <p>You must be over 18 years old to access this site.</p>
+        <button class="modal-button" onclick="closeAgeModal()">Confirm</button>
       </div>
-      <div class="curtain"></div>
     </div>
   </div>
 
@@ -367,7 +339,7 @@
         <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div>
       </div>
-      <img class="banner-image" src="https://sexyvibespt.github.io/assets/images/banner-premium.png" alt="Banner Premium Sexy Vibes" loading="lazy">
+      <img class="banner-image" src="https://sexyvibespt.github.io/assets/images/banner-premium.png" alt="Banner Premium Sexy Vibes" style="max-width: 100%;" loading="lazy">
       <p class="lang-pt">Um toque de luxo e sedução para a sua casa – Sexy Vibes, onde cada detalhe conta.</p>
       <p class="lang-en" style="display: none;">A touch of luxury and seduction for your home – Sexy Vibes, where every detail matters.</p>
     </section>
@@ -474,25 +446,8 @@
       document.getElementById('modalTextEn').style.display = lang === 'en' ? 'block' : 'none';
     }
 
-    function checkAge(checkbox) {
-      const curtain = document.querySelector('#ageModal .curtain');
-      console.log(`Checkbox checked: ${checkbox.checked}`); // Depuração
-
-      if (checkbox.checked) {
-        curtain.classList.add('open');
-        playWhisper();
-        setTimeout(closeAgeModal, 1000); // Atraso para efeito visual
-      } else {
-        curtain.classList.remove('open');
-      }
-    }
-
-    function playWhisper() {
-      const audio = new Audio('https://www.soundjay.com/buttons/beep-01a.mp3'); // Substituir por whisper.mp3 se disponível
-      audio.play().catch(error => console.log('Erro ao reproduzir áudio:', error));
-    }
-
     function closeAgeModal() {
+      console.log('Botão Confirmo clicado'); // Depuração
       document.getElementById('ageModal').style.display = 'none';
       document.body.style.overflow = 'auto';
     }

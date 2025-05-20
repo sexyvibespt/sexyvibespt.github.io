@@ -231,12 +231,14 @@
       justify-content: center;
       gap: 10px;
       margin: 20px 0;
+      position: relative;
+      z-index: 1003; /* Garante que a checkbox fique acima da cortina */
     }
     .age-checkbox {
       width: 20px;
       height: 20px;
       cursor: pointer;
-      accent-color: #D4AF37; /* Cor personalizada para a checkbox */
+      accent-color: #D4AF37;
     }
     .age-checkbox-label {
       font-family: 'Raleway', sans-serif;
@@ -301,20 +303,19 @@
         <h2>Prove que é Maior de 18...</h2>
         <p>Confirme para entrar no nosso mundo secreto 🔥</p>
         <div class="age-checkbox-container">
-          <input type="checkbox" id="ageCheckbox" class="age-checkbox" onchange="checkAge()">
-          <label for="ageCheckbox" class="age-checkbox-label">Tenho mais de 18 anos</label>
+          <input type="checkbox" class="age-checkbox" onchange="checkAge(this)">
+          <label class="age-checkbox-label">Tenho mais de 18 anos</label>
         </div>
-        <div class="curtain" id="curtain"></div>
       </div>
       <div id="modalTextEn" style="display: none;">
         <h2>Prove You're Over 18...</h2>
         <p>Confirm to enter our secret world 🔥</p>
         <div class="age-checkbox-container">
-          <input type="checkbox" id="ageCheckbox" class="age-checkbox" onchange="checkAge()">
-          <label for="ageCheckbox" class="age-checkbox-label">I am over 18 years old</label>
+          <input type="checkbox" class="age-checkbox" onchange="checkAge(this)">
+          <label class="age-checkbox-label">I am over 18 years old</label>
         </div>
-        <div class="curtain" id="curtain"></div>
       </div>
+      <div class="curtain"></div>
     </div>
   </div>
 
@@ -473,9 +474,8 @@
       document.getElementById('modalTextEn').style.display = lang === 'en' ? 'block' : 'none';
     }
 
-    function checkAge() {
-      const checkbox = document.getElementById('ageCheckbox');
-      const curtain = document.getElementById('curtain');
+    function checkAge(checkbox) {
+      const curtain = document.querySelector('#ageModal .curtain');
       console.log(`Checkbox checked: ${checkbox.checked}`); // Depuração
 
       if (checkbox.checked) {

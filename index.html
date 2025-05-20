@@ -225,25 +225,23 @@
       transform: scale(1.05);
       box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
     }
-    .age-buttons {
+    .age-checkbox-container {
       display: flex;
+      align-items: center;
       justify-content: center;
       gap: 10px;
       margin: 20px 0;
     }
-    .age-button {
-      background: linear-gradient(to right, #8B0000, #D4AF37);
-      color: #FFFFFF;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 25px;
+    .age-checkbox {
+      width: 20px;
+      height: 20px;
       cursor: pointer;
-      font-family: 'Raleway', sans-serif;
-      font-size: 1em;
-      transition: transform 0.2s ease;
+      accent-color: #D4AF37; /* Cor personalizada para a checkbox */
     }
-    .age-button:hover {
-      transform: scale(1.1);
+    .age-checkbox-label {
+      font-family: 'Raleway', sans-serif;
+      font-size: 1.1em;
+      color: #FFFFFF;
     }
     .curtain {
       position: absolute;
@@ -301,25 +299,19 @@
     <div class="modal-content">
       <div id="modalTextPt" style="display: none;">
         <h2>Prove que é Maior de 18...</h2>
-        <p>Clique para avançar e entrar no nosso mundo secreto 🔥</p>
-        <div class="age-buttons">
-          <button class="age-button" onclick="increaseAge(20)">20%</button>
-          <button class="age-button" onclick="increaseAge(40)">40%</button>
-          <button class="age-button" onclick="increaseAge(60)">60%</button>
-          <button class="age-button" onclick="increaseAge(80)">80%</button>
-          <button class="age-button" onclick="increaseAge(100)">100%</button>
+        <p>Confirme para entrar no nosso mundo secreto 🔥</p>
+        <div class="age-checkbox-container">
+          <input type="checkbox" id="ageCheckbox" class="age-checkbox" onchange="checkAge()">
+          <label for="ageCheckbox" class="age-checkbox-label">Tenho mais de 18 anos</label>
         </div>
         <div class="curtain" id="curtain"></div>
       </div>
       <div id="modalTextEn" style="display: none;">
         <h2>Prove You're Over 18...</h2>
-        <p>Click to advance and enter our secret world 🔥</p>
-        <div class="age-buttons">
-          <button class="age-button" onclick="increaseAge(20)">20%</button>
-          <button class="age-button" onclick="increaseAge(40)">40%</button>
-          <button class="age-button" onclick="increaseAge(60)">60%</button>
-          <button class="age-button" onclick="increaseAge(80)">80%</button>
-          <button class="age-button" onclick="increaseAge(100)">100%</button>
+        <p>Confirm to enter our secret world 🔥</p>
+        <div class="age-checkbox-container">
+          <input type="checkbox" id="ageCheckbox" class="age-checkbox" onchange="checkAge()">
+          <label for="ageCheckbox" class="age-checkbox-label">I am over 18 years old</label>
         </div>
         <div class="curtain" id="curtain"></div>
       </div>
@@ -454,7 +446,6 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
     let selectedLanguage = 'pt';
-    let ageProgress = 0;
 
     window.onload = function() {
       document.getElementById('languageModal').style.display = 'flex';
@@ -482,16 +473,12 @@
       document.getElementById('modalTextEn').style.display = lang === 'en' ? 'block' : 'none';
     }
 
-    function increaseAge(value) {
-      ageProgress = value;
-      checkAge();
-    }
-
     function checkAge() {
+      const checkbox = document.getElementById('ageCheckbox');
       const curtain = document.getElementById('curtain');
-      console.log(`Age progress: ${ageProgress}`); // Depuração
+      console.log(`Checkbox checked: ${checkbox.checked}`); // Depuração
 
-      if (ageProgress >= 100) {
+      if (checkbox.checked) {
         curtain.classList.add('open');
         playWhisper();
         setTimeout(closeAgeModal, 1000); // Atraso para efeito visual

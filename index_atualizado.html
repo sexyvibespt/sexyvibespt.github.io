@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Descubra as bases para copos mais sexy e divertidas do mercado! Escolha entre a Sexy Feminina, o Sexy Masculino e o novo Sexy Unbound, que revelam seus encantos ao colocar a caneca. Perfeito para apimentar sua casa!">
+  <meta name="keywords" content="bases para copos, sexy vibes, coasters sensuais, decoração sensual, portugal, eco-luxury">
+  <meta name="author" content="Sexy Vibes">
+  <meta property="og:title" content="Sexy Vibes - Bases para Copos Sensuais">
+  <meta property="og:description" content="Descubra as bases para copos mais sexy e divertidas do mercado! Escolha entre a Sexy Feminina, o Sexy Masculino e o Sexy Unbound.">
+  <meta property="og:image" content="https://sexyvibespt.github.io/assets/images/logo.png">
+  <meta property="og:url" content="https://sexyvibespt.github.io">
+  <meta property="og:type" content="website">
+  <title>Sexy Vibes - Bases para Copos Sensuais</title>
+  <link rel="icon" href="https://sexyvibespt.github.io/assets/images/favicon-32x32.png" type="image/png">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:wght@400;700&family=Raleway:wght@300;400;700&display=swap" rel="stylesheet">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Sexy Vibes Coasters",
+    "description": "Bases para copos sensuais e divertidas para todos os gostos!",
+    "offers": {
+      "@type": "Offer",
+      "price": "15.00",
+      "priceCurrency": "EUR",
+      "availability": "https://schema.org/InStock"
+    }
+  }
+  </script>
+  <style>
+    * {
+      box-sizing: border-box; /* Garante que padding e bordas não aumentem a largura */
+    }
+    body {
+      margin: 0 auto;
+      max-width: 1200px;
+      padding: 0; /* Removido o padding do body */
+      font-family: 'Raleway', sans-serif;
+      background-color: #0D0D0D;
+      color: #FFFFFF;
+      text-align: center;
+      overflow-x: hidden; /* Impede barra de deslocamento horizontal */
+      line-height: 1.6;
+    }
+    .main-nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      max-width: 1200px; /* Alinha com o max-width do body */
+      background: rgba(13, 13, 13, 0.9);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      z-index: 1000;
+      left: 50%;
+      transform: translateX(-50%); /* Centraliza o nav */
+    }
+    .main-nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+      margin: 0;
+    }
+    .main-nav a {
+      color: #D4AF37;
+      text-decoration: none;
+      font-family: 'Raleway', sans-serif;
+      font-weight: 700;
+      transition: color 0.3s ease;
+    }
+    .main-nav a:hover { color: #FFFFFF; }
+    header, section, footer {
+      padding: 60px 20px;
+      margin: 40px 0;
+    }
+    header {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: none;
+    }
+    .hero-video {
+      width: 100%;
+      max-width: 1200px; /* Limita a largura do vídeo */
+      height: 80vh;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+      filter: sepia(20%) saturate(150%);
+    }
+    header::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 1200px;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 2;
+    }
+    header > * { position: relative; z-index: 3; }
+    h1 { font-family: 'Cinzel', serif; font-size: 3.5em; color: #D4AF37; text-shadow: 2px 2px 4px #000; }
+    h2 { font-family: 'Cinzel', serif; font-size: 2.2em; color: #D4AF37; }
+    .subtitle {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5em;
+      color: #FFFFFF;
+      margin: 30px 0;
+      opacity: 0;
+      animation: fadeIn 1s ease forwards;
+      animation-delay: 0.5s;
+    }
+    .cta-button {
+      background-color: #D4AF37;
+      color: #0D0D0D;
+      padding: 15px 40px;
+      border: none;
+      border-radius: 25px;
+      font-size: 1.3em;
+      font-family: 'Raleway', sans-serif;
+      font-weight: 700;
+      cursor: pointer;
+      margin: 30px 0;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      transition: box-shadow 0.3s ease, transform 0.2s ease;
+      opacity: 0;
+      animation: fadeIn 1s ease forwards;
+      animation-delay: 1s;
+    }
+    .cta-button:hover {
+      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
+      transform: translateY(-2px);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .product-section, .testimonials, .tips-section, .eco-section {
+      background-color: #1A1A1A;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+    .swiper-container {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      overflow: hidden; /* Garante que o Swiper não cause overflow */
+    }
+    .swiper-slide { display: flex; justify-content: center; }
+    .product-card {
+      background-color: #333;
+      border-radius: 15px;
+      padding: 40px;
+      max-width: 350px;
+      margin: 20px 0;
+      transition: transform 0.3s ease;
+    }
+    .product-card:hover { transform: translateY(-5px); }
+    .product-image {
+      max-width: 250px;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+    }
+    .product-image:hover { transform: scale(1.05); }
+    .timer { font-size: 1.8em; color: #D4AF37; margin: 30px 0; }
+    .shipping-info { background-color: #222; padding: 20px; margin: 30px 0; font-size: 1.1em; }
+    .poll-section { background-color: #222; padding: 50px 20px; }
+    .language-selector select {
+      padding: 5px;
+      border-radius: 5px;
+      background-color: #333;
+      color: #FFFFFF;
+      border: none;
+      font-family: 'Raleway', sans-serif;
+    }
+    footer {
+      background-color: #0D0D0D;
+      padding: 30px;
+      font-size: 1em;
+      font-family: 'Raleway', sans-serif;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      background: #1A1A1A;
+      padding: 40px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(139, 0, 0, 0.5);
+      position: relative;
+      z-index: 1001;
+    }
+    .modal-button {
+      background-color: #D4AF37;
+      color: #0D0D0D;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 25px;
+      font-size: 1.1em;
+      font-family: 'Raleway', sans-serif;
+      margin: 10px;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .modal-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+    }
+    .swal2-dark {
+      background: #333 !important;
+      color: #FFFFFF !important;
+    }
+    .swal2-dark .swal2-input,
+    .swal2-dark .swal2-textarea {
+      background: #444 !important;
+      color: #FFFFFF !important;
+      border: 1px solid #555 !important;
+    }
+    .swal2-dark .swal2-confirm { background-color: #D4AF37 !important; }
+  </style>
+</head>
+<body>
+  <nav class="main-nav">
+    <div class="logo">
+      <img src="https://sexyvibespt.github.io/assets/images/logo.png" alt="Sexy Vibes Logo" style="max-width: 150px;">
+    </div>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#products">Produtos</a></li>
+      <li><a href="#testimonials">Depoimentos</a></li>
+      <li><a href="#contact" onclick="openContactModal()">Contacto</a></li>
+    </ul>
+    <div class="language-selector">
+      <select id="languageSelect" onchange="changeLanguage()">
+        <option value="pt">Português</option>
+        <option value="en">English</option>
+      </select>
+    </div>
+  </nav>
+
+  <div class="modal" id="languageModal">
+    <div class="modal-content">
+      <h2 class="lang-pt">Escolha a Língua que Sussurrará os Seus Desejos...</h2>
+      <h2 class="lang-en" style="display: none;">Choose the Language that Will Whisper Your Desires...</h2>
+      <button class="modal-button" onclick="setLanguage('pt')">Português 😏</button>
+      <button class="modal-button" onclick="setLanguage('en')">English 😉</button>
+    </div>
+  </div>
+
+  <div class="modal" id="ageModal">
+    <div class="modal-content">
+      <div id="modalTextPt" style="display: none;">
+        <h2>Confirme que é Maior de 18</h2>
+        <p>É necessário ter mais de 18 anos para acessar este site.</p>
+        <button class="modal-button" onclick="closeAgeModal()">Confirmo</button>
+      </div>
+      <div id="modalTextEn" style="display: none;">
+        <h2>Confirm You Are Over 18</h2>
+        <p>You must be over 18 years old to access this site.</p>
+        <button class="modal-button" onclick="closeAgeModal()">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <header id="home">
+    <img src="https://sexyvibespt.github.io/assets/images/logo.png" alt="Sexy Vibes Logo" style="max-width: 300px; margin: 0 auto;">
+    <p class="subtitle lang-pt">Entre no mundo onde cada gole é um segredo... Sexy Vibes</p>
+    <p class="subtitle lang-en" style="display: none;">Step into a world where every sip is a secret... Sexy Vibes</p>
+    <video autoplay loop muted preload="auto" class="hero-video" loading="lazy">
+      <source src="https://sexyvibespt.github.io/assets/videos/svh264.mp4" type="video/mp4">
+      Desculpe, o seu navegador não suporta o elemento de vídeo.
+    </video>
+    <button class="cta-button lang-pt" onclick="openContactModal()" aria-label="Encomende Agora">Encomende Agora</button>
+    <button class="cta-button lang-en" style="display: none;" onclick="openContactModal()" aria-label="Order Now">Order Now</button>
+  </header>
+
+  <main>
+    <section class="product-section" id="products">
+      <div class="swiper-container">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <div class="product-card" data-aos="fade-up">
+              <h2 class="lang-pt">Sexy Feminina</h2>
+              <h2 class="lang-en" style="display: none;">Feminine Sexy</h2>
+              <img class="product-image" src="https://sexyvibespt.github.io/assets/images/coquette.png" alt="Sexy Feminina" loading="lazy">
+              <p class="lang-pt">Desvenda a magia com cada gole: a Sexy Feminina exibe os seus encantos com uma elegância provocante, perfeita para incendiar os teus momentos.</p>
+              <p class="lang-en" style="display: none;">Unveil the magic with every sip: the Feminine Sexy reveals her charms with provocative elegance, perfect for igniting your moments.</p>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="product-card" data-aos="fade-up">
+              <h2 class="lang-pt">Sexy Masculino</h2>
+              <h2 class="lang-en" style="display: none;">Masculine Sexy</h2>
+              <img class="product-image" src="https://sexyvibespt.github.io/assets/images/gala.png" alt="Sexy Masculino" loading="lazy">
+              <p class="lang-pt">Desperte o desejo com o Sexy Masculino: ao pousar a sua caneca, um peito esculpido revela-se, unindo ousadia e charme masculino para transformar os seus momentos em pura sedução.</p>
+              <p class="lang-en" style="display: none;">Awaken desire with the Masculine Sexy: as you place your mug, a sculpted chest reveals itself, blending boldness and masculine charm to turn your moments into pure seduction.</p>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="product-card" data-aos="fade-up">
+              <h2 class="lang-pt">Sexy Unbound</h2>
+              <h2 class="lang-en" style="display: none;">Sexy Unbound</h2>
+              <img class="product-image" src="https://sexyvibespt.github.io/assets/images/unbound.png" alt="Sexy Unbound" loading="lazy">
+              <p class="lang-pt">Liberte-se com o Sexy Unbound: formas fluidas e abstratas que transcendem géneros, perfeitas para quem procura uma sedução sem limites.</p>
+              <p class="lang-en" style="display: none;">Break free with Sexy Unbound: fluid, abstract shapes that transcend gender, perfect for those seeking limitless seduction.</p>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      </div>
+      <img class="banner-image" src="https://sexyvibespt.github.io/assets/images/banner-premium.png" alt="Banner Premium Sexy Vibes" style="max-width: 100%;" loading="lazy">
+      <p class="lang-pt">Um toque de luxo e sedução para a sua casa – Sexy Vibes, onde cada detalhe conta.</p>
+      <p class="lang-en" style="display: none;">A touch of luxury and seduction for your home – Sexy Vibes, where every detail matters.</p>
+    </section>
+
+    <section class="eco-section" data-aos="fade-up">
+      <h2 class="lang-pt">Eco-Sensual 🌿</h2>
+      <h2 class="lang-en" style="display: none;">Eco-Sensual 🌿</h2>
+      <p class="lang-pt">Sedução que não custa ao planeta. As nossas bases são feitas com materiais sustentáveis, para que possa desfrutar do luxo com consciência.</p>
+      <p class="lang-en" style="display: none;">Seduction that doesn’t cost the planet. Our coasters are made with sustainable materials, so you can enjoy luxury with a conscience.</p>
+      <img src="https://sexyvibespt.github.io/assets/images/eco-process.png" alt="Processo Sustentável" style="max-width: 300px;" loading="lazy">
+    </section>
+
+    <section data-aos="fade-up">
+      <p class="lang-pt"><strong>Preço:</strong> 15€ por unidade | <strong>Promoção:</strong> 2 por 25€ (qualquer combinação)!</p>
+      <p class="lang-en" style="display: none;"><strong>Price:</strong> 15€ per unit | <strong>Promotion:</strong> 2 for 25€ (any combination)!</p>
+      <div class="shipping-info">
+        <p class="lang-pt"><strong>Envio:</strong> Grátis em Portugal para compras acima de 25€! 2,50€ para 1 unidade (Portugal). Europa: 5,00€ (1 ou 2 unidades).</p>
+        <p class="lang-en" style="display: none;"><strong>Shipping:</strong> Free in Portugal for purchases over 25€! 2.50€ for 1 unit (Portugal). Europe: 5.00€ (1 or 2 units).</p>
+      </div>
+      <div class="timer" id="countdown">
+        <span class="lang-pt">Oferta termina em: </span>
+        <span class="lang-en" style="display: none;">Offer ends in: </span>
+        <span id="timer">00:00</span>
+      </div>
+    </section>
+
+    <section class="testimonials" id="testimonials" data-aos="fade-up">
+      <h2 class="lang-pt">O que nossos clientes dizem</h2>
+      <h2 class="lang-en" style="display: none;">What Our Customers Say</h2>
+      <p class="lang-pt">"A Sexy Feminina é incrível! Meus amigos adoraram o toque divertido!" - Ana S.</p>
+      <p class="lang-en" style="display: none;">"The Feminine Sexy is amazing! My friends loved the fun touch!" - Ana S.</p>
+      <p class="lang-pt">"O Sexy Masculino é um sucesso! Super sexy e engraçado!" - João P.</p>
+      <p class="lang-en" style="display: none;">"The Masculine Sexy is a hit! Super sexy and funny!" - João P.</p>
+    </section>
+
+    <section class="tips-section" data-aos="fade-up">
+      <h2 class="lang-pt">Dicas Sensuais</h2>
+      <h2 class="lang-en" style="display: none;">Sensual Tips</h2>
+      <p class="lang-pt">
+        1. Crie um ambiente irresistível: posicione a Sexy Feminina ou Sexy Masculino numa mesa com iluminação suave para destacar os seus encantos. <br>
+        2. Surpreenda com o calor: use uma caneca quente para revelar os detalhes sedutores das bases com um toque de magia. <br>
+        3. Eleve o clima: combine com velas perfumadas e música suave para transformar qualquer noite numa experiência inesquecível.
+      </p>
+      <p class="lang-en" style="display: none;">
+        1. Create an irresistible atmosphere: place the Feminine Sexy or Masculine Sexy on a table with soft lighting to highlight their charms. <br>
+        2. Surprise with warmth: use a hot mug to reveal the seductive details of the coasters with a touch of magic. <br>
+        3. Elevate the mood: pair with scented candles and soft music to turn any night into an unforgettable experience.
+      </p>
+      <img src="https://sexyvibespt.github.io/assets/images/dica1.png" alt="Dica 1" style="max-width: 200px; margin: 10px;" loading="lazy">
+      <img src="https://sexyvibespt.github.io/assets/images/dica2.png" alt="Dica 2" style="max-width: 200px; margin: 10px;" loading="lazy">
+    </section>
+
+    <section class="poll-section" data-aos="fade-up">
+      <h2 class="lang-pt">Qual base combina mais com você?</h2>
+      <h2 class="lang-en" style="display: none;">Which vibe suits you best?</h2>
+      <button class="cta-button lang-pt" onclick="showResult('Feminina')">Sexy Feminina</button>
+      <button class="cta-button lang-en" style="display: none;" onclick="showResult('Feminina')">Feminine Sexy</button>
+      <button class="cta-button lang-pt" onclick="showResult('Masculino')">Sexy Masculino</button>
+      <button class="cta-button lang-en" style="display: none;" onclick="showResult('Masculino')">Masculine Sexy</button>
+      <button class="cta-button lang-pt" onclick="showResult('Unbound')">Sexy Unbound</button>
+      <button class="cta-button lang-en" style="display: none;" onclick="showResult('Unbound')">Sexy Unbound</button>
+      <p id="pollResult" class="lang-pt" style="display: none; margin-top: 10px;"></p>
+      <p id="pollResultEn" class="lang-en" style="display: none; margin-top: 10px;"></p>
+    </section>
+  </main>
+
+  <footer>
+    <p class="lang-pt">Contato: sexyvibes@gmail.com | Siga-nos no TikTok: @sexyvibespt #SexyRevealChallenge</p>
+    <p class="lang-en" style="display: none;">Contact: sexyvibes@gmail.com | Follow us on TikTok: @sexyvibespt #SexyRevealChallenge</p>
+    <div class="easter-egg" onclick="openSecretPage()" style="cursor: pointer;">
+      <img src="https://sexyvibespt.github.io/assets/images/rose.png" alt="Easter Egg" style="max-width: 50px; opacity: 0.5;" loading="lazy">
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    let selectedLanguage = 'pt';
+
+    window.onload = function() {
+      document.getElementById('languageModal').style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    };
+
+    AOS.init({ duration: 1000 });
+    const swiper = new Swiper('.swiper-container', {
+      loop: true,
+      pagination: { el: '.swiper-pagination', clickable: true },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      autoplay: { delay: 5000 },
+    });
+
+    function setLanguage(lang) {
+      selectedLanguage = lang;
+      document.getElementById('languageSelect').value = lang;
+      changeLanguage();
+      document.getElementById('languageModal').style.display = 'none';
+      document.getElementById('ageModal').style.display = 'flex';
+      document.getElementById('modalTextPt').style.display = lang === 'pt' ? 'block' : 'none';
+      document.getElementById('modalTextEn').style.display = lang === 'en' ? 'block' : 'none';
+    }
+
+    function closeAgeModal() {
+      console.log('Botão Confirmo clicado'); // Depuração
+      document.getElementById('ageModal').style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
+    function openSecretPage() {
+      window.location.href = '/secret.html'; // Página secreta com mini-filme
+    }
+
+    function openContactModal() {
+      Swal.fire({
+        title: selectedLanguage === 'pt' ? 'Encomendar' : 'Order',
+        html: `
+          <form id="contactForm" class="contact-form">
+            <div class="form-row">
+              <label for="quantity-feminina">${selectedLanguage === 'pt' ? 'Sexy Feminina:' : 'Sexy Feminina:'}</label>
+              <input type="number" name="quantity-feminina" id="quantity-feminina" min="0" value="0" class="quantity-input">
+            </div>
+            <div class="form-row">
+              <label for="quantity-masculino">${selectedLanguage === 'pt' ? 'Sexy Masculino:' : 'Sexy Masculino:'}</label>
+              <input type="number" name="quantity-masculino" id="quantity-masculino" min="0" value="0" class="quantity-input">
+            </div>
+            <div class="form-row">
+              <label for="quantity-unbound">${selectedLanguage === 'pt' ? 'Sexy Unbound:' : 'Sexy Unbound:'}</label>
+              <input type="number" name="quantity-unbound" id="quantity-unbound" min="0" value="0" class="quantity-input">
+            </div>
+            <div class="form-row">
+              <label for="name">${selectedLanguage === 'pt' ? 'Nome:' : 'Name:'}</label>
+              <input type="text" name="name" id="name" required>
+            </div>
+            <div class="form-row">
+              <label for="email">${selectedLanguage === 'pt' ? 'Email:' : 'Email:'}</label>
+              <input type="email" name="email" id="email" required>
+            </div>
+            <div class="form-row">
+              <label for="address">${selectedLanguage === 'pt' ? 'Morada:' : 'Address:'}</label>
+              <input type="text" name="address" id="address" required>
+            </div>
+            <div class="form-row">
+              <label for="message">${selectedLanguage === 'pt' ? 'Mensagem:' : 'Message:'}</label>
+              <textarea name="message" id="message" rows="3"></textarea>
+            </div>
+          </form>
+        `,
+        showCancelButton: true,
+        confirmButtonText: selectedLanguage === 'pt' ? 'Enviar Encomenda' : 'Submit Order',
+        cancelButtonText: selectedLanguage === 'pt' ? 'Fechar' : 'Close',
+        customClass: { popup: 'swal2-dark' },
+        preConfirm: () => submitForm(),
+      });
+    }
+
+    function changeLanguage() {
+      const lang = document.getElementById('languageSelect').value;
+      selectedLanguage = lang;
+      document.querySelectorAll('.lang-pt').forEach(el => {
+        el.style.display = lang === 'pt' ? 'block' : 'none';
+      });
+      document.querySelectorAll('.lang-en').forEach(el => {
+        el.style.display = lang === 'en' ? 'block' : 'none';
+      });
+    }
+
+    async function submitForm() {
+      const form = document.getElementById('contactForm');
+      const formData = new FormData(form);
+      const quantityFeminina = formData.get('quantity-feminina') || 0;
+      const quantityMasculino = formData.get('quantity-masculino') || 0;
+      const quantityUnbound = formData.get('quantity-unbound') || 0;
+      let quantityValue = '';
+      if (quantityFeminina > 0 || quantityMasculino > 0 || quantityUnbound > 0) {
+        quantityValue = `Sexy Feminina: ${quantityFeminina}, Sexy Masculino: ${quantityMasculino}, Sexy Unbound: ${quantityUnbound}`;
+      } else {
+        quantityValue = '0';
+      }
+      const data = new FormData();
+      data.append('name', formData.get('name'));
+      data.append('email', formData.get('email'));
+      data.append('address', formData.get('address'));
+      data.append('message', formData.get('message') || '');
+      data.append('quantity', quantityValue);
+
+      try {
+        const response = await fetch('https://usebasin.com/f/be0447329708', {
+          method: 'POST',
+          body: data,
+          headers: { 'Accept': 'application/json' }
+        });
+        if (!response.ok) throw new Error('Erro na resposta do servidor');
+        const data = await response.json();
+        if (data && (data.success === true || (data.message && data.message.toLowerCase().includes('success')))) {
+          Swal.fire({
+            title: selectedLanguage === 'pt' ? 'Sucesso!' : 'Success!',
+            text: selectedLanguage === 'pt' ? 'Pedido enviado com sucesso! Entraremos em contato em breve.' : 'Order sent successfully! We will contact you soon.',
+            icon: 'success',
+            customClass: { popup: 'swal2-dark' }
+          });
+        } else {
+          throw new Error('Resposta do Basin não confirma sucesso');
+        }
+      } catch (error) {
+        console.error('Erro ao enviar para o Basin:', error);
+        Swal.fire({
+          title: selectedLanguage === 'pt' ? 'Erro!' : 'Error!',
+          text: selectedLanguage === 'pt' ? 'Erro ao enviar o pedido. Por favor, tente novamente.' : 'Error sending the order. Please try again.',
+          icon: 'error',
+          customClass: { popup: 'swal2-dark' }
+        });
+      }
+    }
+
+    function showResult(choice) {
+      const resultPt = document.getElementById('pollResult');
+      const resultEn = document.getElementById('pollResultEn');
+      const lang = document.getElementById('languageSelect').value;
+      if (choice === 'Feminina') {
+        resultPt.textContent = 'Você prefere o charme feminino!';
+        resultEn.textContent = 'You prefer the feminine charm!';
+      } else if (choice === 'Masculino') {
+        resultPt.textContent = 'Você prefere o poder masculino!';
+        resultEn.textContent = 'You prefer the masculine power!';
+      } else {
+        resultPt.textContent = 'Você prefere a sedução sem limites!';
+        resultEn.textContent = 'You prefer limitless seduction!';
+      }
+      resultPt.style.display = lang === 'pt' ? 'block' : 'none';
+      resultEn.style.display = lang === 'en' ? 'block' : 'none';
+    }
+
+    function startTimer() {
+      let time = 3600;
+      const timerElement = document.getElementById('timer');
+      setInterval(() => {
+        let minutes = Math.floor(time / 60);
+        let seconds = time % 60;
+        timerElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        time--;
+        if (time < 0) time = 3600;
+      }, 1000);
+    }
+    startTimer();
+  </script>
+<div id="frase-sexy" style="font-size: 1.2em; text-align: center; margin: 20px 0; color: #ff3399; font-style: italic;"></div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const frasesSexy = [
+        "Sabes o que gosto mais do que café? Ser a tua base quente... ☕🔥",
+        "Quando pousas a tua caneca em mim, eu derreto... 😏",
+        "Sou só uma base, mas dou-te um bom motivo para pousares a tua chávena... 😘",
+        "As melhores revelações acontecem quentes... tal como eu. 🔥",
+        "Sou discreta... até me tocares. 😉 Sara Vibes aprova.",
+        "O calor da tua bebida desperta o melhor de mim... literalmente. 💋",
+        "Há coisas que só se revelam com calor... tipo eu. 🔥💃",
+        "Sara Vibes diz: Pousa devagar... e aprecia a vista. 🍑"
+    ];
+
+    const frase = frasesSexy[Math.floor(Math.random() * frasesSexy.length)];
+    const container = document.getElementById("frase-sexy");
+    if (container) container.textContent = frase;
+});
+</script>
+
+</body>
+</html>

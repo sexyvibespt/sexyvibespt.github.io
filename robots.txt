@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://sexyvibespt.github.io/sitemap.xml

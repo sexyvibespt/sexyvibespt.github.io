@@ -101,57 +101,106 @@
     </section>
 
     <!-- T-shirt preview section -->
-    <section id="tshirt-preview" class="py-5">
-      <div class="container">
-        <h2 class="text-center mb-4">Pré-visualizador de T‑shirt (Single / Casal)</h2>
-
-        <div class="mb-3 text-center">
-          <div class="btn-group" role="group" aria-label="Modo">
-            <input type="radio" class="btn-check" name="tv-mode" id="mode-male" autocomplete="off" checked>
-            <label class="btn btn-outline-primary" for="mode-male">Masculino</label>
-            <input type="radio" class="btn-check" name="tv-mode" id="mode-female" autocomplete="off">
-            <label class="btn btn-outline-primary" for="mode-female">Feminino</label>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-md-6 text-center">
-            <canvas id="tcanvas" class="shirt-canvas"></canvas>
-          </div>
-          <div class="col-md-6">
-            <div class="mb-2">
-              <label>Cor da t-shirt</label>
-              <input type="color" id="shirtColor" value="#ffffff" class="form-control form-control-color">
-            </div>
-            <div class="mb-2">
-              <label>Upload imagem (frente)</label>
-              <input type="file" id="userImage" accept="image/*" class="form-control">
-            </div>
-            <div class="mb-2">
-              <label>Texto (opcional)</label>
-              <input type="text" id="userText" class="form-control" placeholder="Ex: His Vibes">
-            </div>
-            <div class="mb-2">
-              <label>Cor do texto</label>
-              <input type="color" id="textColor" value="#000000" class="form-control form-control-color">
-            </div>
-            <div class="mb-2">
-              <label>Tamanho do texto</label>
-              <input type="range" id="textSize" min="12" max="72" value="28" class="form-range">
-            </div>
-            <div class="mb-2">
-              <label>Escala da imagem</label>
-              <input type="range" id="imgScale" min="0.2" max="3" step="0.01" value="1" class="form-range">
-            </div>
-            <div class="mb-2">
-              <button id="resetView" class="btn btn-secondary">Recentrar</button>
-              <button id="downloadDesign" class="btn btn-success">Download PNG</button>
-            </div>
-            <small class="text-muted">Arrasta a imagem no mockup para posicionar. Usa roda do rato para escalar também.</small>
-          </div>
-        </div>
+<section id="tshirt-preview" class="py-5">
+  <div class="container">
+    <h2 class="text-center mb-4">Pré-visualizador de T‑shirt (Single / Casal)</h2>
+    <div class="mb-3 text-center">
+      <div class="btn-group" role="group" aria-label="Modo Principal">
+        <input type="radio" class="btn-check" name="main-mode" id="mode-single" autocomplete="off" checked>
+        <label class="btn btn-outline-primary" for="mode-single">Single</label>
+        <input type="radio" class="btn-check" name="main-mode" id="mode-couple" autocomplete="off">
+        <label class="btn btn-outline-primary" for="mode-couple">Casal</label>
       </div>
-    </section>
+    </div>
+    <div class="row">
+      <!-- Shirt 1 -->
+      <div class="col-md-6 text-center" id="shirt1-col">
+        <div class="mb-3">
+          <div class="btn-group" role="group" aria-label="Gênero Shirt 1">
+            <input type="radio" class="btn-check" name="gender1" id="mode-male1" autocomplete="off" checked>
+            <label class="btn btn-outline-secondary" for="mode-male1">Masculino</label>
+            <input type="radio" class="btn-check" name="gender1" id="mode-female1" autocomplete="off">
+            <label class="btn btn-outline-secondary" for="mode-female1">Feminino</label>
+          </div>
+        </div>
+        <canvas id="tcanvas1" class="shirt-canvas"></canvas>
+        <div class="controls mt-3">
+          <div class="mb-2">
+            <label>Upload imagem (frente)</label>
+            <input type="file" id="userImage1" accept="image/*" class="form-control">
+          </div>
+          <div class="mb-2">
+            <label>Texto (opcional)</label>
+            <input type="text" id="userText1" class="form-control" placeholder="Ex: His Vibes">
+          </div>
+          <div class="mb-2">
+            <label>Cor do texto</label>
+            <input type="color" id="textColor1" value="#000000" class="form-control form-control-color">
+          </div>
+          <div class="mb-2">
+            <label>Tamanho do texto</label>
+            <input type="range" id="textSize1" min="12" max="72" value="28" class="form-range">
+          </div>
+          <div class="mb-2">
+            <label>Escala da imagem</label>
+            <input type="range" id="imgScale1" min="0.2" max="3" step="0.01" value="1" class="form-range">
+          </div>
+          <div class="mb-2">
+            <button id="fitImage1" class="btn btn-info">Fit to Area</button>
+            <button id="resetView1" class="btn btn-secondary">Recentrar</button>
+            <button id="downloadDesign1" class="btn btn-success">Download PNG</button>
+          </div>
+        </div>
+        <small class="text-muted">Arrasta a imagem no mockup para posicionar. Usa roda do rato para escalar também.</small>
+      </div>
+      <!-- Shirt 2 (hidden por default) -->
+      <div class="col-md-6 text-center d-none" id="shirt2-col">
+        <div class="mb-3">
+          <div class="btn-group" role="group" aria-label="Gênero Shirt 2">
+            <input type="radio" class="btn-check" name="gender2" id="mode-male2" autocomplete="off">
+            <label class="btn btn-outline-secondary" for="mode-male2">Masculino</label>
+            <input type="radio" class="btn-check" name="gender2" id="mode-female2" autocomplete="off" checked>
+            <label class="btn btn-outline-secondary" for="mode-female2">Feminino</label>
+          </div>
+        </div>
+        <canvas id="tcanvas2" class="shirt-canvas"></canvas>
+        <div class="controls mt-3">
+          <div class="mb-2">
+            <label>Upload imagem (frente)</label>
+            <input type="file" id="userImage2" accept="image/*" class="form-control">
+          </div>
+          <div class="mb-2">
+            <label>Texto (opcional)</label>
+            <input type="text" id="userText2" class="form-control" placeholder="Ex: Her Vibes">
+          </div>
+          <div class="mb-2">
+            <label>Cor do texto</label>
+            <input type="color" id="textColor2" value="#000000" class="form-control form-control-color">
+          </div>
+          <div class="mb-2">
+            <label>Tamanho do texto</label>
+            <input type="range" id="textSize2" min="12" max="72" value="28" class="form-range">
+          </div>
+          <div class="mb-2">
+            <label>Escala da imagem</label>
+            <input type="range" id="imgScale2" min="0.2" max="3" step="0.01" value="1" class="form-range">
+          </div>
+          <div class="mb-2">
+            <button id="fitImage2" class="btn btn-info">Fit to Area</button>
+            <button id="resetView2" class="btn btn-secondary">Recentrar</button>
+            <button id="downloadDesign2" class="btn btn-success">Download PNG</button>
+          </div>
+        </div>
+        <small class="text-muted">Arrasta a imagem no mockup para posicionar. Usa roda do rato para escalar também.</small>
+      </div>
+    </div>
+    <div class="mb-3 text-center">
+      <label>Cor da t-shirt (shared)</label>
+      <input type="color" id="shirtColor" value="#ffffff" class="form-control form-control-color mx-auto" style="width: 100px;">
+      <button id="swapGenders" class="btn btn-primary mt-2 d-none">Trocar Gêneros</button>
+    </div>
+  </div>
+</section>
 
     <!-- Footer -->
     <footer class="bg-dark text-white py-3 text-center">

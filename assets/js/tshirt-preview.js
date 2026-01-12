@@ -6,13 +6,13 @@
     femaleBase: '/assets/images/basef.png', // base sólido feminino (branco com bg transparente)
     femaleShadow: '/assets/images/sombraf.png' // sombras feminino (bg transparente)
   };
-  // Inicial com fallback - detectado de base img
-  let LAYOUT_WIDTH = 600;
-  let LAYOUT_HEIGHT = 1200;
-  // target rect percentages (x, y, w, h) — ajustar se necessário
+  // Tamanho fixo do canvas lógico (ajustado para container 400x500, mas scale images to fit)
+  const LAYOUT_WIDTH = 400;
+  const LAYOUT_HEIGHT = 500;
+  // target rect percentages (x, y, w, h) — ajustar se necessário para encaixar no container
   const TARGET_PERCENT = {
-    male: { x: 0.25, y: 0.22, w: 0.5, h: 0.4 },
-    female: { x: 0.26, y: 0.20, w: 0.48, h: 0.45 }
+    male: { x: 0.1, y: 0.1, w: 0.8, h: 0.6 }, // Ajustado para caber melhor
+    female: { x: 0.1, y: 0.1, w: 0.8, h: 0.6 }
   };
   function setupHiDPICanvas(canvas, width, height) {
     const dpr = window.devicePixelRatio || 1;
@@ -38,7 +38,9 @@
     this.text = '';
     this.textColor = '#000';
     this.textSize = 28;
+    this.textPos = { x: 0, y: 0 }; // Novo para texto movível
     this.dragging = false;
+    this.draggingText = false;
     this.dragStart = null;
     this.targetRect = { x:0,y:0,width:0,height:0 };
     this.loaded = false;
@@ -55,6 +57,8 @@
     };
     this.pos.x = this.targetRect.x + this.targetRect.width/2;
     this.pos.y = this.targetRect.y + this.targetRect.height/2;
+    this.textPos.x = w/2;
+    this.textPos.y = h * 0.75; // Inicial abaixo da área de imagem
     this.canvas.addEventListener('pointerdown', (e)=>this._onPointerDown(e));
     window.addEventListener('pointermove', (e)=>this._onPointerMove(e));
     window.addEventListener('pointerup', (e)=>this._onPointerUp(e));
@@ -88,32 +92,28 @@
     const ctx = this.ctx;
     const w = LAYOUT_WIDTH, h = LAYOUT_HEIGHT;
     ctx.clearRect(0,0, w, h);
-    // Preencher bg branco primeiro
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0,0,w,h);
-    // Desenhar base preservando aspect
+    // Sem fill bg aqui - bg é do container div
+    // Desenhar base, scale to fit container mantendo proporções
     if (this.base && this.base.complete) {
       const baseAspect = this.base.naturalWidth / this.base.naturalHeight;
-      const canvasAspect = w / h;
       let drawBaseW = w;
-      let drawBaseH = h;
-      let offsetX = 0;
-      let offsetY = 0;
-      if (baseAspect > canvasAspect) { // Wider - fit height, center
+      let drawBaseH = drawBaseW / baseAspect;
+      if (drawBaseH > h) { // Se taller, fit height
         drawBaseH = h;
         drawBaseW = drawBaseH * baseAspect;
-        offsetX = (w - drawBaseW) / 2;
-      } else { // Taller - fit width, center
-        drawBaseW = w;
-        drawBaseH = drawBaseW / baseAspect;
-        offsetY = (h - drawBaseH) / 2;
       }
+      const offsetX = (w - drawBaseW) / 2;
+      const offsetY = (h - drawBaseH) / 2;
       ctx.drawImage(this.base, offsetX, offsetY, drawBaseW, drawBaseH);
-      // Tint apenas a camisa (multiply sobre o que foi desenhado)
+      // Tint só na base
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(offsetX, offsetY, drawBaseW, drawBaseH);
+      ctx.clip();
       ctx.globalCompositeOperation = 'multiply';
       ctx.fillStyle = this.baseColor || '#ffffff';
-      ctx.fillRect(offsetX, offsetY, drawBaseW, drawBaseH); // Fill só na area da base pra não tintar bg
-      ctx.globalCompositeOperation = 'source-over';
+      ctx.fillRect(offsetX, offsetY, drawBaseW, drawBaseH);
+      ctx.restore();
     }
     if (this.userImgLoaded) {
       ctx.save();
@@ -123,38 +123,13 @@
       ctx.clip();
       const aspect = this.userImg.naturalWidth / this.userImg.naturalHeight;
       let drawW = this.userImg.naturalWidth * this.scale;
-      let drawH = this.userImg.naturalHeight * this.scale;
-      if (drawW / drawH !== tr.width / tr.height) {
-        const targetAspect = tr.width / tr.height;
-        if (aspect > targetAspect) {
-          drawH = tr.height;
-          drawW = drawH * aspect;
-        } else {
-          drawW = tr.width;
-          drawH = drawW / aspect;
-        }
+      let drawH = drawW / aspect;
+      if (drawH > tr.height) {
+        drawH = tr.height;
+        drawW = drawH * aspect;
       }
       ctx.drawImage(this.userImg, this.pos.x - drawW/2, this.pos.y - drawH/2, drawW, drawH);
       ctx.restore();
-    }
-    // Desenhar shadow preservando aspect, mesmo logic
-    if (this.shadow && this.shadow.complete) {
-      const shadowAspect = this.shadow.naturalWidth / this.shadow.naturalHeight;
-      const canvasAspect = w / h;
-      let drawShadowW = w;
-      let drawShadowH = h;
-      let offsetX = 0;
-      let offsetY = 0;
-      if (shadowAspect > canvasAspect) {
-        drawShadowH = h;
-        drawShadowW = drawShadowH * shadowAspect;
-        offsetX = (w - drawShadowW) / 2;
-      } else {
-        drawShadowW = w;
-        drawShadowH = drawShadowW / shadowAspect;
-        offsetY = (h - drawShadowH) / 2;
-      }
-      ctx.drawImage(this.shadow, offsetX, offsetY, drawShadowW, drawShadowH);
     }
     if (this.text && this.text.trim() !== '') {
       ctx.save();
@@ -162,32 +137,59 @@
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.font = `${this.textSize}px Arial`;
-      ctx.fillText(this.text, w/2, h*0.75);
+      ctx.fillText(this.text, this.textPos.x, this.textPos.y);
       ctx.restore();
     }
+    // Sombra por cima de tudo
+    if (this.shadow && this.shadow.complete) {
+      const shadowAspect = this.shadow.naturalWidth / this.shadow.naturalHeight;
+      let drawShadowW = w;
+      let drawShadowH = drawShadowW / shadowAspect;
+      if (drawShadowH > h) {
+        drawShadowH = h;
+        drawShadowW = drawShadowH * shadowAspect;
+      }
+      const offsetX = (w - drawShadowW) / 2;
+      const offsetY = (h - drawShadowH) / 2;
+      ctx.drawImage(this.shadow, offsetX, offsetY, drawShadowW, drawShadowH);
+    }
   };
-  // Resto igual...
   Shirt.prototype._onPointerDown = function(e) {
     const rect = this.canvas.getBoundingClientRect();
     const x = (e.clientX - rect.left);
     const y = (e.clientY - rect.top);
-    this.dragging = true;
-    this.dragStart = { x, y, origX: this.pos.x, origY: this.pos.y };
+    // Check se click perto do texto (ex: dentro de bounding box aproximado)
+    const textWidth = this.ctx.measureText(this.text).width;
+    const textHit = Math.abs(x - this.textPos.x) < textWidth / 2 + 20 && Math.abs(y - this.textPos.y) < this.textSize / 2 + 20;
+    if (textHit && this.text.trim() !== '') {
+      this.draggingText = true;
+      this.dragging = false;
+    } else {
+      this.draggingText = false;
+      this.dragging = true;
+    }
+    this.dragStart = { x, y, origX: this.draggingText ? this.textPos.x : this.pos.x, origY: this.draggingText ? this.textPos.y : this.pos.y };
     this.canvas.setPointerCapture && this.canvas.setPointerCapture(e.pointerId);
   };
   Shirt.prototype._onPointerMove = function(e) {
-    if (!this.dragging) return;
+    if (!this.dragging && !this.draggingText) return;
     const rect = this.canvas.getBoundingClientRect();
     const x = (e.clientX - rect.left);
     const y = (e.clientY - rect.top);
     const dx = x - this.dragStart.x;
     const dy = y - this.dragStart.y;
-    this.pos.x = this.dragStart.origX + dx;
-    this.pos.y = this.dragStart.origY + dy;
+    if (this.draggingText) {
+      this.textPos.x = this.dragStart.origX + dx;
+      this.textPos.y = this.dragStart.origY + dy;
+    } else {
+      this.pos.x = this.dragStart.origX + dx;
+      this.pos.y = this.dragStart.origY + dy;
+    }
     this.draw();
   };
   Shirt.prototype._onPointerUp = function(e) {
     this.dragging = false;
+    this.draggingText = false;
     this.dragStart = null;
     try { this.canvas.releasePointerCapture && this.canvas.releasePointerCapture(e.pointerId); } catch(err){}
   };
@@ -215,29 +217,26 @@
     tmp.width = LAYOUT_WIDTH;
     tmp.height = LAYOUT_HEIGHT;
     const ctx = tmp.getContext('2d');
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0,0,tmp.width,tmp.height);
+    ctx.clearRect(0,0, tmp.width, tmp.height);
     if (this.base && this.base.complete) {
       const baseAspect = this.base.naturalWidth / this.base.naturalHeight;
-      const canvasAspect = tmp.width / tmp.height;
       let drawBaseW = tmp.width;
-      let drawBaseH = tmp.height;
-      let offsetX = 0;
-      let offsetY = 0;
-      if (baseAspect > canvasAspect) {
+      let drawBaseH = drawBaseW / baseAspect;
+      if (drawBaseH > tmp.height) {
         drawBaseH = tmp.height;
         drawBaseW = drawBaseH * baseAspect;
-        offsetX = (tmp.width - drawBaseW) / 2;
-      } else {
-        drawBaseW = tmp.width;
-        drawBaseH = drawBaseW / baseAspect;
-        offsetY = (tmp.height - drawBaseH) / 2;
       }
+      const offsetX = (tmp.width - drawBaseW) / 2;
+      const offsetY = (tmp.height - drawBaseH) / 2;
       ctx.drawImage(this.base, offsetX, offsetY, drawBaseW, drawBaseH);
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(offsetX, offsetY, drawBaseW, drawBaseH);
+      ctx.clip();
       ctx.globalCompositeOperation = 'multiply';
       ctx.fillStyle = this.baseColor || '#ffffff';
       ctx.fillRect(offsetX, offsetY, drawBaseW, drawBaseH);
-      ctx.globalCompositeOperation = 'source-over';
+      ctx.restore();
     }
     if (this.userImgLoaded) {
       ctx.save();
@@ -247,44 +246,32 @@
       ctx.clip();
       const aspect = this.userImg.naturalWidth / this.userImg.naturalHeight;
       let drawW = this.userImg.naturalWidth * this.scale;
-      let drawH = this.userImg.naturalHeight * this.scale;
-      if (drawW / drawH !== tr.width / tr.height) {
-        const targetAspect = tr.width / tr.height;
-        if (aspect > targetAspect) {
-          drawH = tr.height;
-          drawW = drawH * aspect;
-        } else {
-          drawW = tr.width;
-          drawH = drawW / aspect;
-        }
+      let drawH = drawW / aspect;
+      if (drawH > tr.height) {
+        drawH = tr.height;
+        drawW = drawH * aspect;
       }
       ctx.drawImage(this.userImg, this.pos.x - drawW/2, this.pos.y - drawH/2, drawW, drawH);
       ctx.restore();
-    }
-    if (this.shadow && this.shadow.complete) {
-      const shadowAspect = this.shadow.naturalWidth / this.shadow.naturalHeight;
-      const canvasAspect = tmp.width / tmp.height;
-      let drawShadowW = tmp.width;
-      let drawShadowH = tmp.height;
-      let offsetX = 0;
-      let offsetY = 0;
-      if (shadowAspect > canvasAspect) {
-        drawShadowH = tmp.height;
-        drawShadowW = drawShadowH * shadowAspect;
-        offsetX = (tmp.width - drawShadowW) / 2;
-      } else {
-        drawShadowW = tmp.width;
-        drawShadowH = drawShadowW / shadowAspect;
-        offsetY = (tmp.height - drawShadowH) / 2;
-      }
-      ctx.drawImage(this.shadow, offsetX, offsetY, drawShadowW, drawShadowH);
     }
     if (this.text && this.text.trim() !== '') {
       ctx.fillStyle = this.textColor;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.font = `${this.textSize}px Arial`;
-      ctx.fillText(this.text, tmp.width/2, tmp.height*0.75);
+      ctx.fillText(this.text, this.textPos.x, this.textPos.y);
+    }
+    if (this.shadow && this.shadow.complete) {
+      const shadowAspect = this.shadow.naturalWidth / this.shadow.naturalHeight;
+      let drawShadowW = tmp.width;
+      let drawShadowH = drawShadowW / shadowAspect;
+      if (drawShadowH > tmp.height) {
+        drawShadowH = tmp.height;
+        drawShadowW = drawShadowH * shadowAspect;
+      }
+      const offsetX = (tmp.width - drawShadowW) / 2;
+      const offsetY = (tmp.height - drawShadowH) / 2;
+      ctx.drawImage(this.shadow, offsetX, offsetY, drawShadowW, drawShadowH);
     }
     tmp.toBlob(function(blob){
       const a = document.createElement('a');
@@ -295,19 +282,12 @@
       a.remove();
     }, 'image/png', 0.92);
   };
-  // Load assets com logs e detect size
+  // Load assets com logs e detect size (mas override com fixo)
   function loadImg(src){ 
     const i = new Image(); 
     i.crossOrigin='anonymous'; 
     i.src = src; 
-    i.onload = () => {
-      console.log('Loaded:', src, 'size:', i.naturalWidth, 'x', i.naturalHeight);
-      if (!LAYOUT_WIDTH || LAYOUT_WIDTH === 600) {
-        LAYOUT_WIDTH = i.naturalWidth;
-        LAYOUT_HEIGHT = i.naturalHeight;
-        shirt1.init(); shirt2.init();
-      }
-    };
+    i.onload = () => console.log('Loaded:', src, 'size:', i.naturalWidth, 'x', i.naturalHeight);
     i.onerror = () => console.error('Error loading:', src);
     return i; 
   }
@@ -315,7 +295,7 @@
   const maleShadow = loadImg(ASSETS.maleShadow);
   const femaleBase = loadImg(ASSETS.femaleBase);
   const femaleShadow = loadImg(ASSETS.femaleShadow);
-  // Instâncias e listeners igual ao anterior
+  // Instâncias e resto igual
   const canvas1 = document.getElementById('tcanvas1');
   const shirt1 = new Shirt(canvas1, maleBase, maleShadow, TARGET_PERCENT.male);
   const canvas2 = document.getElementById('tcanvas2');
@@ -341,7 +321,7 @@
   document.getElementById('textSize1').addEventListener('input', function(e){ shirt1.textSize = parseInt(e.target.value,10); shirt1.draw(); });
   document.getElementById('imgScale1').addEventListener('input', function(e){ shirt1.scale = parseFloat(e.target.value); shirt1.draw(); });
   document.getElementById('fitImage1').addEventListener('click', function(){ shirt1.fitToArea(); });
-  document.getElementById('resetView1').addEventListener('click', function(){ shirt1.pos.x = shirt1.targetRect.x + shirt1.targetRect.width/2; shirt1.pos.y = shirt1.targetRect.y + shirt1.targetRect.height/2; shirt1.scale = 1; shirt1.draw(); });
+  document.getElementById('resetView1').addEventListener('click', function(){ shirt1.pos.x = shirt1.targetRect.x + shirt1.targetRect.width/2; shirt1.pos.y = shirt1.targetRect.y + shirt1.targetRect.height/2; shirt1.textPos.x = LAYOUT_WIDTH/2; shirt1.textPos.y = LAYOUT_HEIGHT * 0.75; shirt1.scale = 1; shirt1.draw(); });
   document.getElementById('downloadDesign1').addEventListener('click', function(){ shirt1.exportPNG('tshirt-design1.png'); });
   document.getElementById('userImage2').addEventListener('change', function(e){ shirt2.setImageFile(e.target.files[0]); });
   document.getElementById('userText2').addEventListener('input', function(e){ shirt2.text = e.target.value; shirt2.draw(); });
@@ -349,7 +329,7 @@
   document.getElementById('textSize2').addEventListener('input', function(e){ shirt2.textSize = parseInt(e.target.value,10); shirt2.draw(); });
   document.getElementById('imgScale2').addEventListener('input', function(e){ shirt2.scale = parseFloat(e.target.value); shirt2.draw(); });
   document.getElementById('fitImage2').addEventListener('click', function(){ shirt2.fitToArea(); });
-  document.getElementById('resetView2').addEventListener('click', function(){ shirt2.pos.x = shirt2.targetRect.x + shirt2.targetRect.width/2; shirt2.pos.y = shirt2.targetRect.y + shirt2.targetRect.height/2; shirt2.scale = 1; shirt2.draw(); });
+  document.getElementById('resetView2').addEventListener('click', function(){ shirt2.pos.x = shirt2.targetRect.x + shirt2.targetRect.width/2; shirt2.pos.y = shirt2.targetRect.y + shirt2.targetRect.height/2; shirt2.textPos.x = LAYOUT_WIDTH/2; shirt2.textPos.y = LAYOUT_HEIGHT * 0.75; shirt2.scale = 1; shirt2.draw(); });
   document.getElementById('downloadDesign2').addEventListener('click', function(){ shirt2.exportPNG('tshirt-design2.png'); });
   const shirt2Col = document.getElementById('shirt2-col');
   const swapBtn = document.getElementById('swapGenders');

@@ -1,14 +1,14 @@
 (function(){
   // === CONFIG — ajusta estes nomes conforme o repo ===
   const ASSETS = {
-    maleBase: '/assets/images/basem.png', // base sólido masculino (assumir branco para tint)
+    maleBase: '/assets/images/basem.png', // base sólido masculino (branco)
     maleShadow: '/assets/images/sombram.png', // sombras masculino
     femaleBase: '/assets/images/basef.png', // base sólido feminino (branco)
     femaleShadow: '/assets/images/sombraf.png' // sombras feminino
   };
-  // canvas target logical size (layout size) - we scale for DPR in setup
-  const LAYOUT_WIDTH = 1200;
-  const LAYOUT_HEIGHT = 1500;
+  // Inicial sem size fixo - detectado de base img
+  let LAYOUT_WIDTH = 600; // Fallback
+  let LAYOUT_HEIGHT = 1200; // Fallback
   // target rect percentages (x, y, w, h) — ajustar se necessário para encaixar no mockup
   const TARGET_PERCENT = {
     male: { x: 0.25, y: 0.22, w: 0.5, h: 0.4 },
@@ -41,6 +41,7 @@
     this.dragging = false;
     this.dragStart = null;
     this.targetRect = { x:0,y:0,width:0,height:0 };
+    this.loaded = false;
   }
   Shirt.prototype.init = function() {
     this.ctx = setupHiDPICanvas(this.canvas, LAYOUT_WIDTH, LAYOUT_HEIGHT);
@@ -64,15 +65,49 @@
       this.draw();
     });
     this.userImg.onload = ()=> { this.userImgLoaded = true; this.draw(); };
-    this.draw();
+    if (this.base.complete && this.shadow.complete) {
+      this.loaded = true;
+      this.draw();
+    } else {
+      console.log('Aguardando load de assets...');
+      setTimeout(() => {
+        if (!this.base.complete || !this.shadow.complete) {
+          console.error('Falha ao carregar assets - verifique caminhos:', ASSETS);
+        } else {
+          this.loaded = true;
+          this.draw();
+        }
+      }, 2000);
+    }
   };
   Shirt.prototype.draw = function() {
+    if (!this.loaded) {
+      console.warn('Assets não loaded ainda - skip draw');
+      return;
+    }
     const ctx = this.ctx;
     const w = LAYOUT_WIDTH, h = LAYOUT_HEIGHT;
     ctx.clearRect(0,0, w, h);
-    // Tingir base com cor usando multiply (assume base branca)
+    // Novo: Preservar aspect ao desenhar base/shadow - calcular scale e center se aspect diferente
     if (this.base && this.base.complete) {
-      ctx.drawImage(this.base, 0, 0, w, h);
+      const baseAspect = this.base.naturalWidth / this.base.naturalHeight;
+      const canvasAspect = w / h;
+      let drawBaseW = w;
+      let drawBaseH = h;
+      let offsetX = 0;
+      let offsetY = 0;
+      if (baseAspect !== canvasAspect) {
+        if (baseAspect > canvasAspect) { // Base wider - fit height, crop sides
+          drawBaseH = h;
+          drawBaseW = drawBaseH * baseAspect;
+          offsetX = (w - drawBaseW) / 2;
+        } else { // Base taller - fit width, crop top/bottom
+          drawBaseW = w;
+          drawBaseH = drawBaseW / baseAspect;
+          offsetY = (h - drawBaseH) / 2;
+        }
+      }
+      ctx.drawImage(this.base, offsetX, offsetY, drawBaseW, drawBaseH);
       ctx.globalCompositeOperation = 'multiply';
       ctx.fillStyle = this.baseColor || '#ffffff';
       ctx.fillRect(0,0,w,h);
@@ -84,13 +119,42 @@
       ctx.beginPath();
       ctx.rect(tr.x, tr.y, tr.width, tr.height);
       ctx.clip();
-      const drawW = this.userImg.width * this.scale;
-      const drawH = this.userImg.height * this.scale;
+      const aspect = this.userImg.width / this.userImg.height;
+      let drawW = this.userImg.width * this.scale;
+      let drawH = this.userImg.height * this.scale;
+      if (drawW / drawH !== tr.width / tr.height) {
+        const targetAspect = tr.width / tr.height;
+        if (aspect > targetAspect) { // User img wider - fit height
+          drawH = tr.height;
+          drawW = drawH * aspect;
+        } else { // User img taller - fit width
+          drawW = tr.width;
+          drawH = drawW / aspect;
+        }
+      }
       ctx.drawImage(this.userImg, this.pos.x - drawW/2, this.pos.y - drawH/2, drawW, drawH);
       ctx.restore();
     }
     if (this.shadow && this.shadow.complete) {
-      ctx.drawImage(this.shadow, 0, 0, w, h);
+      // Mesmo logic para shadow - preserve aspect
+      const shadowAspect = this.shadow.naturalWidth / this.shadow.naturalHeight;
+      const canvasAspect = w / h;
+      let drawShadowW = w;
+      let drawShadowH = h;
+      let offsetX = 0;
+      let offsetY = 0;
+      if (shadowAspect !== canvasAspect) {
+        if (shadowAspect > canvasAspect) {
+          drawShadowH = h;
+          drawShadowW = drawShadowH * shadowAspect;
+          offsetX = (w - drawShadowW) / 2;
+        } else {
+          drawShadowW = w;
+          drawShadowH = drawShadowW / shadowAspect;
+          offsetY = (h - drawShadowH) / 2;
+        }
+      }
+      ctx.drawImage(this.shadow, offsetX, offsetY, drawShadowW, drawShadowH);
     }
     if (this.text && this.text.trim() !== '') {
       ctx.save();
@@ -150,9 +214,25 @@
     tmp.width = LAYOUT_WIDTH;
     tmp.height = LAYOUT_HEIGHT;
     const ctx = tmp.getContext('2d');
-    // Mesma lógica de draw para export
     if (this.base && this.base.complete) {
-      ctx.drawImage(this.base, 0, 0, tmp.width, tmp.height);
+      const baseAspect = this.base.naturalWidth / this.base.naturalHeight;
+      const canvasAspect = tmp.width / tmp.height;
+      let drawBaseW = tmp.width;
+      let drawBaseH = tmp.height;
+      let offsetX = 0;
+      let offsetY = 0;
+      if (baseAspect !== canvasAspect) {
+        if (baseAspect > canvasAspect) {
+          drawBaseH = tmp.height;
+          drawBaseW = drawBaseH * baseAspect;
+          offsetX = (tmp.width - drawBaseW) / 2;
+        } else {
+          drawBaseW = tmp.width;
+          drawBaseH = drawBaseW / baseAspect;
+          offsetY = (tmp.height - drawBaseH) / 2;
+        }
+      }
+      ctx.drawImage(this.base, offsetX, offsetY, drawBaseW, drawBaseH);
       ctx.globalCompositeOperation = 'multiply';
       ctx.fillStyle = this.baseColor || '#ffffff';
       ctx.fillRect(0,0,tmp.width,tmp.height);
@@ -164,12 +244,42 @@
       ctx.beginPath();
       ctx.rect(tr.x, tr.y, tr.width, tr.height);
       ctx.clip();
-      const drawW = this.userImg.width * this.scale;
-      const drawH = this.userImg.height * this.scale;
+      const aspect = this.userImg.width / this.userImg.height;
+      let drawW = this.userImg.width * this.scale;
+      let drawH = this.userImg.height * this.scale;
+      if (drawW / drawH !== tr.width / tr.height) {
+        const targetAspect = tr.width / tr.height;
+        if (aspect > targetAspect) {
+          drawH = tr.height;
+          drawW = drawH * aspect;
+        } else {
+          drawW = tr.width;
+          drawH = drawW / aspect;
+        }
+      }
       ctx.drawImage(this.userImg, this.pos.x - drawW/2, this.pos.y - drawH/2, drawW, drawH);
       ctx.restore();
     }
-    if (this.shadow && this.shadow.complete) ctx.drawImage(this.shadow, 0, 0, tmp.width, tmp.height);
+    if (this.shadow && this.shadow.complete) {
+      const shadowAspect = this.shadow.naturalWidth / this.shadow.naturalHeight;
+      const canvasAspect = tmp.width / tmp.height;
+      let drawShadowW = tmp.width;
+      let drawShadowH = tmp.height;
+      let offsetX = 0;
+      let offsetY = 0;
+      if (shadowAspect !== canvasAspect) {
+        if (shadowAspect > canvasAspect) {
+          drawShadowH = tmp.height;
+          drawShadowW = drawShadowH * shadowAspect;
+          offsetX = (tmp.width - drawShadowW) / 2;
+        } else {
+          drawShadowW = tmp.width;
+          drawShadowH = drawShadowW / shadowAspect;
+          offsetY = (tmp.height - drawShadowH) / 2;
+        }
+      }
+      ctx.drawImage(this.shadow, offsetX, offsetY, drawShadowW, drawShadowH);
+    }
     if (this.text && this.text.trim() !== '') {
       ctx.fillStyle = this.textColor;
       ctx.textAlign = 'center';
@@ -186,13 +296,28 @@
       a.remove();
     }, 'image/png', 0.92);
   };
-  // Load assets
-  function loadImg(src){ const i = new Image(); i.crossOrigin='anonymous'; i.src = src; return i; }
+  // Load assets com logs e detect size
+  function loadImg(src){ 
+    const i = new Image(); 
+    i.crossOrigin='anonymous'; 
+    i.src = src; 
+    i.onload = () => {
+      console.log('Loaded:', src, 'size:', i.naturalWidth, 'x', i.naturalHeight);
+      // Detect e set global LAYOUT based on first base (assumir todas iguais)
+      if (!LAYOUT_WIDTH || LAYOUT_WIDTH === 600) { // Update if fallback
+        LAYOUT_WIDTH = i.naturalWidth;
+        LAYOUT_HEIGHT = i.naturalHeight;
+        shirt1.init(); shirt2.init(); // Re-init com new size
+      }
+    };
+    i.onerror = () => console.error('Error loading:', src);
+    return i; 
+  }
   const maleBase = loadImg(ASSETS.maleBase);
   const maleShadow = loadImg(ASSETS.maleShadow);
   const femaleBase = loadImg(ASSETS.femaleBase);
   const femaleShadow = loadImg(ASSETS.femaleShadow);
-  // Instâncias
+  // Instâncias e resto igual
   const canvas1 = document.getElementById('tcanvas1');
   const shirt1 = new Shirt(canvas1, maleBase, maleShadow, TARGET_PERCENT.male);
   const canvas2 = document.getElementById('tcanvas2');
@@ -206,14 +331,12 @@
       shirt2.init();
     }
   }; });
-  // Shared color
   document.getElementById('shirtColor').addEventListener('input', function(e){ 
     shirt1.baseColor = e.target.value; 
     shirt1.draw(); 
     shirt2.baseColor = e.target.value; 
     shirt2.draw(); 
   });
-  // Single shirt controls
   document.getElementById('userImage1').addEventListener('change', function(e){ shirt1.setImageFile(e.target.files[0]); });
   document.getElementById('userText1').addEventListener('input', function(e){ shirt1.text = e.target.value; shirt1.draw(); });
   document.getElementById('textColor1').addEventListener('input', function(e){ shirt1.textColor = e.target.value; shirt1.draw(); });
@@ -222,7 +345,6 @@
   document.getElementById('fitImage1').addEventListener('click', function(){ shirt1.fitToArea(); });
   document.getElementById('resetView1').addEventListener('click', function(){ shirt1.pos.x = shirt1.targetRect.x + shirt1.targetRect.width/2; shirt1.pos.y = shirt1.targetRect.y + shirt1.targetRect.height/2; shirt1.scale = 1; shirt1.draw(); });
   document.getElementById('downloadDesign1').addEventListener('click', function(){ shirt1.exportPNG('tshirt-design1.png'); });
-  // Couple shirt controls
   document.getElementById('userImage2').addEventListener('change', function(e){ shirt2.setImageFile(e.target.files[0]); });
   document.getElementById('userText2').addEventListener('input', function(e){ shirt2.text = e.target.value; shirt2.draw(); });
   document.getElementById('textColor2').addEventListener('input', function(e){ shirt2.textColor = e.target.value; shirt2.draw(); });
@@ -231,7 +353,6 @@
   document.getElementById('fitImage2').addEventListener('click', function(){ shirt2.fitToArea(); });
   document.getElementById('resetView2').addEventListener('click', function(){ shirt2.pos.x = shirt2.targetRect.x + shirt2.targetRect.width/2; shirt2.pos.y = shirt2.targetRect.y + shirt2.targetRect.height/2; shirt2.scale = 1; shirt2.draw(); });
   document.getElementById('downloadDesign2').addEventListener('click', function(){ shirt2.exportPNG('tshirt-design2.png'); });
-  // Toggle single/casal
   const shirt2Col = document.getElementById('shirt2-col');
   const swapBtn = document.getElementById('swapGenders');
   document.getElementById('mode-single').addEventListener('change', function(){
@@ -246,7 +367,6 @@
       swapBtn.classList.remove('d-none');
     }
   });
-  // Gender changes with reset img
   function resetShirt(shirt) {
     shirt.userImgLoaded = false;
     shirt.userImg = new Image();
@@ -288,7 +408,6 @@
       shirt2.init();
     }
   });
-  // Swap genders for couple
   swapBtn.addEventListener('click', function(){
     const isMale1 = document.getElementById('mode-male1').checked;
     document.getElementById('mode-male1').checked = !isMale1;

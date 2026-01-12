@@ -1,18 +1,18 @@
 (function(){
   // === CONFIG — ajusta estes nomes conforme o repo ===
   const ASSETS = {
-    maleBase: '/assets/images/basem.png', // PNG com base branca + sombras transparentes
-    maleShadow: '/assets/images/sombram.png',
-    femaleBase: '/assets/images/basef.png',
-    femaleShadow: '/assets/images/sombraf.png'
+    maleBase: '/assets/images/basem.png', // base sólido masculino (branco com bg transparente)
+    maleShadow: '/assets/images/sombram.png', // sombras masculino (bg transparente)
+    femaleBase: '/assets/images/basef.png', // base sólido feminino (branco com bg transparente)
+    femaleShadow: '/assets/images/sombraf.png' // sombras feminino (bg transparente)
   };
   // Tamanho fixo do container/canvas
   const LAYOUT_WIDTH = 400;
   const LAYOUT_HEIGHT = 500;
-  // target rect percentages – ajustado para cobrir quase toda a t-shirt (mais área para user img e texto)
+  // target rect percentages (x, y, w, h) — ajustado para caber mais da t-shirt
   const TARGET_PERCENT = {
-    male: { x: 0.02, y: 0.02, w: 0.96, h: 0.85 }, // Maior h para mostrar mais da t-shirt
-    female: { x: 0.02, y: 0.02, w: 0.96, h: 0.85 }
+    male: { x: 0.05, y: 0.05, w: 0.9, h: 0.7 },
+    female: { x: 0.05, y: 0.05, w: 0.9, h: 0.7 }
   };
   function setupHiDPICanvas(canvas, width, height) {
     const dpr = window.devicePixelRatio || 1;
@@ -58,7 +58,7 @@
     this.pos.x = this.targetRect.x + this.targetRect.width/2;
     this.pos.y = this.targetRect.y + this.targetRect.height/2;
     this.textPos.x = w/2;
-    this.textPos.y = h * 0.85; // Abaixo da área maior de imagem
+    this.textPos.y = h * 0.8; // Ajustado para abaixo da área
     this.canvas.addEventListener('pointerdown', (e)=>this._onPointerDown(e));
     window.addEventListener('pointermove', (e)=>this._onPointerMove(e));
     window.addEventListener('pointerup', (e)=>this._onPointerUp(e));
@@ -92,8 +92,18 @@
     const ctx = this.ctx;
     const w = LAYOUT_WIDTH, h = LAYOUT_HEIGHT;
     ctx.clearRect(0,0, w, h);
-    // Desenhar base preservando proporções
+    // Desenhar base com tint usando temp canvas + source-in
     if (this.base && this.base.complete) {
+      const temp = document.createElement('canvas');
+      temp.width = w;
+      temp.height = h;
+      const tempCtx = temp.getContext('2d');
+      // Fill temp com cor
+      tempCtx.fillStyle = this.baseColor || '#ffffff';
+      tempCtx.fillRect(0, 0, w, h);
+      // Aplicar máscara da base (source-in)
+      tempCtx.globalCompositeOperation = 'source-in';
+      // Desenhar base com fit proportions
       const baseAspect = this.base.naturalWidth / this.base.naturalHeight;
       let drawBaseW = w;
       let drawBaseH = drawBaseW / baseAspect;
@@ -103,22 +113,11 @@
       }
       const offsetX = (w - drawBaseW) / 2;
       const offsetY = (h - drawBaseH) / 2;
-      ctx.drawImage(this.base, offsetX, offsetY, drawBaseW, drawBaseH);
-      // Tint só na área da base usando temp canvas + source-in (máscara perfeita com PNG transparente)
-      const temp = document.createElement('canvas');
-      temp.width = w;
-      temp.height = h;
-      const tempCtx = temp.getContext('2d');
-      // Fill com cor
-      tempCtx.fillStyle = this.baseColor || '#ffffff';
-      tempCtx.fillRect(0, 0, w, h);
-      // Aplicar máscara da base (source-in mantém cor só onde base tem alpha >0)
-      tempCtx.globalCompositeOperation = 'source-in';
       tempCtx.drawImage(this.base, offsetX, offsetY, drawBaseW, drawBaseH);
-      // Desenhar tinted no main
+      // Desenhar tinted no main ctx
       ctx.drawImage(temp, 0, 0);
     }
-    // User image na área clipada
+    // User img clipada
     if (this.userImgLoaded) {
       ctx.save();
       const tr = this.targetRect;
@@ -135,7 +134,7 @@
       ctx.drawImage(this.userImg, this.pos.x - drawW/2, this.pos.y - drawH/2, drawW, drawH);
       ctx.restore();
     }
-    // Texto movível
+    // Texto
     if (this.text && this.text.trim() !== '') {
       ctx.save();
       ctx.fillStyle = this.textColor || '#000';
@@ -145,7 +144,7 @@
       ctx.fillText(this.text, this.textPos.x, this.textPos.y);
       ctx.restore();
     }
-    // Sombra por cima (preserve proportions)
+    // Sombra por cima
     if (this.shadow && this.shadow.complete) {
       const shadowAspect = this.shadow.naturalWidth / this.shadow.naturalHeight;
       let drawShadowW = w;
@@ -159,9 +158,63 @@
       ctx.drawImage(this.shadow, offsetX, offsetY, drawShadowW, drawShadowH);
     }
   };
-  // ... (resto do código igual ao anterior: _onPointerDown, _onPointerMove, _onPointerUp, setImageFile, fitToArea, exportPNG, loadImg, instâncias, listeners, reset, swap, etc.)
-  // Nota: Copia os event listeners e funções restantes do teu código anterior aqui para não repetir. O foco é no draw() e exportPNG() com o temp canvas para tint.
-  // Para exportPNG, usa a mesma lógica de temp canvas para tint.
+  Shirt.prototype._onPointerDown = function(e) {
+    const rect = this.canvas.getBoundingClientRect();
+    const x = (e.clientX - rect.left);
+    const y = (e.clientY - rect.top);
+    const textWidth = this.ctx.measureText(this.text).width;
+    const textHit = Math.abs(x - this.textPos.x) < textWidth / 2 + 20 && Math.abs(y - this.textPos.y) < this.textSize / 2 + 20;
+    if (textHit && this.text.trim() !== '') {
+      this.draggingText = true;
+      this.dragging = false;
+    } else {
+      this.draggingText = false;
+      this.dragging = true;
+    }
+    this.dragStart = { x, y, origX: this.draggingText ? this.textPos.x : this.pos.x, origY: this.draggingText ? this.textPos.y : this.pos.y };
+    this.canvas.setPointerCapture && this.canvas.setPointerCapture(e.pointerId);
+  };
+  Shirt.prototype._onPointerMove = function(e) {
+    if (!this.dragging && !this.draggingText) return;
+    const rect = this.canvas.getBoundingClientRect();
+    const x = (e.clientX - rect.left);
+    const y = (e.clientY - rect.top);
+    const dx = x - this.dragStart.x;
+    const dy = y - this.dragStart.y;
+    if (this.draggingText) {
+      this.textPos.x = this.dragStart.origX + dx;
+      this.textPos.y = this.dragStart.origY + dy;
+    } else {
+      this.pos.x = this.dragStart.origX + dx;
+      this.pos.y = this.dragStart.origY + dy;
+    }
+    this.draw();
+  };
+  Shirt.prototype._onPointerUp = function(e) {
+    this.dragging = false;
+    this.draggingText = false;
+    this.dragStart = null;
+    try { this.canvas.releasePointerCapture && this.canvas.releasePointerCapture(e.pointerId); } catch(err){}
+  };
+  Shirt.prototype.setImageFile = function(file) {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev)=> {
+      this.userImgLoaded = false;
+      this.userImg = new Image();
+      this.userImg.onload = ()=> { this.userImgLoaded = true; this.draw(); };
+      this.userImg.src = ev.target.result;
+      this.scale = 1;
+    };
+    reader.readAsDataURL(file);
+  };
+  Shirt.prototype.fitToArea = function() {
+    if (!this.userImgLoaded) return;
+    const tr = this.targetRect;
+    const ratio = Math.min(tr.width / this.userImg.naturalWidth, tr.height / this.userImg.naturalHeight);
+    this.scale = ratio;
+    this.draw();
+  };
   Shirt.prototype.exportPNG = function(filename='design.png') {
     const tmp = document.createElement('canvas');
     tmp.width = LAYOUT_WIDTH;
@@ -232,7 +285,7 @@
       a.remove();
     }, 'image/png', 0.92);
   };
-  // Load assets e resto igual...
+  // Load assets com logs
   function loadImg(src){ 
     const i = new Image(); 
     i.crossOrigin='anonymous'; 
@@ -245,6 +298,7 @@
   const maleShadow = loadImg(ASSETS.maleShadow);
   const femaleBase = loadImg(ASSETS.femaleBase);
   const femaleShadow = loadImg(ASSETS.femaleShadow);
+  // Instâncias
   const canvas1 = document.getElementById('tcanvas1');
   const shirt1 = new Shirt(canvas1, maleBase, maleShadow, TARGET_PERCENT.male);
   const canvas2 = document.getElementById('tcanvas2');
@@ -258,5 +312,105 @@
       shirt2.init();
     }
   }; });
-  // ... (copia os event listeners do teu código anterior)
+  // Shared color
+  document.getElementById('shirtColor').addEventListener('input', function(e){ 
+    shirt1.baseColor = e.target.value; 
+    shirt1.draw(); 
+    shirt2.baseColor = e.target.value; 
+    shirt2.draw(); 
+  });
+  // Controls shirt1
+  document.getElementById('userImage1').addEventListener('change', function(e){ shirt1.setImageFile(e.target.files[0]); });
+  document.getElementById('userText1').addEventListener('input', function(e){ shirt1.text = e.target.value; shirt1.draw(); });
+  document.getElementById('textColor1').addEventListener('input', function(e){ shirt1.textColor = e.target.value; shirt1.draw(); });
+  document.getElementById('textSize1').addEventListener('input', function(e){ shirt1.textSize = parseInt(e.target.value,10); shirt1.draw(); });
+  document.getElementById('imgScale1').addEventListener('input', function(e){ shirt1.scale = parseFloat(e.target.value); shirt1.draw(); });
+  document.getElementById('fitImage1').addEventListener('click', function(){ shirt1.fitToArea(); });
+  document.getElementById('resetView1').addEventListener('click', function(){ shirt1.pos.x = shirt1.targetRect.x + shirt1.targetRect.width/2; shirt1.pos.y = shirt1.targetRect.y + shirt1.targetRect.height/2; shirt1.textPos.x = LAYOUT_WIDTH/2; shirt1.textPos.y = LAYOUT_HEIGHT * 0.85; shirt1.scale = 1; shirt1.draw(); });
+  document.getElementById('downloadDesign1').addEventListener('click', function(){ shirt1.exportPNG('tshirt-design1.png'); });
+  // Controls shirt2
+  document.getElementById('userImage2').addEventListener('change', function(e){ shirt2.setImageFile(e.target.files[0]); });
+  document.getElementById('userText2').addEventListener('input', function(e){ shirt2.text = e.target.value; shirt2.draw(); });
+  document.getElementById('textColor2').addEventListener('input', function(e){ shirt2.textColor = e.target.value; shirt2.draw(); });
+  document.getElementById('textSize2').addEventListener('input', function(e){ shirt2.textSize = parseInt(e.target.value,10); shirt2.draw(); });
+  document.getElementById('imgScale2').addEventListener('input', function(e){ shirt2.scale = parseFloat(e.target.value); shirt2.draw(); });
+  document.getElementById('fitImage2').addEventListener('click', function(){ shirt2.fitToArea(); });
+  document.getElementById('resetView2').addEventListener('click', function(){ shirt2.pos.x = shirt2.targetRect.x + shirt2.targetRect.width/2; shirt2.pos.y = shirt2.targetRect.y + shirt2.targetRect.height/2; shirt2.textPos.x = LAYOUT_WIDTH/2; shirt2.textPos.y = LAYOUT_HEIGHT * 0.85; shirt2.scale = 1; shirt2.draw(); });
+  document.getElementById('downloadDesign2').addEventListener('click', function(){ shirt2.exportPNG('tshirt-design2.png'); });
+  // Toggle single/casal
+  const shirt2Col = document.getElementById('shirt2-col');
+  const swapBtn = document.getElementById('swapGenders');
+  document.getElementById('mode-single').addEventListener('change', function(){
+    if (this.checked) {
+      shirt2Col.classList.add('d-none');
+      swapBtn.classList.add('d-none');
+    }
+  });
+  document.getElementById('mode-couple').addEventListener('change', function(){
+    if (this.checked) {
+      shirt2Col.classList.remove('d-none');
+      swapBtn.classList.remove('d-none');
+    }
+  });
+  // Reset ao trocar gender
+  function resetShirt(shirt) {
+    shirt.userImgLoaded = false;
+    shirt.userImg = new Image();
+    shirt.draw();
+  }
+  document.getElementById('mode-male1').addEventListener('change', function(){
+    if (this.checked) {
+      resetShirt(shirt1);
+      shirt1.base = maleBase;
+      shirt1.shadow = maleShadow;
+      shirt1.targetPercent = TARGET_PERCENT.male;
+      shirt1.init();
+    }
+  });
+  document.getElementById('mode-female1').addEventListener('change', function(){
+    if (this.checked) {
+      resetShirt(shirt1);
+      shirt1.base = femaleBase;
+      shirt1.shadow = femaleShadow;
+      shirt1.targetPercent = TARGET_PERCENT.female;
+      shirt1.init();
+    }
+  });
+  document.getElementById('mode-male2').addEventListener('change', function(){
+    if (this.checked) {
+      resetShirt(shirt2);
+      shirt2.base = maleBase;
+      shirt2.shadow = maleShadow;
+      shirt2.targetPercent = TARGET_PERCENT.male;
+      shirt2.init();
+    }
+  });
+  document.getElementById('mode-female2').addEventListener('change', function(){
+    if (this.checked) {
+      resetShirt(shirt2);
+      shirt2.base = femaleBase;
+      shirt2.shadow = femaleShadow;
+      shirt2.targetPercent = TARGET_PERCENT.female;
+      shirt2.init();
+    }
+  });
+  // Swap genders
+  swapBtn.addEventListener('click', function(){
+    const isMale1 = document.getElementById('mode-male1').checked;
+    document.getElementById('mode-male1').checked = !isMale1;
+    document.getElementById('mode-female1').checked = isMale1;
+    shirt1.base = isMale1 ? femaleBase : maleBase;
+    shirt1.shadow = isMale1 ? femaleShadow : maleShadow;
+    shirt1.targetPercent = isMale1 ? TARGET_PERCENT.female : TARGET_PERCENT.male;
+    shirt1.init();
+
+    const isMale2 = document.getElementById('mode-male2').checked;
+    document.getElementById('mode-male2').checked = !isMale2;
+    document.getElementById('mode-female2').checked = isMale2;
+    shirt2.base = isMale2 ? femaleBase : maleBase;
+    shirt2.shadow = isMale2 ? femaleShadow : maleShadow;
+    shirt2.targetPercent = isMale2 ? TARGET_PERCENT.female : TARGET_PERCENT.male;
+    shirt2.init();
+  });
+  window.addEventListener('resize', function(){ shirt1.init(); shirt2.init(); });
 })();

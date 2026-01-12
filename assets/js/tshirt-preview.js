@@ -1,15 +1,15 @@
 (function(){
   // === CONFIG — ajusta estes nomes conforme o repo ===
   const ASSETS = {
-    maleBase: '/assets/images/basem.png', // base sólido masculino (branco)
-    maleShadow: '/assets/images/sombram.png', // sombras masculino
-    femaleBase: '/assets/images/basef.png', // base sólido feminino (branco)
-    femaleShadow: '/assets/images/sombraf.png' // sombras feminino
+    maleBase: '/assets/images/basem.png', // base sólido masculino (branco com bg transparente)
+    maleShadow: '/assets/images/sombram.png', // sombras masculino (bg transparente)
+    femaleBase: '/assets/images/basef.png', // base sólido feminino (branco com bg transparente)
+    femaleShadow: '/assets/images/sombraf.png' // sombras feminino (bg transparente)
   };
-  // Inicial sem size fixo - detectado de base img
-  let LAYOUT_WIDTH = 600; // Fallback
-  let LAYOUT_HEIGHT = 1200; // Fallback
-  // target rect percentages (x, y, w, h) — ajustar se necessário para encaixar no mockup
+  // Inicial com fallback - detectado de base img
+  let LAYOUT_WIDTH = 600;
+  let LAYOUT_HEIGHT = 1200;
+  // target rect percentages (x, y, w, h) — ajustar se necessário
   const TARGET_PERCENT = {
     male: { x: 0.25, y: 0.22, w: 0.5, h: 0.4 },
     female: { x: 0.26, y: 0.20, w: 0.48, h: 0.45 }
@@ -88,7 +88,10 @@
     const ctx = this.ctx;
     const w = LAYOUT_WIDTH, h = LAYOUT_HEIGHT;
     ctx.clearRect(0,0, w, h);
-    // Novo: Preservar aspect ao desenhar base/shadow - calcular scale e center se aspect diferente
+    // Preencher bg branco primeiro
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0,0,w,h);
+    // Desenhar base preservando aspect
     if (this.base && this.base.complete) {
       const baseAspect = this.base.naturalWidth / this.base.naturalHeight;
       const canvasAspect = w / h;
@@ -96,21 +99,20 @@
       let drawBaseH = h;
       let offsetX = 0;
       let offsetY = 0;
-      if (baseAspect !== canvasAspect) {
-        if (baseAspect > canvasAspect) { // Base wider - fit height, crop sides
-          drawBaseH = h;
-          drawBaseW = drawBaseH * baseAspect;
-          offsetX = (w - drawBaseW) / 2;
-        } else { // Base taller - fit width, crop top/bottom
-          drawBaseW = w;
-          drawBaseH = drawBaseW / baseAspect;
-          offsetY = (h - drawBaseH) / 2;
-        }
+      if (baseAspect > canvasAspect) { // Wider - fit height, center
+        drawBaseH = h;
+        drawBaseW = drawBaseH * baseAspect;
+        offsetX = (w - drawBaseW) / 2;
+      } else { // Taller - fit width, center
+        drawBaseW = w;
+        drawBaseH = drawBaseW / baseAspect;
+        offsetY = (h - drawBaseH) / 2;
       }
       ctx.drawImage(this.base, offsetX, offsetY, drawBaseW, drawBaseH);
+      // Tint apenas a camisa (multiply sobre o que foi desenhado)
       ctx.globalCompositeOperation = 'multiply';
       ctx.fillStyle = this.baseColor || '#ffffff';
-      ctx.fillRect(0,0,w,h);
+      ctx.fillRect(offsetX, offsetY, drawBaseW, drawBaseH); // Fill só na area da base pra não tintar bg
       ctx.globalCompositeOperation = 'source-over';
     }
     if (this.userImgLoaded) {
@@ -119,15 +121,15 @@
       ctx.beginPath();
       ctx.rect(tr.x, tr.y, tr.width, tr.height);
       ctx.clip();
-      const aspect = this.userImg.width / this.userImg.height;
-      let drawW = this.userImg.width * this.scale;
-      let drawH = this.userImg.height * this.scale;
+      const aspect = this.userImg.naturalWidth / this.userImg.naturalHeight;
+      let drawW = this.userImg.naturalWidth * this.scale;
+      let drawH = this.userImg.naturalHeight * this.scale;
       if (drawW / drawH !== tr.width / tr.height) {
         const targetAspect = tr.width / tr.height;
-        if (aspect > targetAspect) { // User img wider - fit height
+        if (aspect > targetAspect) {
           drawH = tr.height;
           drawW = drawH * aspect;
-        } else { // User img taller - fit width
+        } else {
           drawW = tr.width;
           drawH = drawW / aspect;
         }
@@ -135,24 +137,22 @@
       ctx.drawImage(this.userImg, this.pos.x - drawW/2, this.pos.y - drawH/2, drawW, drawH);
       ctx.restore();
     }
+    // Desenhar shadow preservando aspect, mesmo logic
     if (this.shadow && this.shadow.complete) {
-      // Mesmo logic para shadow - preserve aspect
       const shadowAspect = this.shadow.naturalWidth / this.shadow.naturalHeight;
       const canvasAspect = w / h;
       let drawShadowW = w;
       let drawShadowH = h;
       let offsetX = 0;
       let offsetY = 0;
-      if (shadowAspect !== canvasAspect) {
-        if (shadowAspect > canvasAspect) {
-          drawShadowH = h;
-          drawShadowW = drawShadowH * shadowAspect;
-          offsetX = (w - drawShadowW) / 2;
-        } else {
-          drawShadowW = w;
-          drawShadowH = drawShadowW / shadowAspect;
-          offsetY = (h - drawShadowH) / 2;
-        }
+      if (shadowAspect > canvasAspect) {
+        drawShadowH = h;
+        drawShadowW = drawShadowH * shadowAspect;
+        offsetX = (w - drawShadowW) / 2;
+      } else {
+        drawShadowW = w;
+        drawShadowH = drawShadowW / shadowAspect;
+        offsetY = (h - drawShadowH) / 2;
       }
       ctx.drawImage(this.shadow, offsetX, offsetY, drawShadowW, drawShadowH);
     }
@@ -166,6 +166,7 @@
       ctx.restore();
     }
   };
+  // Resto igual...
   Shirt.prototype._onPointerDown = function(e) {
     const rect = this.canvas.getBoundingClientRect();
     const x = (e.clientX - rect.left);
@@ -205,7 +206,7 @@
   Shirt.prototype.fitToArea = function() {
     if (!this.userImgLoaded) return;
     const tr = this.targetRect;
-    const ratio = Math.min(tr.width / this.userImg.width, tr.height / this.userImg.height);
+    const ratio = Math.min(tr.width / this.userImg.naturalWidth, tr.height / this.userImg.naturalHeight);
     this.scale = ratio;
     this.draw();
   };
@@ -214,6 +215,8 @@
     tmp.width = LAYOUT_WIDTH;
     tmp.height = LAYOUT_HEIGHT;
     const ctx = tmp.getContext('2d');
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0,0,tmp.width,tmp.height);
     if (this.base && this.base.complete) {
       const baseAspect = this.base.naturalWidth / this.base.naturalHeight;
       const canvasAspect = tmp.width / tmp.height;
@@ -221,21 +224,19 @@
       let drawBaseH = tmp.height;
       let offsetX = 0;
       let offsetY = 0;
-      if (baseAspect !== canvasAspect) {
-        if (baseAspect > canvasAspect) {
-          drawBaseH = tmp.height;
-          drawBaseW = drawBaseH * baseAspect;
-          offsetX = (tmp.width - drawBaseW) / 2;
-        } else {
-          drawBaseW = tmp.width;
-          drawBaseH = drawBaseW / baseAspect;
-          offsetY = (tmp.height - drawBaseH) / 2;
-        }
+      if (baseAspect > canvasAspect) {
+        drawBaseH = tmp.height;
+        drawBaseW = drawBaseH * baseAspect;
+        offsetX = (tmp.width - drawBaseW) / 2;
+      } else {
+        drawBaseW = tmp.width;
+        drawBaseH = drawBaseW / baseAspect;
+        offsetY = (tmp.height - drawBaseH) / 2;
       }
       ctx.drawImage(this.base, offsetX, offsetY, drawBaseW, drawBaseH);
       ctx.globalCompositeOperation = 'multiply';
       ctx.fillStyle = this.baseColor || '#ffffff';
-      ctx.fillRect(0,0,tmp.width,tmp.height);
+      ctx.fillRect(offsetX, offsetY, drawBaseW, drawBaseH);
       ctx.globalCompositeOperation = 'source-over';
     }
     if (this.userImgLoaded) {
@@ -244,9 +245,9 @@
       ctx.beginPath();
       ctx.rect(tr.x, tr.y, tr.width, tr.height);
       ctx.clip();
-      const aspect = this.userImg.width / this.userImg.height;
-      let drawW = this.userImg.width * this.scale;
-      let drawH = this.userImg.height * this.scale;
+      const aspect = this.userImg.naturalWidth / this.userImg.naturalHeight;
+      let drawW = this.userImg.naturalWidth * this.scale;
+      let drawH = this.userImg.naturalHeight * this.scale;
       if (drawW / drawH !== tr.width / tr.height) {
         const targetAspect = tr.width / tr.height;
         if (aspect > targetAspect) {
@@ -267,16 +268,14 @@
       let drawShadowH = tmp.height;
       let offsetX = 0;
       let offsetY = 0;
-      if (shadowAspect !== canvasAspect) {
-        if (shadowAspect > canvasAspect) {
-          drawShadowH = tmp.height;
-          drawShadowW = drawShadowH * shadowAspect;
-          offsetX = (tmp.width - drawShadowW) / 2;
-        } else {
-          drawShadowW = tmp.width;
-          drawShadowH = drawShadowW / shadowAspect;
-          offsetY = (tmp.height - drawShadowH) / 2;
-        }
+      if (shadowAspect > canvasAspect) {
+        drawShadowH = tmp.height;
+        drawShadowW = drawShadowH * shadowAspect;
+        offsetX = (tmp.width - drawShadowW) / 2;
+      } else {
+        drawShadowW = tmp.width;
+        drawShadowH = drawShadowW / shadowAspect;
+        offsetY = (tmp.height - drawShadowH) / 2;
       }
       ctx.drawImage(this.shadow, offsetX, offsetY, drawShadowW, drawShadowH);
     }
@@ -303,11 +302,10 @@
     i.src = src; 
     i.onload = () => {
       console.log('Loaded:', src, 'size:', i.naturalWidth, 'x', i.naturalHeight);
-      // Detect e set global LAYOUT based on first base (assumir todas iguais)
-      if (!LAYOUT_WIDTH || LAYOUT_WIDTH === 600) { // Update if fallback
+      if (!LAYOUT_WIDTH || LAYOUT_WIDTH === 600) {
         LAYOUT_WIDTH = i.naturalWidth;
         LAYOUT_HEIGHT = i.naturalHeight;
-        shirt1.init(); shirt2.init(); // Re-init com new size
+        shirt1.init(); shirt2.init();
       }
     };
     i.onerror = () => console.error('Error loading:', src);
@@ -317,7 +315,7 @@
   const maleShadow = loadImg(ASSETS.maleShadow);
   const femaleBase = loadImg(ASSETS.femaleBase);
   const femaleShadow = loadImg(ASSETS.femaleShadow);
-  // Instâncias e resto igual
+  // Instâncias e listeners igual ao anterior
   const canvas1 = document.getElementById('tcanvas1');
   const shirt1 = new Shirt(canvas1, maleBase, maleShadow, TARGET_PERCENT.male);
   const canvas2 = document.getElementById('tcanvas2');

@@ -7,8 +7,8 @@
     femaleShadow: '/assets/images/sombraf.png' // sombras feminino
   };
   // canvas target logical size (layout size) - we scale for DPR in setup
-  const LAYOUT_WIDTH = 700;
-  const LAYOUT_HEIGHT = 1500;
+  const LAYOUT_WIDTH = 600;
+  const LAYOUT_HEIGHT = 1200;
 
   // target rect percentages (x, y, w, h) — ajustar se necessário para encaixar no mockup
   const TARGET_PERCENT = {

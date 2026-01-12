@@ -6,13 +6,13 @@
     femaleBase: '/assets/images/basef.png', // base sólido feminino (branco com bg transparente)
     femaleShadow: '/assets/images/sombraf.png' // sombras feminino (bg transparente)
   };
-  // Tamanho fixo do canvas lógico (ajustado para container 400x500, mas scale images to fit)
+  // Tamanho fixo do container/canvas
   const LAYOUT_WIDTH = 400;
   const LAYOUT_HEIGHT = 500;
-  // target rect percentages (x, y, w, h) — ajustar se necessário para encaixar no container
+  // target rect percentages (x, y, w, h) — ajustado para mostrar mais da t-shirt
   const TARGET_PERCENT = {
-    male: { x: 0.1, y: 0.1, w: 0.8, h: 0.6 }, // Ajustado para caber melhor
-    female: { x: 0.1, y: 0.1, w: 0.8, h: 0.6 }
+    male: { x: 0.05, y: 0.05, w: 0.9, h: 0.7 }, // Maior área para caber toda
+    female: { x: 0.05, y: 0.05, w: 0.9, h: 0.7 }
   };
   function setupHiDPICanvas(canvas, width, height) {
     const dpr = window.devicePixelRatio || 1;
@@ -38,7 +38,7 @@
     this.text = '';
     this.textColor = '#000';
     this.textSize = 28;
-    this.textPos = { x: 0, y: 0 }; // Novo para texto movível
+    this.textPos = { x: 0, y: 0 };
     this.dragging = false;
     this.draggingText = false;
     this.dragStart = null;
@@ -58,7 +58,7 @@
     this.pos.x = this.targetRect.x + this.targetRect.width/2;
     this.pos.y = this.targetRect.y + this.targetRect.height/2;
     this.textPos.x = w/2;
-    this.textPos.y = h * 0.75; // Inicial abaixo da área de imagem
+    this.textPos.y = h * 0.8; // Ajustado para abaixo da área maior
     this.canvas.addEventListener('pointerdown', (e)=>this._onPointerDown(e));
     window.addEventListener('pointermove', (e)=>this._onPointerMove(e));
     window.addEventListener('pointerup', (e)=>this._onPointerUp(e));
@@ -92,28 +92,30 @@
     const ctx = this.ctx;
     const w = LAYOUT_WIDTH, h = LAYOUT_HEIGHT;
     ctx.clearRect(0,0, w, h);
-    // Sem fill bg aqui - bg é do container div
-    // Desenhar base, scale to fit container mantendo proporções
+    // Novo método de tint: Usa temp canvas para tint base usando source-in
     if (this.base && this.base.complete) {
+      const temp = document.createElement('canvas');
+      temp.width = w;
+      temp.height = h;
+      const tempCtx = temp.getContext('2d');
+      // Desenhar color full em temp
+      tempCtx.fillStyle = this.baseColor || '#ffffff';
+      tempCtx.fillRect(0, 0, w, h);
+      // Mask com base (source-in mantém color só onde base opaque)
+      tempCtx.globalCompositeOperation = 'source-in';
+      // Desenhar base com fit maintain proportions
       const baseAspect = this.base.naturalWidth / this.base.naturalHeight;
       let drawBaseW = w;
       let drawBaseH = drawBaseW / baseAspect;
-      if (drawBaseH > h) { // Se taller, fit height
+      if (drawBaseH > h) {
         drawBaseH = h;
         drawBaseW = drawBaseH * baseAspect;
       }
       const offsetX = (w - drawBaseW) / 2;
       const offsetY = (h - drawBaseH) / 2;
-      ctx.drawImage(this.base, offsetX, offsetY, drawBaseW, drawBaseH);
-      // Tint só na base
-      ctx.save();
-      ctx.beginPath();
-      ctx.rect(offsetX, offsetY, drawBaseW, drawBaseH);
-      ctx.clip();
-      ctx.globalCompositeOperation = 'multiply';
-      ctx.fillStyle = this.baseColor || '#ffffff';
-      ctx.fillRect(offsetX, offsetY, drawBaseW, drawBaseH);
-      ctx.restore();
+      tempCtx.drawImage(this.base, offsetX, offsetY, drawBaseW, drawBaseH);
+      // Desenhar tinted base no main ctx
+      ctx.drawImage(temp, 0, 0);
     }
     if (this.userImgLoaded) {
       ctx.save();
@@ -140,7 +142,6 @@
       ctx.fillText(this.text, this.textPos.x, this.textPos.y);
       ctx.restore();
     }
-    // Sombra por cima de tudo
     if (this.shadow && this.shadow.complete) {
       const shadowAspect = this.shadow.naturalWidth / this.shadow.naturalHeight;
       let drawShadowW = w;
@@ -158,7 +159,7 @@
     const rect = this.canvas.getBoundingClientRect();
     const x = (e.clientX - rect.left);
     const y = (e.clientY - rect.top);
-    // Check se click perto do texto (ex: dentro de bounding box aproximado)
+    // Check se click perto do texto
     const textWidth = this.ctx.measureText(this.text).width;
     const textHit = Math.abs(x - this.textPos.x) < textWidth / 2 + 20 && Math.abs(y - this.textPos.y) < this.textSize / 2 + 20;
     if (textHit && this.text.trim() !== '') {
@@ -219,6 +220,13 @@
     const ctx = tmp.getContext('2d');
     ctx.clearRect(0,0, tmp.width, tmp.height);
     if (this.base && this.base.complete) {
+      const temp = document.createElement('canvas');
+      temp.width = tmp.width;
+      temp.height = tmp.height;
+      const tempCtx = temp.getContext('2d');
+      tempCtx.fillStyle = this.baseColor || '#ffffff';
+      tempCtx.fillRect(0, 0, tmp.width, tmp.height);
+      tempCtx.globalCompositeOperation = 'source-in';
       const baseAspect = this.base.naturalWidth / this.base.naturalHeight;
       let drawBaseW = tmp.width;
       let drawBaseH = drawBaseW / baseAspect;
@@ -228,15 +236,8 @@
       }
       const offsetX = (tmp.width - drawBaseW) / 2;
       const offsetY = (tmp.height - drawBaseH) / 2;
-      ctx.drawImage(this.base, offsetX, offsetY, drawBaseW, drawBaseH);
-      ctx.save();
-      ctx.beginPath();
-      ctx.rect(offsetX, offsetY, drawBaseW, drawBaseH);
-      ctx.clip();
-      ctx.globalCompositeOperation = 'multiply';
-      ctx.fillStyle = this.baseColor || '#ffffff';
-      ctx.fillRect(offsetX, offsetY, drawBaseW, drawBaseH);
-      ctx.restore();
+      tempCtx.drawImage(this.base, offsetX, offsetY, drawBaseW, drawBaseH);
+      ctx.drawImage(temp, 0, 0);
     }
     if (this.userImgLoaded) {
       ctx.save();
@@ -282,7 +283,7 @@
       a.remove();
     }, 'image/png', 0.92);
   };
-  // Load assets com logs e detect size (mas override com fixo)
+  // Load assets
   function loadImg(src){ 
     const i = new Image(); 
     i.crossOrigin='anonymous'; 
@@ -295,7 +296,7 @@
   const maleShadow = loadImg(ASSETS.maleShadow);
   const femaleBase = loadImg(ASSETS.femaleBase);
   const femaleShadow = loadImg(ASSETS.femaleShadow);
-  // Instâncias e resto igual
+  // Instâncias e listeners
   const canvas1 = document.getElementById('tcanvas1');
   const shirt1 = new Shirt(canvas1, maleBase, maleShadow, TARGET_PERCENT.male);
   const canvas2 = document.getElementById('tcanvas2');
@@ -321,7 +322,7 @@
   document.getElementById('textSize1').addEventListener('input', function(e){ shirt1.textSize = parseInt(e.target.value,10); shirt1.draw(); });
   document.getElementById('imgScale1').addEventListener('input', function(e){ shirt1.scale = parseFloat(e.target.value); shirt1.draw(); });
   document.getElementById('fitImage1').addEventListener('click', function(){ shirt1.fitToArea(); });
-  document.getElementById('resetView1').addEventListener('click', function(){ shirt1.pos.x = shirt1.targetRect.x + shirt1.targetRect.width/2; shirt1.pos.y = shirt1.targetRect.y + shirt1.targetRect.height/2; shirt1.textPos.x = LAYOUT_WIDTH/2; shirt1.textPos.y = LAYOUT_HEIGHT * 0.75; shirt1.scale = 1; shirt1.draw(); });
+  document.getElementById('resetView1').addEventListener('click', function(){ shirt1.pos.x = shirt1.targetRect.x + shirt1.targetRect.width/2; shirt1.pos.y = shirt1.targetRect.y + shirt1.targetRect.height/2; shirt1.textPos.x = LAYOUT_WIDTH/2; shirt1.textPos.y = LAYOUT_HEIGHT * 0.8; shirt1.scale = 1; shirt1.draw(); });
   document.getElementById('downloadDesign1').addEventListener('click', function(){ shirt1.exportPNG('tshirt-design1.png'); });
   document.getElementById('userImage2').addEventListener('change', function(e){ shirt2.setImageFile(e.target.files[0]); });
   document.getElementById('userText2').addEventListener('input', function(e){ shirt2.text = e.target.value; shirt2.draw(); });
@@ -329,7 +330,7 @@
   document.getElementById('textSize2').addEventListener('input', function(e){ shirt2.textSize = parseInt(e.target.value,10); shirt2.draw(); });
   document.getElementById('imgScale2').addEventListener('input', function(e){ shirt2.scale = parseFloat(e.target.value); shirt2.draw(); });
   document.getElementById('fitImage2').addEventListener('click', function(){ shirt2.fitToArea(); });
-  document.getElementById('resetView2').addEventListener('click', function(){ shirt2.pos.x = shirt2.targetRect.x + shirt2.targetRect.width/2; shirt2.pos.y = shirt2.targetRect.y + shirt2.targetRect.height/2; shirt2.textPos.x = LAYOUT_WIDTH/2; shirt2.textPos.y = LAYOUT_HEIGHT * 0.75; shirt2.scale = 1; shirt2.draw(); });
+  document.getElementById('resetView2').addEventListener('click', function(){ shirt2.pos.x = shirt2.targetRect.x + shirt2.targetRect.width/2; shirt2.pos.y = shirt2.targetRect.y + shirt2.targetRect.height/2; shirt2.textPos.x = LAYOUT_WIDTH/2; shirt2.textPos.y = LAYOUT_HEIGHT * 0.8; shirt2.scale = 1; shirt2.draw(); });
   document.getElementById('downloadDesign2').addEventListener('click', function(){ shirt2.exportPNG('tshirt-design2.png'); });
   const shirt2Col = document.getElementById('shirt2-col');
   const swapBtn = document.getElementById('swapGenders');

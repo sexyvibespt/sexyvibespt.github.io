@@ -3,215 +3,236 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sexy Vibes - Presentes com Amor!</title>
-    <!-- Favicons -->
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
-    <link rel="apple-touch-icon" href="assets/images/favicon-32x32.png">
+    <meta name="description" content="Sexy Vibes: Gifts românticos para o Dia dos Namorados. T-shirts custom e modelos 3D sexy classy para casais. Personaliza agora e surpreende!">
+    <meta name="keywords" content="gifts Valentine's, t-shirts custom couples, modelos 3D personalizados, Dia dos Namorados Portugal">
+    <title>Sexy Vibes - Gifts Românticos Valentine's</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body { background-color: #f8f9fa; font-family: Arial, sans-serif; }
-        .hero { background: linear-gradient(to right, #ff69b4, #000); color: white; padding: 100px 0; text-align: center; }
-        .character { border-radius: 50%; width: 150px; height: 150px; object-fit: cover; }
-        .product-card { margin: 20px; }
-        /* Preview canvas styles */
-        .shirt-canvas {
-          width: 100%;
-          max-width: 480px;
-          height: auto;
-          border: 1px solid #ddd;
-          background: #fff;
-          cursor: grab;
-          touch-action: none;
-        }
-        .shirt-canvas:active { cursor: grabbing; }
+        .hero { background: linear-gradient(to right, #ff69b4, #000); color: white; padding: 100px 0; text-align: center; animation: fadeIn 1s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .character { border-radius: 50%; width: 150px; height: 150px; object-fit: cover; transition: transform 0.3s; }
+        .character:hover { transform: scale(1.1); }
+        .product-card { margin: 20px; animation: fadeIn 1.5s ease-in; }
+        .cta-btn { background-color: #ff69b4; border: none; color: white; font-weight: bold; }
+        .cta-btn:hover { background-color: #e0459a; }
+        .urgency { color: red; font-weight: bold; }
+        .testimonial { background: #fff; border: 1px solid #ddd; padding: 15px; margin: 10px; border-radius: 8px; }
+        
+        /* Estilos para Preview de T-shirt */
+        #preview-container { position: relative; width: 300px; height: 400px; margin: auto; }
+        #tshirt-bg { width: 100%; height: 100%; background: url('images/tshirt-blank.jpg') no-repeat center/contain; } /* Adicione uma imagem em branco de t-shirt no repo */
+        #preview-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 24px; font-weight: bold; text-align: center; width: 80%; }
+        
+        /* Estilos para Preview de Funko Pop */
+        #funko-preview-container { position: relative; width: 300px; height: 400px; margin: auto; }
+        #funko-base { width: 100%; height: 100%; background: url('images/funko-base.png') no-repeat center/contain; } /* Adicione uma imagem base de Funko sem cara no repo */
+        #funko-face-overlay { position: absolute; top: 20%; left: 35%; width: 30%; height: 30%; border-radius: 50%; overflow: hidden; } /* Ajuste posições % para encaixar na cabeça da base */
+        #funko-face-img { width: 100%; height: 100%; object-fit: cover; }
     </style>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script> <!-- Substitui por teu GA ID real -->
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+    </script>
 </head>
-<body>
-    <!-- Navbar -->
+<body data-lang="pt"> <!-- Atributo para idioma atual -->
+    <!-- Navbar com Selector de Idioma -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="/">
-                <img src="assets/images/logo.png" alt="Sexy Vibes" height="40" class="me-2">
-                Sexy Vibes
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand" href="#">Sexy Vibes</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#products">Produtos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#about">Sobre</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://www.etsy.com/shop/SexyVibesPT" target="_blank" rel="noopener noreferrer">Loja</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#home" data-pt="Home" data-en="Home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#products" data-pt="Produtos" data-en="Products">Produtos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#funko-custom" data-pt="Criar Funko Pop" data-en="Create Funko Pop">Criar Funko Pop</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about" data-pt="Sobre" data-en="About">Sobre</a></li>
+                    <li class="nav-item"><a class="nav-link btn cta-btn ms-2" href="https://www.etsy.com/shop/SexyVibesPT" target="_blank" data-pt="Comprar Agora" data-en="Shop Now">Comprar Agora</a></li>
+                    <li class="nav-item dropdown ms-2">
+                        <a class="nav-link dropdown-toggle" href="#" id="langDropdown" role="button" data-bs-toggle="dropdown">PT</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" onclick="changeLanguage('pt')">Português</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="changeLanguage('en')">English</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- Hero Section com Hook e CTA -->
     <section id="home" class="hero">
         <div class="container">
-            <h1>Sexy Vibes — Presentes Românticos e Personalizados</h1>
-            <p>Designs sexy e classy — T-shirts custom e modelos 3D. Personalize com nomes ou fotos!</p>
-            <a href="https://www.etsy.com/shop/SexyVibesPT" class="btn btn-light btn-lg" target="_blank" rel="noopener noreferrer">Comprar Agora</a>
+            <h1 data-pt="Desperte Vibes Sexy este Valentine's!" data-en="Awaken Sexy Vibes this Valentine's!">Desperte Vibes Sexy este Valentine's!</h1>
+            <p class="lead" data-pt="Surpreenda seu parceiro com t-shirts custom e modelos 3D românticos – sexy, classy e personalizados. Não perca: <span class='urgency'>10% off em pré-vendas até 31 Jan!</span>" data-en="Surprise your partner with custom t-shirts and romantic 3D models – sexy, classy, and personalized. Don't miss: <span class='urgency'>10% off on pre-sales until Jan 31!</span>">Surpreenda seu parceiro com t-shirts custom e modelos 3D românticos – sexy, classy e personalizados. Não perca: <span class="urgency">10% off em pré-vendas até 31 Jan!</span></p>
+            <a href="https://www.etsy.com/shop/SexyVibesPT" class="btn cta-btn btn-lg" target="_blank" data-pt="Personalizar Meu Gift Agora" data-en="Customize My Gift Now">Personalizar Meu Gift Agora</a>
         </div>
     </section>
 
-    <!-- Products Section -->
+    <!-- Products Section com Hooks e Preview de T-shirt -->
     <section id="products" class="py-5">
         <div class="container">
-            <h2 class="text-center mb-4">Nossos Produtos</h2>
+            <h2 class="text-center mb-4" data-pt="Produtos que Acendem a Paixão" data-en="Products that Ignite Passion">Produtos que Acendem a Paixão</h2>
+            <p class="text-center urgency mb-4" data-pt="Edição Limitada Valentine's – Encomende antes que acabe!" data-en="Limited Valentine's Edition – Order Before It's Gone!">Edição Limitada Valentine's – Encomende antes que acabe!</p>
             <div class="row">
                 <div class="col-md-4 product-card">
-                    <img src="images/tshirt-example.jpg" class="img-fluid" alt="T-shirt Custom">
-                    <h3>T-shirts para Casais</h3>
-                    <p>Matching designs com vibes sexy: "His & Her Vibes". Personaliza nomes ou frases. A partir de 20€.</p>
+                    <img src="images/tshirt-example.jpg" class="img-fluid" alt="T-shirt Custom para Casais">
+                    <h3 data-pt="T-shirts Matching para Casais" data-en="Matching T-shirts for Couples">T-shirts Matching para Casais</h3>
+                    <p data-pt="Designs sexy classy como 'His & Her Vibes'. Adicione nomes ou frases. A partir de 20€. <span class='urgency'>Vende rápido!</span>" data-en="Sexy classy designs like 'His & Her Vibes'. Add names or phrases. From 20€. <span class='urgency'>Sells fast!</span>">Designs sexy classy como "His & Her Vibes". Adicione nomes ou frases. A partir de 20€. <span class="urgency">Vende rápido!</span></p>
+                    <a href="https://www.etsy.com/shop/SexyVibesPT" class="btn cta-btn" target="_blank" data-pt="Comprar T-shirt" data-en="Buy T-shirt">Comprar T-shirt</a>
                 </div>
                 <div class="col-md-4 product-card">
-                    <img src="images/3d-model-example.jpg" class="img-fluid" alt="Modelo 3D">
-                    <h3>Modelos 3D Funko-Style</h3>
-                    <p>Figuras românticas custom com tua cara ou do casal. Imprime em casa ou via POD. A partir de 10€.</p>
+                    <img src="images/3d-model-example.jpg" class="img-fluid" alt="Modelo 3D Personalizado">
+                    <h3 data-pt="Modelos 3D Funko-Style" data-en="Funko-Style 3D Models">Modelos 3D Funko-Style</h3>
+                    <p data-pt="Figuras românticas com sua cara ou do casal. Imprima em casa ou via POD. A partir de 10€. Personalize com upload de foto!" data-en="Romantic figures with your or your couple's face. Print at home or via POD. From 10€. Customize with photo upload!">Figuras românticas com sua cara ou do casal. Imprima em casa ou via POD. A partir de 10€. Personalize com upload de foto!</p>
+                    <a href="https://www.etsy.com/shop/SexyVibesPT" class="btn cta-btn" target="_blank" data-pt="Personalizar 3D" data-en="Customize 3D">Personalizar 3D</a>
                 </div>
                 <div class="col-md-4 product-card">
-                    <img src="images/bundle-example.jpg" class="img-fluid" alt="Bundle">
-                    <h3>Bundles Valentine's</h3>
-                    <p>T-shirt + Modelo 3D. Perfeito pra surpreender. Desconto 10% em pré-venda!</p>
+                    <img src="images/bundle-example.jpg" class="img-fluid" alt="Bundle Valentine's">
+                    <h3 data-pt="Bundles Exclusivos" data-en="Exclusive Bundles">Bundles Exclusivos</h3>
+                    <p data-pt="T-shirt + Modelo 3D por 40€. O gift perfeito para casais. <span class='urgency'>Desconto 10% agora!</span>" data-en="T-shirt + 3D Model for 40€. The perfect gift for couples. <span class='urgency'>10% discount now!</span>">T-shirt + Modelo 3D por 40€. O gift perfeito para casais. <span class="urgency">Desconto 10% agora!</span></p>
+                    <a href="https://www.etsy.com/shop/SexyVibesPT" class="btn cta-btn" target="_blank" data-pt="Pegar Bundle" data-en="Get Bundle">Pegar Bundle</a>
+                </div>
+            </div>
+            <!-- Seção de Preview de T-shirt -->
+            <div class="mt-5 text-center">
+                <h3 data-pt="Pré-visualize Sua T-shirt Custom" data-en="Preview Your Custom T-shirt">Pré-visualize Sua T-shirt Custom</h3>
+                <p data-pt="Experimente como ficaria com seu texto personalizado. Enviamos para o mundo inteiro via POD!" data-en="Try how it would look with your custom text. We ship worldwide via POD!">Experimente como ficaria com seu texto personalizado. Enviamos para o mundo inteiro via POD!</p>
+                <input type="text" id="custom-text" class="form-control w-50 mx-auto mb-3" placeholder="Digite seu texto (ex: His Vibes)" data-pt-placeholder="Digite seu texto (ex: His Vibes)" data-en-placeholder="Enter your text (ex: His Vibes)">
+                <select id="text-color" class="form-select w-50 mx-auto mb-3">
+                    <option value="black">Preto / Black</option>
+                    <option value="white">Branco / White</option>
+                    <option value="red">Vermelho / Red</option>
+                </select>
+                <div id="preview-container">
+                    <div id="tshirt-bg"></div>
+                    <div id="preview-text"></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- About Section -->
-    <section id="about" class="py-5 bg-light">
+    <!-- Nova Seção para Criar Funko Pop Custom -->
+    <section id="funko-custom" class="py-5 bg-light">
         <div class="container">
-            <h2 class="text-center mb-4">Conhece a Equipa</h2>
+            <h2 class="text-center mb-4" data-pt="Crie Seu Funko Pop Look-Alike" data-en="Create Your Funko Pop Look-Alike">Crie Seu Funko Pop Look-Alike</h2>
+            <p class="text-center" data-pt="Carregue uma foto da sua cara para pré-visualizar como ficaria transposta na figura base. Para o produto real, enviaremos o modelo 3D customizado após compra!" data-en="Upload a photo of your face to preview how it would look transposed on the base figure. For the real product, we'll send the customized 3D model after purchase!">Carregue uma foto da sua cara para pré-visualizar como ficaria transposta na figura base. Para o produto real, enviaremos o modelo 3D customizado após compra!</p>
+            <div class="text-center">
+                <input type="file" id="face-upload" accept="image/*" class="form-control w-50 mx-auto mb-3">
+                <div id="funko-preview-container">
+                    <div id="funko-base"></div>
+                    <div id="funko-face-overlay">
+                        <img id="funko-face-img" src="" alt="Sua Cara no Funko">
+                    </div>
+                </div>
+                <a href="https://www.etsy.com/shop/SexyVibesPT" class="btn cta-btn mt-3" target="_blank" data-pt="Comprar e Personalizar Real" data-en="Buy and Customize Real">Comprar e Personalizar Real</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials para Credibilidade -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-4" data-pt="O que Nossos Clientes Dizem" data-en="What Our Customers Say">O que Nossos Clientes Dizem</h2>
+            <div class="row">
+                <div class="col-md-4 testimonial">
+                    <p data-pt="'Adorei a t-shirt custom! Sexy sem ser over, perfeito pro Valentine's. Meu namorado amou!' - Ana, Porto" data-en="'Loved the custom t-shirt! Sexy without being over, perfect for Valentine's. My boyfriend loved it!' - Ana, Porto">"Adorei a t-shirt custom! Sexy sem ser over, perfeito pro Valentine's. Meu namorado amou!" - Ana, Porto</p>
+                </div>
+                <div class="col-md-4 testimonial">
+                    <p data-pt="'O modelo 3D personalizado foi um hit! Fácil de imprimir e super romântico.' - João, Lisboa" data-en="'The personalized 3D model was a hit! Easy to print and super romantic.' - João, Lisboa">"O modelo 3D personalizado foi um hit! Fácil de imprimir e super romântico." - João, Lisboa</p>
+                </div>
+                <div class="col-md-4 testimonial">
+                    <p data-pt="'Vibes incríveis na marca. Entrega rápida via POD, recomendo!' - Maria, Faro" data-en="'Amazing vibes in the brand. Fast delivery via POD, recommend!' - Maria, Faro">"Vibes incríveis na marca. Entrega rápida via POD, recomendo!" - Maria, Faro</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section com Personagens -->
+    <section id="about" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-4" data-pt="Conhece as Vibes" data-en="Meet the Vibes">Conhece as Vibes</h2>
             <div class="row text-center">
                 <div class="col-md-6">
-                    <img src="/assets/images/S.perfil.png" class="character" alt="Sara Vibes">
+                    <img src="images/sara-vibes.jpg" class="character" alt="Sara Vibes - Personagem Feminina">
                     <h3>Sara Vibes</h3>
-                    <p>A rainha das vibes românticas. Sigo tendências sexy classy pra te inspirar!</p>
+                    <p data-pt="A inspiração feminina: Designs que elevam o romance com toques sexy classy." data-en="The feminine inspiration: Designs that elevate romance with sexy classy touches.">A inspiração feminina: Designs que elevam o romance com toques sexy classy.</p>
                 </div>
                 <div class="col-md-6">
-                    <img src="/assets/images/A.perfil.png" class="character" alt="Alex Vibes">
+                    <img src="images/alex-vibes.jpg" class="character" alt="Alex Vibes - Personagem Masculino">
                     <h3>Alex Vibes</h3>
-                    <p>O charm dos designs masculinos. Pronto pra customizar teu gift perfeito.</p>
+                    <p data-pt="O lado charm: Personalizações que fazem qualquer casal brilhar." data-en="The charming side: Customizations that make any couple shine.">O lado charm: Personalizações que fazem qualquer casal brilhar.</p>
                 </div>
             </div>
         </div>
     </section>
 
-   <!-- T-shirt preview section -->
-<section id="tshirt-preview" class="py-5">
-  <div class="container">
-    <h2 class="text-center mb-4">Pré-visualizador de T‑shirt (Single / Casal)</h2>
-    <div class="mb-3 text-center">
-      <div class="btn-group" role="group" aria-label="Modo Principal">
-        <input type="radio" class="btn-check" name="main-mode" id="mode-single" autocomplete="off" checked>
-        <label class="btn btn-outline-primary" for="mode-single">Single</label>
-        <input type="radio" class="btn-check" name="main-mode" id="mode-couple" autocomplete="off">
-        <label class="btn btn-outline-primary" for="mode-couple">Casal</label>
-      </div>
-    </div>
-    <div class="row">
-      <!-- Shirt 1 -->
-      <div class="col-md-6 text-center" id="shirt1-col">
-        <div class="mb-3">
-          <div class="btn-group" role="group" aria-label="Gênero Shirt 1">
-            <input type="radio" class="btn-check" name="gender1" id="mode-male1" autocomplete="off" checked>
-            <label class="btn btn-outline-secondary" for="mode-male1">Masculino</label>
-            <input type="radio" class="btn-check" name="gender1" id="mode-female1" autocomplete="off">
-            <label class="btn btn-outline-secondary" for="mode-female1">Feminino</label>
-          </div>
+    <!-- Custom Request Form (Embed Google Forms para Captura Leads) -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-4" data-pt="Personalize Seu Gift" data-en="Customize Your Gift">Personalize Seu Gift</h2>
+            <p class="text-center" data-pt="Envie detalhes pra um design exclusivo. Responderemos em 24h!" data-en="Send details for an exclusive design. We'll respond in 24h!">Envie detalhes pra um design exclusivo. Responderemos em 24h!</p>
+            <div class="text-center">
+                <iframe src="https://docs.google.com/forms/d/e/SEU_FORM_ID/embed" width="640" height="800" frameborder="0" marginheight="0" marginwidth="0">Carregando…</iframe> <!-- Substitui por teu Google Forms embed real -->
+            </div>
+            <p class="text-center mt-3"><a href="https://www.etsy.com/shop/SexyVibesPT" class="btn cta-btn" target="_blank" data-pt="Ou Compre Direto na Loja" data-en="Or Shop Directly">Ou Compre Direto na Loja</a></p>
         </div>
-        <div class="preview-container mx-auto" style="width: 400px; height: 500px; background: linear-gradient(to right, #ff69b4, #000); overflow: hidden;">
-          <canvas id="tcanvas1" class="shirt-canvas" style="display: block; width: 100%; height: 100%;"></canvas>
-        </div>
-        <div class="controls mt-3">
-          <div class="mb-2">
-            <label>Upload imagem (frente)</label>
-            <input type="file" id="userImage1" accept="image/*" class="form-control">
-          </div>
-          <div class="mb-2">
-            <label>Texto (opcional)</label>
-            <input type="text" id="userText1" class="form-control" placeholder="Ex: His Vibes">
-          </div>
-          <div class="mb-2">
-            <label>Cor do texto</label>
-            <input type="color" id="textColor1" value="#000000" class="form-control form-control-color">
-          </div>
-          <div class="mb-2">
-            <label>Tamanho do texto</label>
-            <input type="range" id="textSize1" min="12" max="72" value="28" class="form-range">
-          </div>
-          <div class="mb-2">
-            <label>Escala da imagem</label>
-            <input type="range" id="imgScale1" min="0.2" max="3" step="0.01" value="1" class="form-range">
-          </div>
-          <div class="mb-2">
-            <button id="fitImage1" class="btn btn-info">Fit to Area</button>
-            <button id="resetView1" class="btn btn-secondary">Recentrar</button>
-            <button id="downloadDesign1" class="btn btn-success">Download PNG</button>
-          </div>
-        </div>
-        <small class="text-muted">Arrasta a imagem ou texto no mockup para posicionar. Usa roda do rato para escalar imagem.</small>
-      </div>
-      <!-- Shirt 2 (hidden por default) -->
-      <div class="col-md-6 text-center d-none" id="shirt2-col">
-        <div class="mb-3">
-          <div class="btn-group" role="group" aria-label="Gênero Shirt 2">
-            <input type="radio" class="btn-check" name="gender2" id="mode-male2" autocomplete="off">
-            <label class="btn btn-outline-secondary" for="mode-male2">Masculino</label>
-            <input type="radio" class="btn-check" name="gender2" id="mode-female2" autocomplete="off" checked>
-            <label class="btn btn-outline-secondary" for="mode-female2">Feminino</label>
-          </div>
-        </div>
-        <div class="preview-container mx-auto" style="width: 400px; height: 500px; background: linear-gradient(to right, #ff69b4, #000); overflow: hidden;">
-          <canvas id="tcanvas2" class="shirt-canvas" style="display: block; width: 100%; height: 100%;"></canvas>
-        </div>
-        <div class="controls mt-3">
-          <div class="mb-2">
-            <label>Upload imagem (frente)</label>
-            <input type="file" id="userImage2" accept="image/*" class="form-control">
-          </div>
-          <div class="mb-2">
-            <label>Texto (opcional)</label>
-            <input type="text" id="userText2" class="form-control" placeholder="Ex: Her Vibes">
-          </div>
-          <div class="mb-2">
-            <label>Cor do texto</label>
-            <input type="color" id="textColor2" value="#000000" class="form-control form-control-color">
-          </div>
-          <div class="mb-2">
-            <label>Tamanho do texto</label>
-            <input type="range" id="textSize2" min="12" max="72" value="28" class="form-range">
-          </div>
-          <div class="mb-2">
-            <label>Escala da imagem</label>
-            <input type="range" id="imgScale2" min="0.2" max="3" step="0.01" value="1" class="form-range">
-          </div>
-          <div class="mb-2">
-            <button id="fitImage2" class="btn btn-info">Fit to Area</button>
-            <button id="resetView2" class="btn btn-secondary">Recentrar</button>
-            <button id="downloadDesign2" class="btn btn-success">Download PNG</button>
-          </div>
-        </div>
-        <small class="text-muted">Arrasta a imagem ou texto no mockup para posicionar. Usa roda do rato para escalar imagem.</small>
-      </div>
-    </div>
-    <div class="mb-3 text-center">
-      <label>Cor da t-shirt (shared)</label>
-      <input type="color" id="shirtColor" value="#ffffff" class="form-control form-control-color mx-auto" style="width: 100px;">
-      <button id="swapGenders" class="btn btn-primary mt-2 d-none">Trocar Gêneros</button>
-    </div>
-  </div>
-</section>
+    </section>
 
-    <!-- Footer -->
+    <!-- Footer com CTA Final -->
     <footer class="bg-dark text-white py-3 text-center">
-        <p>&copy; 2026 Sexy Vibes. Todos os direitos reservados. <a href="https://www.facebook.com/SaraVibes" target="_blank" rel="noopener noreferrer">Facebook</a> | <a href="https://x.com/SexyVibesPT" target="_blank" rel="noopener noreferrer">X</a></p>
+        <p data-pt="&copy; 2026 Sexy Vibes. Todos os direitos reservados." data-en="&copy; 2026 Sexy Vibes. All rights reserved.">&copy; 2026 Sexy Vibes. Todos os direitos reservados. <a href="https://www.facebook.com/SaraVibes" target="_blank">Facebook</a> | <a href="https://x.com/SexyVibesPT" target="_blank">X</a></p>
+        <a href="https://www.etsy.com/shop/SexyVibesPT" class="btn cta-btn mt-2" target="_blank" data-pt="Não Espere – Compre Agora!" data-en="Don't Wait – Shop Now!">Não Espere – Compre Agora!</a>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/assets/js/tshirt-preview.js"></script>
+    <script>
+        // Função para Mudar Idioma
+        function changeLanguage(lang) {
+            document.body.setAttribute('data-lang', lang);
+            document.querySelectorAll('[data-pt],[data-en]').forEach(el => {
+                el.innerHTML = el.getAttribute(`data-${lang}`) || el.innerHTML;
+                if (el.placeholder) el.placeholder = el.getAttribute(`data-${lang}-placeholder`) || el.placeholder;
+            });
+            document.querySelector('#langDropdown').textContent = lang.toUpperCase();
+        }
+
+        // Função para Preview de T-shirt
+        document.addEventListener('DOMContentLoaded', () => {
+            const customText = document.getElementById('custom-text');
+            const textColor = document.getElementById('text-color');
+            const previewText = document.getElementById('preview-text');
+
+            customText.addEventListener('input', updateTshirtPreview);
+            textColor.addEventListener('change', updateTshirtPreview);
+
+            function updateTshirtPreview() {
+                previewText.textContent = customText.value || 'Seu Texto Aqui';
+                previewText.style.color = textColor.value;
+            }
+            updateTshirtPreview(); // Inicial
+
+            // Função para Preview de Funko Pop
+            const faceUpload = document.getElementById('face-upload');
+            const faceImg = document.getElementById('funko-face-img');
+
+            faceUpload.addEventListener('change', (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        faceImg.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+    </script>
 </body>
 </html>

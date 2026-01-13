@@ -82,41 +82,82 @@
     </section>
 
     <!-- Products Section com Cards para T-shirts, Modelos 3D e Bundles, mais Preview de T-shirt -->
+    <!-- Products (T-Shirts Carrossel) -->
     <section id="products" class="py-5">
         <div class="container">
-            <h2 class="text-center mb-4" data-pt="Produtos que Acendem a Paixão" data-en="Products that Ignite Passion">Produtos que Acendem a Paixão</h2>
-            <p class="text-center urgency mb-4" data-pt="Edição Limitada Valentine's – Encomende antes que acabe!" data-en="Limited Valentine's Edition – Order Before It's Gone!">Edição Limitada Valentine's – Encomende antes que acabe!</p>
-            <div class="row">
-                <div class="col-md-4 product-card">
-                    <img src="images/tshirt-example.jpg" class="img-fluid" alt="T-shirt Custom para Casais">
-                    <h3 data-pt="T-shirts Matching para Casais" data-en="Matching T-shirts for Couples">T-shirts Matching para Casais</h3>
-                    <p data-pt="Designs sexy classy como 'His & Her Vibes'. Adicione nomes ou frases. A partir de 20€. <span class='urgency'>Vende rápido!</span>" data-en="Sexy classy designs like 'His & Her Vibes'. Add names or phrases. From 20€. <span class='urgency'>Sells fast!</span>">Designs sexy classy como "His & Her Vibes". Adicione nomes ou frases. A partir de 20€. <span class="urgency">Vende rápido!</span></p>
-                    <a href="https://www.etsy.com/shop/SexyVibesPT" class="btn cta-btn" target="_blank" data-pt="Comprar T-shirt" data-en="Buy T-shirt">Comprar T-shirt</a>
-                </div>
-                <div class="col-md-4 product-card">
-                    <img src="images/3d-model-example.jpg" class="img-fluid" alt="Modelo 3D Personalizado">
-                    <h3 data-pt="Modelos 3D Funko-Style" data-en="Funko-Style 3D Models">Modelos 3D Funko-Style</h3>
-                    <p data-pt="Figuras românticas com sua cara ou do casal. Imprima em casa ou via POD. A partir de 10€. Personalize com upload de foto!" data-en="Romantic figures with your or your couple's face. Print at home or via POD. From 10€. Customize with photo upload!">Figuras românticas com sua cara ou do casal. Imprima em casa ou via POD. A partir de 10€. Personalize com upload de foto!</p>
-                    <a href="https://www.etsy.com/shop/SexyVibesPT" class="btn cta-btn" target="_blank" data-pt="Personalizar 3D" data-en="Customize 3D">Personalizar 3D</a>
-                </div>
-                <div class="col-md-4 product-card">
-                    <img src="images/bundle-example.jpg" class="img-fluid" alt="Bundle Valentine's">
-                    <h3 data-pt="Bundles Exclusivos" data-en="Exclusive Bundles">Bundles Exclusivos</h3>
-                    <p data-pt="T-shirt + Modelo 3D por 40€. O gift perfeito para casais. <span class='urgency'>Desconto 10% agora!</span>" data-en="T-shirt + 3D Model for 40€. The perfect gift for couples. <span class='urgency'>10% discount now!</span>">T-shirt + Modelo 3D por 40€. O gift perfeito para casais. <span class="urgency">Desconto 10% agora!</span></p>
-                    <a href="https://www.etsy.com/shop/SexyVibesPT" class="btn cta-btn" target="_blank" data-pt="Pegar Bundle" data-en="Get Bundle">Pegar Bundle</a>
-                </div>
+            <h2 class="text-center mb-4" data-pt="T-Shirts Custom" data-en="Custom T-Shirts">T-Shirts Custom</h2>
+            <p class="text-center urgency mb-4" data-pt="Edição Limitada – Escolhe Gênero e Personaliza!" data-en="Limited Edition – Choose Gender and Customize!">Edição Limitada – Escolhe Gênero e Personaliza!</p>
+            <!-- Select Gênero para T-Shirts -->
+            <div class="text-center mb-4">
+                <select id="gender-select-tshirt" class="form-select w-25 mx-auto">
+                    <option value="masculino">Masculino</option>
+                    <option value="feminino">Feminino</option>
+                    <option value="casal">Casal</option>
+                </select>
+                <select id="casal-option1" class="form-select w-25 mx-auto mt-2 d-none">
+                    <option value="masculino">Parceiro 1: Masculino</option>
+                    <option value="feminino">Parceiro 1: Feminino</option>
+                </select>
+                <select id="casal-option2" class="form-select w-25 mx-auto mt-2 d-none">
+                    <option value="masculino">Parceiro 2: Masculino</option>
+                    <option value="feminino">Parceiro 2: Feminino</option>
+                </select>
             </div>
-            <!-- Preview de T-shirt (Restaurado e Completo) -->
-            <div class="mt-5 text-center">
-                <h3 data-pt="Pré-visualize Sua T-shirt Custom" data-en="Preview Your Custom T-shirt">Pré-visualize Sua T-shirt Custom</h3>
-                <p data-pt="Experimente como ficaria com seu texto personalizado. Enviamos para o mundo inteiro via POD!" data-en="Try how it would look with your custom text. We ship worldwide via POD!">Experimente como ficaria com seu texto personalizado. Enviamos para o mundo inteiro via POD!</p>
+            <!-- Carrossel T-Shirts -->
+            <div id="tshirt-carousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="images/tshirt-sara-beach.jpg" class="d-block w-100" alt="Sara em Praia">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5 data-pt="Sara em Praia Romântica" data-en="Sara in Romantic Beach">Sara em Praia Romântica</h5>
+                            <a href="https://www.etsy.com/shop/SexyVibesPT" class="btn cta-btn me-2" target="_blank" data-pt="Loja" data-en="Shop">Loja</a>
+                            <a href="#preview-container" class="btn cta-btn" data-pt="Customizar" data-en="Customize">Customizar</a>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/tshirt-alex-dinner.jpg" class="d-block w-100" alt="Alex em Jantar">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5 data-pt="Alex em Jantar Charmoso" data-en="Alex in Charming Dinner">Alex em Jantar Charmoso</h5>
+                            <a href="https://www.etsy.com/shop/SexyVibesPT" class="btn cta-btn me-2" target="_blank" data-pt="Loja" data-en="Shop">Loja</a>
+                            <a href="#preview-container" class="btn cta-btn" data-pt="Customizar" data-en="Customize">Customizar</a>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/tshirt-casal-park.jpg" class="d-block w-100" alt="Casal em Parque">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5 data-pt="Casal em Passeio no Parque" data-en="Couple in Park Stroll">Casal em Passeio no Parque</h5>
+                            <a href="https://www.etsy.com/shop/SexyVibesPT" class="btn cta-btn me-2" target="_blank" data-pt="Loja" data-en="Shop">Loja</a>
+                            <a href="#preview-container" class="btn cta-btn" data-pt="Customizar" data-en="Customize">Customizar</a>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/tshirt-sara-party.jpg" class="d-block w-100" alt="Sara em Festa">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5 data-pt="Sara em Festa Sexy" data-en="Sara in Sexy Party">Sara em Festa Sexy</h5>
+                            <a href="https://www.etsy.com/shop/SexyVibesPT" class="btn cta-btn me-2" target="_blank" data-pt="Loja" data-en="Shop">Loja</a>
+                            <a href="#preview-container" class="btn cta-btn" data-pt="Customizar" data-en="Customize">Customizar</a>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#tshirt-carousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#tshirt-carousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+            <!-- Preview T-Shirt -->
+            <div id="preview-container" class="mt-5 text-center">
+                <h3 data-pt="Customiza Tua T-Shirt" data-en="Customize Your T-Shirt">Customiza Tua T-Shirt</h3>
                 <input type="text" id="custom-text" class="form-control w-50 mx-auto mb-3" placeholder="Digite seu texto (ex: His Vibes)" data-pt-placeholder="Digite seu texto (ex: His Vibes)" data-en-placeholder="Enter your text (ex: His Vibes)">
                 <select id="text-color" class="form-select w-50 mx-auto mb-3">
-                    <option value="black">Preto / Black</option>
-                    <option value="white">Branco / White</option>
-                    <option value="red">Vermelho / Red</option>
+                    <option value="black">Preto</option>
+                    <option value="white">Branco</option>
+                    <option value="red">Vermelho</option>
                 </select>
-                <div id="preview-container">
+                <div class="preview-box">
                     <div id="tshirt-bg"></div>
                     <div id="preview-text"></div>
                 </div>
@@ -124,24 +165,66 @@
         </div>
     </section>
 
-    <!-- Funko Pop Section -->
+    <!-- Funko Pop -->
     <section id="funko-custom" class="py-5 bg-light">
         <div class="container">
-            <h2 class="text-center mb-4" data-pt="Crie Seu Funko Pop Look-Alike" data-en="Create Your Funko Pop Look-Alike">Crie Seu Funko Pop Look-Alike</h2>
-            <p class="text-center" data-pt="Carregue uma foto da sua cara para pré-visualizar como ficaria transposta na figura base. Para o produto real, enviaremos o modelo 3D customizado após compra!" data-en="Upload a photo of your face to preview how it would look transposed on the base figure. For the real product, we'll send the customized 3D model after purchase!">Carregue uma foto da sua cara para pré-visualizar como ficaria transposta na figura base. Para o produto real, enviaremos o modelo 3D customizado após compra!</p>
+            <h2 class="text-center mb-4" data-pt="Crie Seu Funko Pop" data-en="Create Your Funko Pop">Crie Seu Funko Pop</h2>
+            <!-- Select Gênero para Funko -->
+            <div class="text-center mb-4">
+                <select id="gender-select-funko" class="form-select w-25 mx-auto">
+                    <option value="masculino">Masculino</option>
+                    <option value="feminino">Feminino</option>
+                    <option value="casal">Casal</option>
+                </select>
+                <select id="casal-funko1" class="form-select w-25 mx-auto mt-2 d-none">
+                    <option value="masculino">Parceiro 1: Masculino</option>
+                    <option value="feminino">Parceiro 1: Feminino</option>
+                </select>
+                <select id="casal-funko2" class="form-select w-25 mx-auto mt-2 d-none">
+                    <option value="masculino">Parceiro 2: Masculino</option>
+                    <option value="feminino">Parceiro 2: Feminino</option>
+                </select>
+            </div>
+            <p class="text-center" data-pt="Upload foto para preview. Analisamos traços (cabelo, olhos) manualmente pós-compra." data-en="Upload photo for preview. We analyze traits (hair, eyes) manually after purchase.">Upload foto para preview. Analisamos traços (cabelo, olhos) manualmente pós-compra.</p>
             <div class="text-center">
                 <input type="file" id="face-upload" accept="image/*" class="form-control w-50 mx-auto mb-3">
                 <div id="funko-preview-container">
                     <div id="funko-base"></div>
                     <div id="funko-face-overlay">
-                        <img id="funko-face-img" src="" alt="Sua Cara no Funko">
+                        <img id="funko-face-img" src="" alt="Funko Preview">
                     </div>
                 </div>
-                <a href="https://www.etsy.com/shop/SexyVibesPT" class="btn cta-btn mt-3" target="_blank" data-pt="Comprar e Personalizar Real" data-en="Buy and Customize Real">Comprar e Personalizar Real</a>
+                <a href="https://www.etsy.com/shop/SexyVibesPT" class="btn cta-btn mt-3" target="_blank" data-pt="Comprar Funko" data-en="Buy Funko">Comprar Funko</a>
             </div>
         </div>
     </section>
 
+    <!-- Bundles Carrossel -->
+    <section id="bundles" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-4" data-pt="Bundles Exclusivos" data-en="Exclusive Bundles">Bundles Exclusivos</h2>
+            <div id="bundle-carousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="images/bundle-casal1.jpg" class="d-block w-100" alt="Bundle Casal">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5 data-pt="T-Shirt + Funko Casal" data-en="T-Shirt + Couple Funko">T-Shirt + Funko Casal</h5>
+                            <a href="https://www.etsy.com/shop/SexyVibesPT" class="btn cta-btn me-2" target="_blank" data-pt="Loja" data-en="Shop">Loja</a>
+                            <a href="#funko-custom" class="btn cta-btn" data-pt="Customizar" data-en="Customize">Customizar</a>
+                        </div>
+                    </div>
+                    <!-- Adiciona mais slides similares -->
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#bundle-carousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#bundle-carousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                </button>
+            </div>
+        </div>
+    </section>
+    
     <!-- Testimonials - Com texto inicial em PT para fallback -->
     <section class="py-5 bg-light">
         <div class="container">
@@ -212,34 +295,37 @@
 
         // Previews
         document.addEventListener('DOMContentLoaded', () => {
-            const customText = document.getElementById('custom-text');
-            const textColor = document.getElementById('text-color');
-            const previewText = document.getElementById('preview-text');
-
-            customText.addEventListener('input', updateTshirtPreview);
-            textColor.addEventListener('change', updateTshirtPreview);
-
-            function updateTshirtPreview() {
-                previewText.textContent = customText.value || 'Seu Texto Aqui';
-                previewText.style.color = textColor.value;
-            }
-            updateTshirtPreview();
-
-            // Funko Preview
-            const faceUpload = document.getElementById('face-upload');
-            const faceImg = document.getElementById('funko-face-img');
-
-            faceUpload.addEventListener('change', (event) => {
-                const file = event.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        faceImg.src = e.target.result;
-                        console.log('Imagem carregada no Funko'); // Debug
-                    };
-                    reader.readAsDataURL(file);
+            // Para T-Shirt Gênero
+            const genderTshirt = document.getElementById('gender-select-tshirt');
+            const casal1 = document.getElementById('casal-option1');
+            const casal2 = document.getElementById('casal-option2');
+            genderTshirt.addEventListener('change', (e) => {
+                if (e.target.value === 'casal') {
+                    casal1.classList.remove('d-none');
+                    casal2.classList.remove('d-none');
                 } else {
-                    console.error('Nenhuma imagem selecionada');
+                    casal1.classList.add('d-none');
+                    casal2.classList.add('d-none');
+                    // Limpa preview
+                    document.getElementById('preview-text').textContent = '';
+                    document.getElementById('custom-text').value = '';
+                }
+            });
+
+            // Para Funko Gênero (similar)
+            const genderFunko = document.getElementById('gender-select-funko');
+            const casalF1 = document.getElementById('casal-funko1');
+            const casalF2 = document.getElementById('casal-funko2');
+            genderFunko.addEventListener('change', (e) => {
+                if (e.target.value === 'casal') {
+                    casalF1.classList.remove('d-none');
+                    casalF2.classList.remove('d-none');
+                } else {
+                    casalF1.classList.add('d-none');
+                    casalF2.classList.add('d-none');
+                    // Limpa preview Funko
+                    document.getElementById('funko-face-img').src = '';
+                    document.getElementById('face-upload').value = '';
                 }
             });
         });

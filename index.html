@@ -66,7 +66,7 @@
         </div>
     </nav>
 
-    <!-- Hero -->
+    <!-- Hero Section (Introdução) -->
     <section id="home" class="hero">
         <div class="container">
             <h1 data-pt="Desperte Vibes Sexy este Valentine's!" data-en="Awaken Sexy Vibes this Valentine's!">Desperte Vibes Sexy este Valentine's!</h1>
@@ -75,7 +75,7 @@
         </div>
     </section>
 
-    <!-- Products -->
+    <!-- Products Section com Cards para T-shirts, Modelos 3D e Bundles, mais Preview de T-shirt -->
     <section id="products" class="py-5">
         <div class="container">
             <h2 class="text-center mb-4" data-pt="Produtos que Acendem a Paixão" data-en="Products that Ignite Passion">Produtos que Acendem a Paixão</h2>
@@ -100,7 +100,7 @@
                     <a href="https://www.etsy.com/shop/SexyVibesPT" class="btn cta-btn" target="_blank" data-pt="Pegar Bundle" data-en="Get Bundle">Pegar Bundle</a>
                 </div>
             </div>
-            <!-- Preview T-shirt -->
+            <!-- Preview de T-shirt (Restaurado e Completo) -->
             <div class="mt-5 text-center">
                 <h3 data-pt="Pré-visualize Sua T-shirt Custom" data-en="Preview Your Custom T-shirt">Pré-visualize Sua T-shirt Custom</h3>
                 <p data-pt="Experimente como ficaria com seu texto personalizado. Enviamos para o mundo inteiro via POD!" data-en="Try how it would look with your custom text. We ship worldwide via POD!">Experimente como ficaria com seu texto personalizado. Enviamos para o mundo inteiro via POD!</p>
@@ -136,19 +136,19 @@
         </div>
     </section>
 
-    <!-- Testimonials - Removida redundância inicial -->
+    <!-- Testimonials - Com texto inicial em PT para fallback -->
     <section class="py-5 bg-light">
         <div class="container">
             <h2 class="text-center mb-4" data-pt="O que Nossos Clientes Dizem" data-en="What Our Customers Say">O que Nossos Clientes Dizem</h2>
             <div class="row">
                 <div class="col-md-4 testimonial">
-                    <p data-pt="'Adorei a t-shirt custom! Sexy sem ser over, perfeito pro Valentine's. Meu namorado amou!' - Ana, Porto" data-en="'Loved the custom t-shirt! Sexy without being over, perfect for Valentine's. My boyfriend loved it!' - Ana, Porto"></p>
+                    <p data-pt="'Adorei a t-shirt custom! Sexy sem ser over, perfeito pro Valentine's. Meu namorado amou!' - Ana, Porto" data-en="'Loved the custom t-shirt! Sexy without being over, perfect for Valentine's. My boyfriend loved it!' - Ana, Porto">"Adorei a t-shirt custom! Sexy sem ser over, perfeito pro Valentine's. Meu namorado amou!" - Ana, Porto</p>
                 </div>
                 <div class="col-md-4 testimonial">
-                    <p data-pt="'O modelo 3D personalizado foi um hit! Fácil de imprimir e super romântico.' - João, Lisboa" data-en="'The personalized 3D model was a hit! Easy to print and super romantic.' - João, Lisboa"></p>
+                    <p data-pt="'O modelo 3D personalizado foi um hit! Fácil de imprimir e super romântico.' - João, Lisboa" data-en="'The personalized 3D model was a hit! Easy to print and super romantic.' - João, Lisboa">"O modelo 3D personalizado foi um hit! Fácil de imprimir e super romântico." - João, Lisboa</p>
                 </div>
                 <div class="col-md-4 testimonial">
-                    <p data-pt="'Vibes incríveis na marca. Entrega rápida via POD, recomendo!' - Maria, Faro" data-en="'Amazing vibes in the brand. Fast delivery via POD, recommend!' - Maria, Faro"></p>
+                    <p data-pt="'Vibes incríveis na marca. Entrega rápida via POD, recomendo!' - Maria, Faro" data-en="'Amazing vibes in the brand. Fast delivery via POD, recommend!' - Maria, Faro">"Vibes incríveis na marca. Entrega rápida via POD, recomendo!" - Maria, Faro</p>
                 </div>
             </div>
         </div>
@@ -160,12 +160,12 @@
             <h2 class="text-center mb-4" data-pt="Conhece as Vibes" data-en="Meet the Vibes">Conhece as Vibes</h2>
             <div class="row text-center">
                 <div class="col-md-6">
-                    <img src="assets/images/S.perfil.png" class="character" alt="Sara Vibes - Personagem Feminina">
+                    <img src="images/sara-vibes.jpg" class="character" alt="Sara Vibes - Personagem Feminina">
                     <h3>Sara Vibes</h3>
                     <p data-pt="A inspiração feminina: Designs que elevam o romance com toques sexy classy." data-en="The feminine inspiration: Designs that elevate romance with sexy classy touches.">A inspiração feminina: Designs que elevam o romance com toques sexy classy.</p>
                 </div>
                 <div class="col-md-6">
-                    <img src="assets/images/A.perfil.png" class="character" alt="Alex Vibes - Personagem Masculino">
+                    <img src="images/alex-vibes.jpg" class="character" alt="Alex Vibes - Personagem Masculino">
                     <h3>Alex Vibes</h3>
                     <p data-pt="O lado charm: Personalizações que fazem qualquer casal brilhar." data-en="The charming side: Customizations that make any couple shine.">O lado charm: Personalizações que fazem qualquer casal brilhar.</p>
                 </div>
@@ -193,7 +193,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Função para Mudar Idioma - Adiciona debug
+        // Função para Mudar Idioma
         function changeLanguage(lang) {
             document.body.setAttribute('data-lang', lang);
             document.querySelectorAll('[data-pt],[data-en]').forEach(el => {
@@ -201,7 +201,7 @@
                 if (el.placeholder) el.placeholder = el.getAttribute(`data-${lang}-placeholder`) || el.placeholder;
             });
             document.querySelector('#langDropdown').textContent = lang.toUpperCase();
-            console.log('Idioma mudado para: ' + lang); // Debug no console
+            console.log('Idioma mudado para: ' + lang); // Debug
         }
 
         // Previews
@@ -219,7 +219,7 @@
             }
             updateTshirtPreview();
 
-            // Funko Preview - Adiciona debug
+            // Funko Preview
             const faceUpload = document.getElementById('face-upload');
             const faceImg = document.getElementById('funko-face-img');
 
@@ -233,7 +233,7 @@
                     };
                     reader.readAsDataURL(file);
                 } else {
-                    console.error('Nenhuma imagem selecionada'); // Debug erro
+                    console.error('Nenhuma imagem selecionada');
                 }
             });
         });
